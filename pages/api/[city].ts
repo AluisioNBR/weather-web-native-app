@@ -15,8 +15,9 @@ async function WeatherInf(
   const APIdataJSON = await APIdata.json()
 
   const temperature = Number(APIdataJSON.main.temp) - 273
+  const description: string = APIdataJSON.weather[0].description
 
-  res.status(200).json({ city: APIdataJSON.name, country: APIdataJSON.sys.country, temperature: temperature, description: APIdataJSON.weather[0].description })
+  res.status(200).json({ city: APIdataJSON.name, country: APIdataJSON.sys.country, temperature: temperature, description: description })
 }
 
 export default WeatherInf
