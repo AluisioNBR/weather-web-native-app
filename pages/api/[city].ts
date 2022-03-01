@@ -14,10 +14,21 @@ async function WeatherInf(
   const APIdata = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityReq},BR&appid=${process.env.API_KEY}&lang=pt_br`)
   const APIdataJSON = await APIdata.json()
 
-  const temperature = Number(APIdataJSON.main.temp) - 273
-  const description: string = APIdataJSON.weather[0].description
+  interface Response{
+    city: string,
+    country: string,
+    temperature: number,
+    description: string
+  }
 
-  res.status(200).json({ city: APIdataJSON.name, country: APIdataJSON.sys.country, temperature: temperature, description: description })
+  const ResponseJSON: Response = {
+    city: APIdataJSON.name,
+    country: APIdataJSON.sys.country,
+    temperature: (Number(APIdataJSON.main.temp) - 273),
+    description: APIdataJSON.weather[0].description
+  }
+
+  res.status(200).json(ResponseJSON)
 }
 
 export default WeatherInf
