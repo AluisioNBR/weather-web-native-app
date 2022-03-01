@@ -24,6 +24,8 @@
 }
 
 .MainTemperature{
+  width: 15rem;
+  height:  15rem;
   padding: 1.5rem;
   border-radius: 10%;
   background: linear-gradient(135deg, #0C42FF, #381FAD);
@@ -32,6 +34,10 @@
 
 .MainTemperature:hover{
   background: linear-gradient(135deg, #0932C2, #4E2BF2);
+}
+
+#local{
+  text-align: center;
 }
 
 #currentTemperature, #weatherDescription{
