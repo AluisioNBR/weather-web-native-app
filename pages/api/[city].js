@@ -6,7 +6,7 @@ async function WeatherInf(req, res) {
 
   const city = `${APIdataJSON.name}`
   const temperature = parseInt(Number(APIdataJSON.main.temp) - 273) + 1
-  const description: string = APIdataJSON.weather[0].description
+  const description = APIdataJSON.weather[0].description
 
   res.status(200).json({
     city: city,

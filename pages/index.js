@@ -8,7 +8,7 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
   const [cityValue, setCityValue] = useState('')
 
   async function WeatherInf(){
-    const inf = await fetch(`https://weather-webapp-seven.vercel.app/api/${cityValue}`, { mode: 'cors' })
+    const inf = await fetch(`https://weather-webapp-seven.vercel.app/api/${cityValue}`)
     console.log(inf)
     const infJSON = await inf.json()
 
