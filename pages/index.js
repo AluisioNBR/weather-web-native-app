@@ -8,7 +8,8 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
   const [cityValue, setCityValue] = useState('')
 
   async function WeatherInf(){
-    const inf = await fetch(`http://localhost:3000/api/${cityValue}`)
+    const inf = await fetch(`https://weather-webapp-seven.vercel.app/api/${cityValue}`, { mode: 'cors' })
+    console.log(inf)
     const infJSON = await inf.json()
 
     return infJSON
@@ -23,11 +24,13 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
     setTemperatureValue(inf.temperature)
     setWeatherDescription(inf.description)
     setTemperatureVisibility(true)
+
+    return ''
   }
 
   return(
       <div>
-        <form onSubmit={(event) => submitCity(event)} id={styles.formCity}>
+        <form onSubmit={(event) => setCityValue(submitCity(event))} id={styles.formCity}>
           <label htmlFor='nameInput'>
             Informe sua cidade:
           </label><br />
