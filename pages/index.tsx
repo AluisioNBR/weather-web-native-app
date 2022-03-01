@@ -4,12 +4,21 @@ import styles from '../styles/Home.module.css'
 
 import { useState } from 'react'
 
-function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setTemperatureValue, setWeatherDescription }){
+interface CitySelectionSeters{
+  setTemperatureVisibility: Function,
+  setCityName: Function,
+  setCountry: Function,
+  setTemperatureValue: Function,
+  setWeatherDescription: Function
+}
+
+function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setTemperatureValue, setWeatherDescription }: CitySelectionSeters){
   const [cityValue, setCityValue] = useState('')
 
   async function WeatherInf(){
     const inf = await fetch(`http://localhost:3000/api/${cityValue}`)
     const infJSON = await inf.json()
+
     return infJSON
   }
   
@@ -43,7 +52,7 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
 function MainTemperature(props){
   if(props.visibility) return(
     <div className={styles.MainTemperature}>
-      <h2 id="local">
+      <h2 id={styles.local}>
         {props.city}, {props.country}
       </h2>
 
