@@ -2,7 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  name: string
+  city: string,
+  country: string,
+  temperature: number,
+  description: string
 }
 
 async function WeatherInf(
