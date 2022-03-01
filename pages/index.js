@@ -4,15 +4,7 @@ import styles from '../styles/Home.module.css'
 
 import { useState } from 'react'
 
-interface CitySelectionSeters{
-  setTemperatureVisibility: Function,
-  setCityName: Function,
-  setCountry: Function,
-  setTemperatureValue: Function,
-  setWeatherDescription: Function
-}
-
-function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setTemperatureValue, setWeatherDescription }: CitySelectionSeters){
+function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setTemperatureValue, setWeatherDescription }){
   const [cityValue, setCityValue] = useState('')
 
   async function WeatherInf(){
@@ -35,11 +27,11 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
 
   return(
       <div>
-        <form onSubmit={(event: SubmitEvent) => submitCity(event)} id={styles.formCity}>
+        <form onSubmit={(event) => submitCity(event)} id={styles.formCity}>
           <label htmlFor='nameInput'>
             Informe sua cidade:
           </label><br />
-          <input name='nameInput' required defaultValue={cityValue} onChange={(event: ChangeEvent) => setCityValue(event.target.value)}/>
+          <input name='nameInput' required defaultValue={cityValue} onChange={(event) => setCityValue(event.target.value)}/>
 
           <button>
             Selecionar
