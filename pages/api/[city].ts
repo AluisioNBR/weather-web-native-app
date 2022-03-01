@@ -14,7 +14,7 @@ async function WeatherInf(
   const APIdata = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityReq},BR&appid=${process.env.API_KEY}&lang=pt_br`)
   const APIdataJSON = await APIdata.json()
 
-  const temperature = parseInt(Number(APIdataJSON.main.temp) - 273)
+  const temperature = Number(APIdataJSON.main.temp) - 273
 
   res.status(200).json({ city: APIdataJSON.name, country: APIdataJSON.sys.country, temperature: temperature, description: APIdataJSON.weather[0].description })
 }
