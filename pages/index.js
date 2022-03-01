@@ -14,7 +14,7 @@ function CitySelection({ setTemperatureVisibility, setCityName, setCountry, setT
     return infJSON
   }
   
-  async function submitCity(event: SubmitEvent){
+  async function submitCity(event){
     event.preventDefault()
     const inf = await WeatherInf()
 
