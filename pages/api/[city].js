@@ -4,16 +4,45 @@ async function WeatherInf(req, res) {
   const APIdata = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityReq},BR&appid=${process.env.API_KEY}&lang=pt_br`)
   const APIdataJSON = await APIdata.json()
 
-  const city = `${APIdataJSON.name}`
-  const temperature = parseInt(Number(APIdataJSON.main.temp) - 273) + 1
-  const description = APIdataJSON.weather[0].description
+  if(APIdataJSON.cod == 200){
+    const city = `${APIdataJSON.name}`
+    const temperature = parseInt(Number(APIdataJSON.main.temp) - 273) + 1
+    const feels_like = parseInt(Number(APIdataJSON.main.feels_like) - 273) + 1
+    const temp_min = parseInt(Number(APIdataJSON.main.temp_min) - 273) + 1
+    const temp_max = parseInt(Number(APIdataJSON.main.temp_max) - 273) + 1
+    const humidity = APIdataJSON.main.humidity
+    const icon = `http://openweathermap.org/img/w/${APIdataJSON.weather[0].icon}.png`
+    const description = APIdataJSON.weather[0].description
 
-  res.status(200).json({
-    city: city,
-    country: 'BR',
-    temperature: temperature,
-    description: description
-  })
+    res.status(200).json({
+      cod: 200,
+      msg: 'Cidade encontrada!',
+      city: city,
+      country: 'BR',
+      main: {
+        temperature: temperature,
+        feels_like: feels_like,
+        temp_min: temp_min,
+        temp_max: temp_max,
+        humidity: humidity
+      },
+      icon: icon,
+      description: description
+    })
+  }
+
+  else if(APIdataJSON.cod == 404){
+    res.status(200).json({
+      cod: 404,
+      msg: 'Cidade não encontrada! Tente outra cidade!'
+    })
+  }
+
+  else {
+    res.status(APIdataJSON.cod).json({
+      cod: APIdataJSON.cod
+    })
+  }
 }
 
 export default WeatherInf
