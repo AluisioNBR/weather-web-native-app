@@ -2,8 +2,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 
-import { CitySelection } from "./citySelection";
-import { Temperature } from "./temperature";
+import { CitySelection } from "../components/citySelection";
+import { Temperature } from "../components/temperature";
 
 function Home() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);

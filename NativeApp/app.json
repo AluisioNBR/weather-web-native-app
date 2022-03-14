@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NativeApp",
-    "slug": "NativeApp",
+    "name": "Weather App",
+    "slug": "weather-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
