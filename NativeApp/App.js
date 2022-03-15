@@ -1,10 +1,174 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
 
-import { CitySelection } from "./components/citySelection";
-import { Temperature } from "./components/temperature";
+function CitySelection({
+  setMsgValue,
+  setTemperatureVisibility,
+  setCityName,
+  setCountry,
+  setTemperatureValue,
+  setWeatherDescription,
+  setWeatherIcon,
+  setfeels_likeValue,
+  setTemperatureMax,
+  setTemperatureMin,
+  setHumidityValue
+}) {
+  const [cityValue, setCityValue] = useState("");
+
+  async function WeatherInf(cityValue) {
+    const inf = await fetch(
+      `https://weather-webapp-seven.vercel.app/api/${cityValue}`
+    );
+    const infJSON = await inf.json();
+
+    return infJSON;
+  }
+
+  async function submitCity(cityValue) {
+    const inf = await WeatherInf(cityValue);
+    console.log(inf);
+
+    if (inf.cod === 200) {
+      setCityName(inf.city);
+      setCountry(inf.country);
+      setWeatherIcon(inf.icon);
+      setTemperatureValue(inf.main.temperature);
+      setWeatherDescription(inf.description);
+
+      console.log(inf.main.feels_like);
+      setfeels_likeValue(inf.main.feels_like);
+      setTemperatureMax(inf.main.temp_max);
+      setTemperatureMin(inf.main.temp_min);
+      setHumidityValue(inf.main.humidity);
+
+      setTemperatureVisibility(true);
+    }
+    else {
+      setMsgValue(inf.msg);
+      setTemperatureVisibility(false);
+    }
+
+    return "";
+  }
+
+  return (
+    <View>
+      <View style={styles.formCity}>
+        <Text>Informe sua cidade:</Text>
+        <br />
+        <TextInput
+          style={styles.formCityButtonInput}
+          defaultValue={cityValue}
+          onChangeText={(newText) => setCityValue(newText)}
+        />
+
+        <Button
+          style={styles.formCityButtonInput}
+          onPress={() => setCityValue(submitCity(cityValue))}>
+          Selecionar
+        </Button>
+      </View>
+    </View>
+  );
+}
+
+function MainTemperature(props) {
+  return (
+    <View style={styles.MainTemperatureContainer}>
+      <View style={styles.MainTemperature}>
+        <Text style={styles.local}>
+          {props.city}, {props.country}
+        </Text>
+
+        <View>
+          <View style={styles.currentTemperature}>
+            <Image
+              source={{uri: props.icon}}
+              style={{ width: 32, height: 32}}
+            />
+            <Text>
+              {props.temperature}°C
+            </Text>
+          </View>
+
+          <View style={styles.weatherDescription}>{props.description}</View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function AdditionalInf(props) {
+  if(props.MinOrMax){
+    return (
+      <View style={styles.MinMaxDiv}>
+        <Text style={styles.containerDetailsTitle}>{props.children}</Text>
+
+        <View style={styles.categoryValue}>{props.value}</View>
+      </View>
+    )
+  }
+  else return (
+      <View>
+        <Text style={styles.containerDetailsTitle}>{props.children}</Text>
+
+        <View style={styles.categoryValue}>{props.value}</View>
+      </View>
+    )
+}
+
+function TemperatureDetails(props) {
+  return (
+    <View style={styles.temperatureDetails}>
+      <View style={styles.containerDetails}>
+        <AdditionalInf value={`${props.feels_like}°C`}>
+          Sensação Térmica
+        </AdditionalInf>
+      </View>
+
+      <View style={styles.containerDetails} style={styles.minMax}>
+        <AdditionalInf MinOrMax={true} value={`${props.temp_max}°C`}>Max:</AdditionalInf>
+
+        <AdditionalInf MinOrMax={true} value={`${props.temp_min}°C`}>Min:</AdditionalInf>
+      </View>
+
+      <View style={styles.containerDetails}>
+        <AdditionalInf value={`${props.humidity}%`}>Humidade</AdditionalInf>
+      </View>
+    </View>
+  );
+}
+
+function Temperature(props) {
+  if (props.visibility)
+    return (
+      <View style={styles.temperatureContainer}>
+        <MainTemperature
+          city={props.city}
+          country={props.country}
+          icon={props.icon}
+          temperature={props.temperature}
+          description={props.description}
+        />
+
+        <TemperatureDetails
+          feels_like={props.feels_like}
+          temp_max={props.temp_max}
+          temp_min={props.temp_min}
+          humidity={props.humidity}
+        />
+      </View>
+    );
+  else
+    return (
+      <View>
+        <Text style={styles.MainTemperature}>{props.msg}</Text>
+      </View>
+    );
+}
 
 export default function App() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);

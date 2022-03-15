@@ -8,10 +8,10 @@ async function WeatherInf(req, res) {
 
   if (APIdataJSON.cod === 200) {
     const city = `${APIdataJSON.name}`;
-    const temperature = Number(APIdataJSON.main.temp) - 273 + 1;
-    const feels_like = Number(APIdataJSON.main.feels_like) - 273 + 1;
-    const temp_min = Number(APIdataJSON.main.temp_min) - 273 + 1;
-    const temp_max = Number(APIdataJSON.main.temp_max) - 273 + 1;
+    const temperature = Math.floor(Number(APIdataJSON.main.temp) - 273);
+    const feels_like = Math.floor(Number(APIdataJSON.main.feels_like) - 273);
+    const temp_min = Math.floor(Number(APIdataJSON.main.temp_min) - 273);
+    const temp_max = Math.floor(Number(APIdataJSON.main.temp_max) - 273);
     const humidity = APIdataJSON.main.humidity;
     const icon = `http://openweathermap.org/img/w/${APIdataJSON.weather[0].icon}.png`;
     const description = APIdataJSON.weather[0].description;
