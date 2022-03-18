@@ -34,7 +34,7 @@ function CitySelection({
       setCityName(inf.city);
       setCountry(inf.country);
       setWeatherIcon(inf.icon);
-      setTemperatureValue(inf.main.temperature);
+      setTemperatureValue(inf.temperature);
       setWeatherDescription(inf.description);
 
       console.log(inf.main.feels_like);

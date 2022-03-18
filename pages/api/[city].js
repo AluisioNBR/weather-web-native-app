@@ -21,8 +21,8 @@ async function WeatherInf(req, res) {
       msg: "Cidade encontrada!",
       city: city,
       country: "BR",
+      temperature: temperature,
       main: {
-        temperature: temperature,
         feels_like: feels_like,
         temp_min: temp_min,
         temp_max: temp_max,
