@@ -17,38 +17,41 @@ function CitySelection({
 }) {
   const [cityValue, setCityValue] = useState("");
 
-  async function WeatherInf(cityValue) {
-    const inf = await fetch(
+  async function WeatherInformation(cityValue) {
+    const information = await fetch(
       `https://weather-webapp-seven.vercel.app/api/${cityValue}`
     );
-    const infJSON = await inf.json();
+    const informationJSON = await information.json();
 
-    return infJSON;
+    return informationJSON;
   }
 
-  async function submitCity(cityValue) {
-    const inf = await WeatherInf(cityValue);
-    console.log(inf);
+  function renderInformations(information){
+    setCityName(information.city);
+    setCountry(information.country);
+    setWeatherIcon(information.icon);
+    setTemperatureValue(information.temperature);
+    setWeatherDescription(information.description);
 
-    if (inf.cod === 200) {
-      setCityName(inf.city);
-      setCountry(inf.country);
-      setWeatherIcon(inf.icon);
-      setTemperatureValue(inf.main.temperature);
-      setWeatherDescription(inf.description);
+    setfeels_likeValue(information.main.feels_like);
+    setTemperatureMax(information.main.temp_max);
+    setTemperatureMin(information.main.temp_min);
+    setHumidityValue(information.main.humidity);
 
-      console.log(inf.main.feels_like);
-      setfeels_likeValue(inf.main.feels_like);
-      setTemperatureMax(inf.main.temp_max);
-      setTemperatureMin(inf.main.temp_min);
-      setHumidityValue(inf.main.humidity);
+    setTemperatureVisibility(true);
+  }
 
-      setTemperatureVisibility(true);
-    }
-    else {
-      setMsgValue(inf.msg);
-      setTemperatureVisibility(false);
-    }
+  function renderErr(msg){
+    setMsgValue(msg);
+    setTemperatureVisibility(false);
+  }
+
+  async function submitCityAndRenderInformations(cityValue) {
+    const information = await WeatherInformation(cityValue);
+
+    if (information.cod === 200) renderInformations(information)
+    
+    else renderErr(information.msg)
 
     return "";
   }
@@ -56,19 +59,23 @@ function CitySelection({
   return (
     <View>
       <View style={styles.formCity}>
-        <Text>Informe sua cidade:</Text>
-        <br />
+        <View>
+          <Text style={{ color: '#fdfdfd', fontSize: 20 }}>
+            Informe sua cidade:
+          </Text>
+        </View>
+
         <TextInput
           style={styles.formCityButtonInput}
           defaultValue={cityValue}
-          onChangeText={(newText) => setCityValue(newText)}
+          onChangeText={newText => setCityValue(newText)}
         />
 
         <Button
-          style={styles.formCityButtonInput}
-          onPress={() => setCityValue(submitCity(cityValue))}>
-          Selecionar
-        </Button>
+          title='Selecionar'
+          color='gray'
+          onPress={() => setCityValue(submitCityAndRenderInformations(cityValue))}  
+        />
       </View>
     </View>
   );

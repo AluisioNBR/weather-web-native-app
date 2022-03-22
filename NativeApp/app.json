@@ -2,9 +2,18 @@
   "expo": {
     "name": "Weather App",
     "slug": "weather-app",
-    "version": "1.0.0",
+    "icon": "./weather-app.png",
+    "version": "1.1.1",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.aluisionbr.weatherapp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.aluisionbr.weatherapp",
+      "versionCode": 2
+    }
   }
 }

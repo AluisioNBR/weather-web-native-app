@@ -6,7 +6,7 @@ function MainTemperature(props) {
     <View style={styles.MainTemperatureContainer}>
       <View style={styles.MainTemperature}>
         <Text style={styles.local}>
-          {props.city}, {props.country}
+          {`${props.city}`}, {`${props.country}`}
         </Text>
 
         <View>
@@ -15,12 +15,16 @@ function MainTemperature(props) {
               source={{uri: props.icon}}
               style={{ width: 32, height: 32}}
             />
-            <Text>
-              {props.temperature}°C
+            <Text style={styles.currentTemperatureText}>
+              {`${props.temperature}`}°C
             </Text>
           </View>
 
-          <View style={styles.weatherDescription}>{props.description}</View>
+          <View>
+            <Text style={styles.weatherDescription}>
+              {props.description}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -31,17 +35,33 @@ function AdditionalInf(props) {
   if(props.MinOrMax){
     return (
       <View style={styles.MinMaxDiv}>
-        <Text style={styles.containerDetailsTitle}>{props.children}</Text>
+        <View>
+          <Text style={styles.containerDetailsTitle}>
+            {props.children}
+          </Text>
+        </View>
 
-        <View style={styles.categoryValue}>{props.value}</View>
+        <View>
+          <Text style={styles.categoryValue}>
+            {props.value}
+          </Text>
+        </View>
       </View>
     )
   }
   else return (
       <View>
-        <Text style={styles.containerDetailsTitle}>{props.children}</Text>
+        <View>
+          <Text style={styles.containerDetailsTitle}>
+            {props.children}
+          </Text>
+        </View>
 
-        <View style={styles.categoryValue}>{props.value}</View>
+        <View>
+          <Text style={styles.categoryValue}>
+            {props.value}
+          </Text>
+        </View>
       </View>
     )
 }
@@ -55,14 +75,20 @@ function TemperatureDetails(props) {
         </AdditionalInf>
       </View>
 
-      <View style={styles.containerDetails} style={styles.minMax}>
-        <AdditionalInf MinOrMax={true} value={`${props.temp_max}°C`}>Max:</AdditionalInf>
+      <View style={[styles.containerDetails, styles.minMax]}>
+        <AdditionalInf MinOrMax={true} value={`${props.temp_max}°C`}>
+          Max:
+        </AdditionalInf>
 
-        <AdditionalInf MinOrMax={true} value={`${props.temp_min}°C`}>Min:</AdditionalInf>
+        <AdditionalInf MinOrMax={true} value={`${props.temp_min}°C`}>
+          Min:
+        </AdditionalInf>
       </View>
 
       <View style={styles.containerDetails}>
-        <AdditionalInf value={`${props.humidity}%`}>Humidade</AdditionalInf>
+        <AdditionalInf value={`${props.humidity}%`}>
+          Humidade
+        </AdditionalInf>
       </View>
     </View>
   );
@@ -76,22 +102,25 @@ function Temperature(props) {
           city={props.city}
           country={props.country}
           icon={props.icon}
-          temperature={props.temperature}
+          temperature={String(props.temperature)}
           description={props.description}
         />
 
         <TemperatureDetails
-          feels_like={props.feels_like}
-          temp_max={props.temp_max}
-          temp_min={props.temp_min}
-          humidity={props.humidity}
+          feels_like={String(props.feels_like)}
+          temp_max={String(props.temp_max)}
+          temp_min={String(props.temp_min)}
+          humidity={String(props.humidity)}
         />
       </View>
     );
+
   else
     return (
-      <View>
-        <Text style={styles.MainTemperature}>{props.msg}</Text>
+      <View style={styles.temperatureContainer}>
+        <Text style={styles.MainTemperature}>
+          {props.msg}
+        </Text>
       </View>
     );
 }
