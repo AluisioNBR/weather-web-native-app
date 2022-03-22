@@ -1,4 +1,4 @@
-import { styles } from '../App'
+import { styles } from '../styles'
 import { useState } from "react";
 import { Text, View, Button, TextInput } from 'react-native';
 
@@ -22,7 +22,6 @@ function CitySelection({
       `https://weather-webapp-seven.vercel.app/api/${cityValue}`
     );
     const informationJSON = await information.json();
-
     return informationJSON;
   }
 
@@ -46,13 +45,14 @@ function CitySelection({
     setTemperatureVisibility(false);
   }
 
-  async function submitCityAndRenderInformations(cityValue) {
-    const information = await WeatherInformation(cityValue);
-
+  function verifyResponse(information){
     if (information.cod === 200) renderInformations(information)
-    
     else renderErr(information.msg)
+  }
 
+  async function submitCityVerifyResponseAndRenderInformations(cityValue) {
+    const information = await WeatherInformation(cityValue);
+    verifyResponse(information)
     return "";
   }
 
@@ -74,7 +74,7 @@ function CitySelection({
         <Button
           title='Selecionar'
           color='gray'
-          onPress={() => setCityValue(submitCityAndRenderInformations(cityValue))}  
+          onPress={() => setCityValue(submitCityVerifyResponseAndRenderInformations(cityValue))}  
         />
       </View>
     </View>
