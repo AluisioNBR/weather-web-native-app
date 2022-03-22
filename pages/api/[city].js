@@ -20,6 +20,7 @@ async function fecthAndReturnApiData(city){
 
 function goodRequestData(data){
   return {
+    cod: data.cod,
     city: `${data.name}`,
     temperature: Math.floor(data.main.temp) + 1,
     feels_like: Math.floor(data.main.feels_like) + 1,
