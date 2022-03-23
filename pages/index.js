@@ -1,7 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-
 import { CitySelection } from "../components/citySelection";
 import { Temperature } from "../components/temperature";
 

@@ -1,62 +1,6 @@
 import styles from "../styles/Home.module.css";
-
-function MainTemperature(props) {
-  return (
-    <div id={styles.MainTemperatureContainer}>
-      <div className={styles.MainTemperature}>
-        <h2 id={styles.local}>
-          {props.city}, {props.country}
-        </h2>
-
-        <div>
-          <div id={styles.currentTemperature}>
-            <img
-              src={props.icon}
-              alt="Clima Atual"
-              width="32px"
-              height="32px"
-            />
-            {props.temperature}°C
-          </div>
-
-          <div id={styles.weatherDescription}>{props.description}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AdditionalInf(props) {
-  return (
-    <div>
-      <h3>{props.children}</h3>
-
-      <div className={styles.categoryValue}>{props.value}</div>
-    </div>
-  );
-}
-
-function TemperatureDetails(props) {
-  return (
-    <div id={styles.temperatureDetails}>
-      <div className={styles.containerDetails}>
-        <AdditionalInf value={`${props.feels_like}°C`}>
-          Sensação Térmica
-        </AdditionalInf>
-      </div>
-
-      <div className={styles.containerDetails} id={styles.minMax}>
-        <AdditionalInf value={`${props.temp_max}°C`}>Max:</AdditionalInf>
-
-        <AdditionalInf value={`${props.temp_min}°C`}>Min:</AdditionalInf>
-      </div>
-
-      <div className={styles.containerDetails}>
-        <AdditionalInf value={`${props.humidity}%`}>Humidade</AdditionalInf>
-      </div>
-    </div>
-  );
-}
+import { MainTemperature } from './temperature/mainTemperature'
+import { TemperatureDetails } from './temperature/temperatureDetails'
 
 function Temperature(props) {
   if (props.visibility)
