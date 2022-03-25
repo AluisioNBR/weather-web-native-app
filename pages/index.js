@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CitySelection } from "../components/citySelection";
 import { Temperature } from "../components/temperature";
 
-function Home() {
+function Home(props) {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
 
   const [cityName, setCityName] = useState("undefined");
@@ -35,6 +35,7 @@ function Home() {
 
       <main className={styles.main}>
         <CitySelection
+          myApiSecret={props.myApiSecret}
           setMsgValue={setMsgValue}
           setTemperatureVisibility={setTemperatureVisibility}
           setCityName={setCityName}
@@ -67,3 +68,11 @@ function Home() {
 }
 
 export default Home;
+
+export function getStaticProps(){
+  return {
+    props:{
+      myApiSecret: process.env.MY_API_SECRET
+    }
+  }
+}

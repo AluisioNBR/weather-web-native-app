@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from 'axios'
 
 function CitySelection({
+  myApiSecret,
   setMsgValue,
   setTemperatureVisibility,
   setCityName,
@@ -18,8 +19,20 @@ function CitySelection({
   const [cityValue, setCityValue] = useState("");
 
   async function fetchWeatherInformation(cityValue) {
-    const data = await axios.get(`https://weather-webapp-seven.vercel.app/api/${cityValue}`)
-    return await data.data
+    // * Endpoint correto: https://weather-webapp-seven.vercel.app/api/${cityValue}
+    try {
+      const data = await axios.get(`http://localhost:3000/api/${cityValue}`, {
+        params: {
+          myApiSecret: myApiSecret
+        }
+      })
+      return await data.data
+    } catch (error) {
+      return {
+        cod: 502,
+        msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
+      }
+    }
   }
   function renderInformations(information){
     setCityName(information.city);
