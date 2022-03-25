@@ -6,4 +6,4 @@ __[Clique aqui para acessar a página web!](https://weather-webapp-seven.vercel.
 
 ## Android
 
-__[Clique aqui para baixar a versão mais atual do app!](https://expo.dev/artifacts/eas/58nJekfhLYp2hbX57BK7zW.apk)__
+__[Clique aqui para baixar a versão mais atual do app!](https://expo.dev/artifacts/eas/fki1ry9h8rkJieiwNjGJUN.apk)__
