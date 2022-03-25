@@ -7,7 +7,7 @@ function CitySelection({
   setMsgValue,
   setTemperatureVisibility,
   setCityName,
-  setCountry,
+  setState,
   setTemperatureValue,
   setWeatherDescription,
   setWeatherIcon,
@@ -19,9 +19,8 @@ function CitySelection({
   const [cityValue, setCityValue] = useState("");
 
   async function fetchWeatherInformation(cityValue) {
-    // * Endpoint correto: https://weather-webapp-seven.vercel.app/api/${cityValue}
     try {
-      const data = await axios.get(`http://localhost:3000/api/${cityValue}`, {
+      const data = await axios.get(`/api/${cityValue}`, {
         params: {
           myApiSecret: myApiSecret
         }
@@ -36,7 +35,7 @@ function CitySelection({
   }
   function renderInformations(information){
     setCityName(information.city);
-    setCountry(information.country);
+    setState(information.state);
     setWeatherIcon(information.icon);
     setTemperatureValue(information.temperature);
     setWeatherDescription(information.description);

@@ -66,7 +66,7 @@ function foundDataOfRequest(data){
   return {
     cod: data.weather.cod,
     city: `${data.localization.city}`,
-    country: `${data.localization.state}`,
+    state: `${data.localization.state}`,
     temperature: Math.floor(data.weather.main.temp) + 1,
     main: {
       feels_like: Math.floor(data.weather.main.feels_like) + 1,

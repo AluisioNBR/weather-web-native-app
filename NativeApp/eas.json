@@ -21,9 +21,9 @@
       }
     },
     "iosBuild":{
-	"ios": {
-	    "simulator": true
-	}
+      "ios": {
+          "simulator": true
+      }
     },
     "production": {}
   },

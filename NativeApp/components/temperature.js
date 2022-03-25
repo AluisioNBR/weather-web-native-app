@@ -10,7 +10,7 @@ function Temperature(props) {
       <View style={styles.temperatureContainer}>
         <MainTemperature
           city={props.city}
-          country={props.country}
+          state={props.state}
           icon={props.icon}
           temperature={String(props.temperature)}
           description={props.description}

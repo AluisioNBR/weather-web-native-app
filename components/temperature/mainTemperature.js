@@ -5,7 +5,7 @@ function MainTemperature(props) {
     <div id={styles.MainTemperatureContainer}>
       <div className={styles.MainTemperature}>
         <h2 id={styles.local}>
-          {props.city}, {props.country}
+          {props.city}, {props.state}
         </h2>
 
         <div>

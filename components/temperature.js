@@ -8,7 +8,7 @@ function Temperature(props) {
       <div id={styles.temperatureContainer}>
         <MainTemperature
           city={props.city}
-          country={props.country}
+          state={props.state}
           icon={props.icon}
           temperature={props.temperature}
           description={props.description}

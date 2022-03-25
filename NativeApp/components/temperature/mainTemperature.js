@@ -6,7 +6,7 @@ function MainTemperature(props) {
       <View style={styles.MainTemperatureContainer}>
         <View style={styles.MainTemperature}>
           <Text style={styles.local}>
-            {`${props.city}`}, {`${props.country}`}
+            {`${props.city}`}, {`${props.state}`}
           </Text>
   
           <View>

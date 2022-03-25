@@ -11,7 +11,7 @@ export default function App() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
 
   const [cityName, setCityName] = useState("undefined");
-  const [country, setCountry] = useState("undefined");
+  const [state, setState] = useState("undefined");
   const [weatherIcon, setWeatherIcon] = useState("undefined.png");
   const [temperatureValue, setTemperatureValue] = useState(30);
   const [weatherDescription, setWeatherDescription] = useState("undefined");
@@ -34,7 +34,7 @@ export default function App() {
           setMsgValue={setMsgValue}
           setTemperatureVisibility={setTemperatureVisibility}
           setCityName={setCityName}
-          setCountry={setCountry}
+          setState={setState}
           setTemperatureValue={setTemperatureValue}
           setWeatherDescription={setWeatherDescription}
           setWeatherIcon={setWeatherIcon}
@@ -47,7 +47,7 @@ export default function App() {
         <Temperature
           msg={msgValue}
           city={cityName}
-          country={country}
+          state={state}
           icon={weatherIcon}
           temperature={temperatureValue}
           description={weatherDescription}
