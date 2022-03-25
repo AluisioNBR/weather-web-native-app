@@ -1,12 +1,13 @@
 import { styles } from '../styles'
 import { useState } from "react";
 import { Text, View, Button, TextInput } from 'react-native';
+import axios from 'axios'
 
 function CitySelection({
   setMsgValue,
   setTemperatureVisibility,
   setCityName,
-  setCountry,
+  setState,
   setTemperatureValue,
   setWeatherDescription,
   setWeatherIcon,
@@ -17,17 +18,25 @@ function CitySelection({
 }) {
   const [cityValue, setCityValue] = useState("");
 
-  async function WeatherInformation(cityValue) {
-    const information = await fetch(
-      `https://weather-webapp-seven.vercel.app/api/${cityValue}`
-    );
-    const informationJSON = await information.json();
-    return informationJSON;
+  async function fetchWeatherInformation(cityValue) {
+    try {
+      const data = await axios.get(`https://weather-webapp-seven.vercel.app/api/${cityValue}`, {
+        params: {
+          myApiSecret: process.env.MY_API_SECRET
+        }
+      })
+      return await data.data
+    } catch (error) {
+      return {
+        cod: 502,
+        msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
+      }
+    }
   }
 
   function renderInformations(information){
     setCityName(information.city);
-    setCountry(information.country);
+    setState(information.state);
     setWeatherIcon(information.icon);
     setTemperatureValue(information.temperature);
     setWeatherDescription(information.description);
@@ -51,7 +60,7 @@ function CitySelection({
   }
 
   async function submitCityVerifyResponseAndRenderInformations(cityValue) {
-    const information = await WeatherInformation(cityValue);
+    const information = await fetchWeatherInformation(cityValue);
     verifyResponse(information)
     return "";
   }
