@@ -13,13 +13,10 @@ export default async function returnInformations(req, res) {
 }
 
 async function verifyCity(city){
-  const localizationOptions = {
-    notFound: (local) => { throw new Error(`${local.name} not found!`) },
-    found: (local) => fecthAndReturnWeatherData(local)
-  }
   const localization = await fecthAndReturnGeocodingLocalizationEndpointData(city)
   try {
-    const weatherData = localizationOptions[localization.found](localization.local)
+    if(localization.found == 'notFound') throw new Error(`${localization.local.name} not found!`)
+    const weatherData = fecthAndReturnWeatherData(localization.local)
     return weatherData
   }
   catch (error) {
@@ -39,7 +36,6 @@ async function fecthAndReturnGeocodingLocalizationEndpointData(city){
       }
     })
     const local = await localization.data
-    if(local == []) throw new Error('Cidade não encontrada!')
     return {
       found: 'found',
       local: local[0]
@@ -48,6 +44,7 @@ async function fecthAndReturnGeocodingLocalizationEndpointData(city){
   catch(err){
     return {
       found: 'notFound',
+      local: { name: 'null', lat: 0, lon: 0, country: 'null', state: 'null' }
     }
   }
 }
@@ -66,7 +63,10 @@ async function fecthAndReturnWeatherData(local){
     })
     const weatherData = splitWeatherDataType(await data.data)
     return {
-      weather: weatherData,
+      weather: {
+        cod: 200,
+        weatherData
+      },
       localization: {
         city: local.name,
         state: local.state
@@ -75,7 +75,16 @@ async function fecthAndReturnWeatherData(local){
   }
   catch (error) {
     return {
-      weather: { cod: 404 }
+      weather: {
+        cod: 404,
+        current: null,
+        hourly: null,
+        daily: null
+      },
+      localization: {
+        city: 'null',
+        state: 'null'
+      }
     }
   }
 }
@@ -100,7 +109,7 @@ function verifyApiData(data){
 
 // TODO Add os valores reais da nova API
 function foundDataOfRequest(data){
-  const currentWeatherData = formatCurrentWeather(data.weather.current)
+  const currentWeatherData = formatCurrentWeather(data.weather.weatherData.current)
   return {
     cod: 200,
     city: `${data.localization.city}`,
@@ -116,13 +125,13 @@ function formatCurrentWeather(data){
     uvi: data.uvi,
     description: data.weather[0].description,
     icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
-    rain: ifRainy(data.weather[0].main, data.rain['1h']),
-    snow: ifSnowed(data.weather[0].main, data.snow['1h'])
+    rain: ifRainy(data.weather[0].main, data.rain == undefined ? 0: data.rain['1h']),
+    snow: ifSnowed(data.weather[0].main, data.snow == undefined ? 0: data.snow['1h'])
   }
 }
 
 function formatTemperature(temp){
-  const [intPartNumber, floatPartNumber] = `${temp}`.split('.')
+  let [intPartNumber, floatPartNumber] = `${temp}`.split('.')
   if(Number(floatPartNumber) >= 50) intPartNumber += 1
   return intPartNumber
 }
