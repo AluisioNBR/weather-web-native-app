@@ -110,11 +110,15 @@ function verifyApiData(data){
 // TODO Add os valores reais da nova API
 function foundDataOfRequest(data){
   const currentWeatherData = formatCurrentWeather(data.weather.weatherData.current)
+  const hourlyWeatherData = formatHourWeather(data.weather.weatherData.hourly)
+  const dailyWeatherData = formatDayWeather(data.weather.weatherData.daily)
   return {
     cod: 200,
     city: `${data.localization.city}`,
     state: `${data.localization.state}`,
-    current: currentWeatherData
+    current: currentWeatherData,
+    hourly: hourlyWeatherData,
+    daily: dailyWeatherData
   }
 }
 
@@ -128,6 +132,70 @@ function formatCurrentWeather(data){
     rain: ifRainy(data.weather[0].main, data.rain == undefined ? 0: data.rain['1h']),
     snow: ifSnowed(data.weather[0].main, data.snow == undefined ? 0: data.snow['1h'])
   }
+}
+
+function formatHourWeather(data){
+  let weatherData, weatherHourly = []
+  for(const dataForHour of data){
+    weatherData = formatCurrentHourWeather(dataForHour)
+    weatherHourly.push(weatherData)
+  }
+  return weatherHourly
+}
+
+function formatCurrentHourWeather(data){
+  return {
+    temp: formatTemperature(data.temp),
+    feels_like: formatTemperature(data.feels_like),
+    uvi: data.uvi,
+    description: data.weather[0].description,
+    icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
+    pop: data.pop,
+    rain: ifRainy(data.weather[0].main, data.rain == undefined ? 0: data.rain['1h']),
+    snow: ifSnowed(data.weather[0].main, data.snow == undefined ? 0: data.snow['1h'])
+  }
+}
+
+function formatDayWeather(data){
+  let weatherData, weatherDaily = []
+  for(const dataForDay of data){
+    weatherData = formatCurrentDayWeather(dataForDay)
+    weatherDaily.push(weatherData)
+  }
+  return weatherDaily
+}
+
+function formatCurrentDayWeather(data){
+  return {
+    moon_phase: formatMoonPhase(data.moon_phase),
+    temp: {
+      morn: formatTemperature(data.temp.morn),
+      day: formatTemperature(data.temp.day),
+      eve: formatTemperature(data.temp.eve),
+      night: formatTemperature(data.temp.night),
+      min: formatTemperature(data.temp.min),
+      max: formatTemperature(data.temp.max)
+    },
+    feels_like: {
+      morn: formatTemperature(data.feels_like.morn),
+      day: formatTemperature(data.feels_like.day),
+      eve: formatTemperature(data.feels_like.eve),
+      night: formatTemperature(data.feels_like.night)
+    },
+    uvi: data.uvi,
+    description: data.weather[0].description,
+    icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
+    pop: data.pop,
+    rain: ifRainy(data.weather[0].main, data.rain == undefined ? 0: data.rain),
+    snow: ifSnowed(data.weather[0].main, data.snow == undefined ? 0: data.snow)
+  }
+}
+
+function formatMoonPhase(id){
+  const newMoon = (id == 0) || (id == 1)
+  const fullMoon = id == 0.5
+  const waxingCrescentGibous = id < 0.5
+  return newMoon ? "lua nova" : fullMoon ? "lua cheia" : waxingCrescentGibous ? "lua crescente" : "lua minguante"
 }
 
 function formatTemperature(temp){
