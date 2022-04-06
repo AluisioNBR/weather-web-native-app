@@ -131,8 +131,8 @@ function formatCurrentWeather(data){
 }
 
 function formatTemperature(temp){
-  let [intPartNumber, floatPartNumber] = `${temp}`.split('.')
-  if(Number(floatPartNumber) >= 50) const numberToReturn = Number(intPartNumber) + 1
+  let [intPartNumber, floatPartNumber] = `${temp}`.split('.'), numberToReturn = 0
+  if(Number(floatPartNumber) >= 50) numberToReturn = Number(intPartNumber) + 1
   return numberToReturn
 }
 
