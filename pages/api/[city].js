@@ -1,23 +1,27 @@
 import axios from 'axios'
 
 export default async function returnInformations(req, res) {
-  if(req.query.myApiSecret === process.env.MY_API_SECRET){
-    const data = await verifyCity(req.query.city)
-    const responseForUser = verifyApiData(data)
-    res.status(200).json(responseForUser)
-  }
-  else res.status(200).json({
-    cod: 403,
-    msg: "Você não tem autorização para fazer esta requisição!"
-  })
+  if(req.query.myApiSecret === process.env.MY_API_SECRET)
+    res.status(200).json(await verifyInformations(req.query.city))
+  else
+    res.status(200).json({
+      cod: 403,
+      msg: "Você não tem autorização para fazer esta requisição!"
+    })
+}
+
+async function verifyInformations(city){
+  const data = await verifyCity(city)
+  return verifyApiData(data)
 }
 
 async function verifyCity(city){
   const localization = await fecthAndReturnGeocodingLocalizationEndpointData(city)
   try {
-    if(localization.found == 'notFound') throw new Error(`${localization.local.name} not found!`)
-    const weatherData = fecthAndReturnWeatherData(localization.local)
-    return weatherData
+    if(localization.found == 'notFound')
+      throw new Error(`${localization.local.name} not found!`)
+    
+    return await fecthAndReturnWeatherData(localization.local)
   }
   catch (error) {
     return {
@@ -35,10 +39,9 @@ async function fecthAndReturnGeocodingLocalizationEndpointData(city){
         appid: process.env.API_KEY
       }
     })
-    const local = await localization.data
     return {
       found: 'found',
-      local: local[0]
+      local: await localization.data[0]
     }
   }
   catch(err){
@@ -98,27 +101,18 @@ function splitWeatherDataType(data){
 }
 
 function verifyApiData(data){
-  return (data.weather.cod === 404) || (data.weather.cod === 400) ? notFoundDataOfRequest(): foundDataOfRequest(data)
+  const ifNotFound = (data.weather.cod === 404) || (data.weather.cod === 400)
+  return ifNotFound ? notFoundDataOfRequest(): foundDataOfRequest(data)
 }
 
-/*
-* data.weather.current
-* data.weather.hourly
-* data.weather.daily
-*/
-
-// TODO Add os valores reais da nova API
 function foundDataOfRequest(data){
-  const currentWeatherData = formatCurrentWeather(data.weather.weatherData.current)
-  const hourlyWeatherData = formatHourWeather(data.weather.weatherData.hourly)
-  const dailyWeatherData = formatDayWeather(data.weather.weatherData.daily)
   return {
     cod: 200,
     city: `${data.localization.city}`,
     state: `${data.localization.state}`,
-    current: currentWeatherData,
-    hourly: hourlyWeatherData,
-    daily: dailyWeatherData
+    current: formatCurrentWeather(data.weather.weatherData.current),
+    hourly: formatHourWeather(data.weather.weatherData.hourly),
+    daily: formatDayWeather(data.weather.weatherData.daily)
   }
 }
 
@@ -127,6 +121,7 @@ function formatCurrentWeather(data){
     temp: formatTemperature(data.temp),
     feels_like: formatTemperature(data.feels_like),
     uvi: data.uvi,
+    humidity: data.humidity,
     description: data.weather[0].description,
     icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
     rain: ifRainy(data.weather[0].main, data.rain == undefined ? 0: data.rain['1h']),
@@ -148,6 +143,7 @@ function formatCurrentHourWeather(data){
     temp: formatTemperature(data.temp),
     feels_like: formatTemperature(data.feels_like),
     uvi: data.uvi,
+    humidity: data.humidity,
     description: data.weather[0].description,
     icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
     pop: data.pop,
@@ -183,6 +179,7 @@ function formatCurrentDayWeather(data){
       night: formatTemperature(data.feels_like.night)
     },
     uvi: data.uvi,
+    humidity: data.humidity,
     description: data.weather[0].description,
     icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`,
     pop: data.pop,
@@ -192,15 +189,20 @@ function formatCurrentDayWeather(data){
 }
 
 function formatMoonPhase(id){
-  const newMoon = (id == 0) || (id == 1)
-  const fullMoon = id == 0.5
-  const waxingCrescentGibous = id < 0.5
-  return newMoon ? "lua nova" : fullMoon ? "lua cheia" : waxingCrescentGibous ? "lua crescente" : "lua minguante"
+  if((id == 0) || (id == 1))
+    return "lua nova"
+  else if(id == 0.5)
+    return "lua cheia"
+  else if(id < 0.5)
+    return "lua crescente"
+  else
+    return "lua minguante"
 }
 
 function formatTemperature(temp){
   let [intPartNumber, floatPartNumber] = `${temp}`.split('.'), numberToReturn = Number(intPartNumber)
-  if(Number(floatPartNumber) >= 50) numberToReturn += 1
+  if(Number(floatPartNumber) >= 50)
+    numberToReturn += 1
   return numberToReturn
 }
 
