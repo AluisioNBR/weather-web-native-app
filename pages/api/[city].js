@@ -130,16 +130,18 @@ function formatCurrentWeather(data){
 }
 
 function formatHourWeather(data){
-  let weatherData, weatherHourly = []
+  let weatherData, weatherHourly = [], currentHour = new Date().getHours()
   for(const dataForHour of data){
-    weatherData = formatCurrentHourWeather(dataForHour)
+    weatherData = formatCurrentHourWeather(dataForHour, currentHour)
+    currentHour = (currentHour + 1) === 24 ? 0 : currentHour + 1
     weatherHourly.push(weatherData)
   }
   return weatherHourly
 }
 
-function formatCurrentHourWeather(data){
+function formatCurrentHourWeather(data, hour){
   return {
+    hour: hour < 9 ? `${hour}:00`: `0${hour}:00`,
     temp: formatTemperature(data.temp),
     feels_like: formatTemperature(data.feels_like),
     uvi: data.uvi,
