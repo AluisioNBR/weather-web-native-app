@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default async function returnInformations(req, res) {
+export default async function returnData(req, res) {
   if(req.query.myApiSecret === process.env.MY_API_SECRET)
     res.status(200).json(await verifyInformations(req.query.city))
   else
@@ -131,7 +131,8 @@ function formatCurrentWeather(data){
 
 function formatHourWeather(data){
   let weatherData, weatherHourly = []
-  let completeHour = new Date().toGMTString().split(' ')[4], currentHour = Number(completeHour.split(':')[0])
+  const completeHour = new Date().toGMTString().split(' ')[4]
+  let currentHour = Number(completeHour.split(':')[0]) - 3 
   for(const dataForHour of data){
     weatherData = formatCurrentHourWeather(dataForHour, currentHour)
     currentHour = (currentHour + 1) === 24 ? 0 : currentHour + 1
