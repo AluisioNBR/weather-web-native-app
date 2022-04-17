@@ -130,7 +130,8 @@ function formatCurrentWeather(data){
 }
 
 function formatHourWeather(data){
-  let weatherData, weatherHourly = [], currentHour = Number(new Date().toLocaleTimeString().split(':')[0])
+  let weatherData, weatherHourly = []
+  let completeHour = new Date().toGMTString().split(' ')[4], currentHour = Number(completeHour.split(':')[0])
   for(const dataForHour of data){
     weatherData = formatCurrentHourWeather(dataForHour, currentHour)
     currentHour = (currentHour + 1) === 24 ? 0 : currentHour + 1
