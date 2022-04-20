@@ -1,25 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from "react";
-import { View, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { styles } from './styles';
-import { Temperature } from './components/temperature'
 import { CitySelection } from './components/citySelection'
+import { CurrentTemperature } from './components/currentTemperature'
+import { HourlyTemperaturesContainer } from './components/hourlyTemperaturesContainer'
+import { DailyTemperaturesContainer } from './components/dailyTemperatureContainer';
+
+// ./assets/Poppins/Poppins-Regular.ttf
 
 export default function App() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
 
   const [cityName, setCityName] = useState("undefined");
   const [state, setState] = useState("undefined");
-  const [weatherIcon, setWeatherIcon] = useState("undefined.png");
-  const [temperatureValue, setTemperatureValue] = useState(30);
-  const [weatherDescription, setWeatherDescription] = useState("undefined");
 
-  const [feels_likeValue, setfeels_likeValue] = useState(30);
-  const [temperatureMax, setTemperatureMax] = useState(30);
-  const [temperatureMin, setTemperatureMin] = useState(30);
-  const [humidityValue, setHumidityValue] = useState(0);
+  const [currentWeatherIcon, setCurrentWeatherIcon] = useState("undefined.png");
+  const [currentTemperatureValue, setCurrentTemperatureValue] = useState(30);
+  const [currentWeatherDescription, setCurrentWeatherDescription] = useState("undefined");
+  const [currentFeels_likeValue, setCurrentFeels_likeValue] = useState(30);
+  const [currentHumidityValue, setCurrentHumidityValue] = useState(0);
+  const [currentUviValue, setCurrentUviValue] = useState(0)
+  const [amountOfRain, setAmountOfRain] = useState({ rainy: 'no-rain' })
+  const [amountOfSnow, setAmountOfSnow] = useState({ snowed: 'no-snow' })
+
+  const [temperatureForHour, setTemperatureForHour] = useState([])
+  const [temperatureForDay, setTemperatureForDay] = useState([])
 
   const [msgValue, setMsgValue] = useState(
     "Informe sua cidade para começarmos!"
@@ -29,35 +36,57 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      <ScrollView style={styles.main}>
+      <View style={styles.main}>
         <CitySelection
           setMsgValue={setMsgValue}
           setTemperatureVisibility={setTemperatureVisibility}
           setCityName={setCityName}
           setState={setState}
-          setTemperatureValue={setTemperatureValue}
-          setWeatherDescription={setWeatherDescription}
-          setWeatherIcon={setWeatherIcon}
-          setfeels_likeValue={setfeels_likeValue}
-          setTemperatureMax={setTemperatureMax}
-          setTemperatureMin={setTemperatureMin}
-          setHumidityValue={setHumidityValue}
+          setCurrentTemperatureValue={setCurrentTemperatureValue}
+          setCurrentWeatherDescription={setCurrentWeatherDescription}
+          setCurrentWeatherIcon={setCurrentWeatherIcon}
+          setCurrentFeels_likeValue={setCurrentFeels_likeValue}
+          setCurrentHumidityValue={setCurrentHumidityValue}
+          setCurrentUviValue={setCurrentUviValue}
+          setAmountOfRain={setAmountOfRain}
+          setAmountOfSnow={setAmountOfSnow}
+          setTemperatureForHour={setTemperatureForHour}
+          setTemperatureForDay={setTemperatureForDay}
         />
 
-        <Temperature
+        <CurrentTemperature
           msg={msgValue}
           city={cityName}
           state={state}
-          icon={weatherIcon}
-          temperature={temperatureValue}
-          description={weatherDescription}
-          feels_like={feels_likeValue}
-          temp_max={temperatureMax}
-          temp_min={temperatureMin}
-          humidity={humidityValue}
+          icon={currentWeatherIcon}
+          temperature={currentTemperatureValue}
+          description={currentWeatherDescription}
+          feels_like={currentFeels_likeValue}
+          humidity={currentHumidityValue}
+          uvi={currentUviValue}
+          rain={amountOfRain}
+          snow={amountOfSnow}
           visibility={temperatureVisibility}
         />
-      </ScrollView>
+
+        <HourlyTemperaturesContainer hourlyTemperatures={temperatureForHour}/>
+
+        <DailyTemperaturesContainer dailyTemperatures={temperatureForDay}/>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#333',
+    alignItems: 'center',
+    padding: 16
+  },
+
+  main: {
+    paddingTop: 32,
+    flex: 1
+  }
+})

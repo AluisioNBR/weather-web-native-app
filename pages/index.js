@@ -28,7 +28,7 @@ function Home(props) {
         <title>Weather Web App</title>
         <meta
           name="description"
-          content="App web simples para capturar dados da open weather api"
+          content="App web simples para consumir os dados da API do Open Weather Map"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

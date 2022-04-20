@@ -1,39 +1,21 @@
-import { styles } from '../../styles'
 import { Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
 
 function AdditionalInf(props) {
-    if(props.MinOrMax){
-      return (
-        <View style={styles.MinMaxDiv}>
-          <View>
-            <Text style={styles.containerDetailsTitle}>
-              {props.children}
-            </Text>
-          </View>
-  
-          <View>
-            <Text style={styles.categoryValue}>
-              {props.value}
-            </Text>
-          </View>
-        </View>
-      )
-    }
-    else return (
-        <View>
-          <View>
-            <Text style={styles.containerDetailsTitle}>
-              {props.children}
-            </Text>
-          </View>
-  
-          <View>
-            <Text style={styles.categoryValue}>
-              {props.value}
-            </Text>
-          </View>
-        </View>
-    )
+  const [loaded] = useFonts({
+    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
+  })
+  return (
+    <Text style={{
+      fontSize: 14,
+      color: '#fdfdfd',
+      marginLeft: 8,
+      marginRight: 8,
+      fontFamily: 'Poppins'
+    }}>
+      {props.children}: {props.value}
+    </Text>
+  )
 }
 
 export { AdditionalInf }

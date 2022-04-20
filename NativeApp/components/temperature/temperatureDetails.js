@@ -1,32 +1,72 @@
-import { styles } from '../../styles'
-import { View } from 'react-native';
-
+import { View, StyleSheet } from 'react-native';
 import { AdditionalInf } from './additionalInf'
-  
-function TemperatureDetails(props) {
-    return (
-      <View style={styles.temperatureDetails}>
-        <View style={styles.containerDetails}>
-          <AdditionalInf value={`${props.feels_like}°C`}>
-            Sensação Térmica
-          </AdditionalInf>
-        </View>
-  
-        <View style={[styles.containerDetails, styles.minMax]}>
-          <AdditionalInf MinOrMax={true} value={`${props.temp_max}°C`}>
-            Max:
-          </AdditionalInf>
-  
-          <AdditionalInf MinOrMax={true} value={`${props.temp_min}°C`}>
-            Min:
-          </AdditionalInf>
-        </View>
-  
-        <View style={styles.containerDetails}>
-          <AdditionalInf value={`${props.humidity}%`}>
+
+const styles = StyleSheet.create({
+  temperatureDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  containterDetails: {
+    backgroundColor: '#555',
+    borderRadius: 100,
+    padding: 4
+  }
+})
+
+function TemperatureDetails({
+  humidity,
+  uvi,
+  rain,
+  snow
+}) {
+  if(rain.rainy === "rain")
+    return(
+      <View style={[{ alignItems: 'center' }, styles.containterDetails]}>
+        <View style={styles.temperatureDetails}>
+          <AdditionalInf value={`${humidity}%`}>
             Humidade
           </AdditionalInf>
+
+          <AdditionalInf value={`${uvi}%`}>
+            Índice UV
+          </AdditionalInf>
         </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <AdditionalInf value={`${rain.rain}mm`}>Chuva</AdditionalInf>
+        </View>
+      </View>
+    )
+  else if(snow.snowed === "snow")
+    return(
+      <View style={[{ alignItems: 'center' }, styles.containterDetails]}>
+        <View style={styles.temperatureDetails}>
+          <AdditionalInf value={`${humidity}%`}>
+            Humidade
+          </AdditionalInf>
+
+          <AdditionalInf value={`${uvi}%`}>
+            Índice UV
+          </AdditionalInf>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <AdditionalInf value={`${snow.snow}mm`}>Neve: </AdditionalInf>
+        </View>
+      </View>
+    )
+  else
+    return (
+      <View style={[styles.temperatureDetails, styles.containterDetails]}>
+        <AdditionalInf value={`${humidity}%`}>
+          Humidade
+        </AdditionalInf>
+
+        <AdditionalInf value={`${uvi}%`}>
+          Índice UV
+        </AdditionalInf>
       </View>
     );
 }

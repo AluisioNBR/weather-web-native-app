@@ -22,7 +22,7 @@
     },
     "iosBuild":{
       "ios": {
-          "simulator": true
+        "simulator": "true"
       }
     },
     "production": {}
