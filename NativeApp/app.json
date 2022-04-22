@@ -2,7 +2,7 @@
   "expo": {
     "name": "Weather App",
     "slug": "weather-app",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "description": "App simples para consumir os dados da API do Open Weather Map",
     "githubUrl": "https://github.com/AluisioNBR/weather-web-native-app",
     "orientation": "portrait",
@@ -29,6 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#333333"
       },
+      "permissions": ["LOCATION"],
       "versionCode": 3
     },
     "web": {

@@ -8,7 +8,7 @@ function HourlyModal({ data, visible, setVisible }){
 	const [loaded] = useFonts({
 	   'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
-	const [closeButtonColor, setCloseButtonColor] = useState('#777')
+	const [closeButtonColor, setCloseButtonColor] = useState('#666')
 	return(
 		<Modal
 			animationType='fade'
@@ -57,8 +57,8 @@ function HourlyModal({ data, visible, setVisible }){
 			
 					<Pressable
 						onPress={() => setVisible(false)}
-						onPressIn={() => setCloseButtonColor('#999')}
-					  onPressOut={() => setCloseButtonColor('#777')}
+						onPressIn={() => setCloseButtonColor('#777')}
+					  onPressOut={() => setCloseButtonColor('#666')}
 					>
 						<View style={{ backgroundColor: closeButtonColor, padding: 4, borderRadius: 50, width: 100 }}>
 							<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>

@@ -5,7 +5,7 @@ function HourlyTemperaturesContainer({ hourlyTemperatures }){
     let currentKey = 0
     const temperatures = hourlyTemperatures.map((hour) => {
         currentKey += 1
-        return <HourlyTemperature key={currentKey} hour={hour}/>
+        return <HourlyTemperature key={`hour${currentKey}`} hour={hour}/>
     })
     return (
         <ScrollView style={{ flex: 1 }} horizontal={true}>

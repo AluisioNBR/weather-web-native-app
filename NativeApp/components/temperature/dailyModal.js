@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
-import { Pressable, View, ScrollView, Text, Modal, Image } from 'react-native'
+import { Pressable, View, Text, Modal, Image } from 'react-native'
 import { CompostTemperatureDetails } from './compostTemperatureDetails'
 
 function selectTemp(instant) {
@@ -18,7 +18,7 @@ function ModalInformations({ data, visible, setVisible, date }){
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
-	const [closeButtonColor, setCloseButtonColor] = useState('#777')
+	const [closeButtonColor, setCloseButtonColor] = useState('#666')
 	const temps = ['Manhã', 'Dia', 'Tarde', 'Noite'].map((instant) => {
 		let temp = selectTemp(instant)
 		return (
@@ -67,9 +67,9 @@ function ModalInformations({ data, visible, setVisible, date }){
 					</Text>
 				</View>
 
-				<ScrollView horizontal={true}>
+				<View style={{ flexDirection: 'row', textAlign: 'center' }}>
 					{temps}
-				</ScrollView>
+				</View>
 			</View>
 
 			<CompostTemperatureDetails
@@ -119,10 +119,17 @@ function DailyModal({ data, date, visible, setVisible }) {
 
 					<Pressable
 						onPress={() => setVisible(false)}
-						onPressIn={() => setCloseButtonColor('#999')}
-						onPressOut={() => setCloseButtonColor('#777')}
+						onPressIn={() => setCloseButtonColor('#777')}
+						onPressOut={() => setCloseButtonColor('#666')}
 					>
-						<View style={{ backgroundColor: closeButtonColor, padding: 8, borderRadius: 50, width: 100 }}>
+						<View style={{
+							backgroundColor: closeButtonColor,
+							padding: 4,
+							borderRadius: 50,
+							width: 100,
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}>
 							<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
 								Fechar
 							</Text>

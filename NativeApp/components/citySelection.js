@@ -1,26 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font';
-import { Text, View, Pressable, TextInput, StyleSheet } from 'react-native';
-import axios from 'axios'
-
-const styles = StyleSheet.create({
-  citySelection: {
-    flex: 1
-  },
-
-  formCity:{
-    color: '#fdfdfd',
-    fontSize: 20,
-    alignItems: 'center'
-  },
-
-  formCityButtonInput:{
-    fontSize: 20,
-    padding: 8,
-    backgroundColor: '#fdfdfd',
-    width: 300
-  }
-})
+import { Text, View, Pressable, TextInput } from 'react-native';
+import * as Location from 'expo-location';
+import { submitCity } from './submitCity/submitCity'
 
 function CitySelection({
   setMsgValue,
@@ -38,134 +20,72 @@ function CitySelection({
   setTemperatureForHour,
   setTemperatureForDay
 }) {
-  const [loaded] = useFonts({
-    'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
-  })
-
   const [cityValue, setCityValue] = useState("");
+  let stopCall = false
 
-  async function fetchWeatherInformation(cityValue) {
-    // * Teste: https://weather-webapp-jim4xz2ag-aluisionbr.vercel.app/api/Capela?myApiSecret=9b7nn6gu275ssd0db09jj2232ppxxx27
-    try {
-      const data = await axios.get(`https://weather-webapp-jim4xz2ag-aluisionbr.vercel.app/api/${cityValue}`, {
-        params: {
-          myApiSecret: '9b7nn6gu275ssd0db09jj2232ppxxx27'
-        }
-      })
-      return await data.data
-    } catch (error) {
-      return {
-        cod: 502,
-        msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
+  const [statusForegroundLocation, requestPermissionForegroundLocation] = Location.useForegroundPermissions()
+  const [statusBackgroundLocation, requestPermissionBackgroundLocation] = Location.useBackgroundPermissions()
+  
+  useEffect(async() =>{
+    if(!stopCall){
+      if(statusForegroundLocation == null || statusForegroundLocation.status != "granted")
+        requestPermissionForegroundLocation()
+      if(statusBackgroundLocation == null || statusBackgroundLocation.status != "granted")
+        requestPermissionBackgroundLocation()
+
+      const foregroundCondition = (statusForegroundLocation != null && statusForegroundLocation.status === "granted")
+      const backgroundCondition = (statusBackgroundLocation != null && statusBackgroundLocation.status === "granted")
+      if(foregroundCondition && backgroundCondition){
+        const pos = await Location.getCurrentPositionAsync(), localInfos = await Location.reverseGeocodeAsync({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        })
+        const city = localInfos[0].city === null ? localInfos[0].district: localInfos[0].city
+        
+        submitCity(
+          `${city}, ${localInfos[0].region}`,
+          setCityValue,
+          {
+            setMsgValue,
+            setTemperatureVisibility,
+            setCityName,
+            setState,
+            setCurrentTemperatureValue,
+            setCurrentWeatherDescription,
+            setCurrentWeatherIcon,
+            setCurrentFeels_likeValue,
+            setCurrentHumidityValue,
+            setCurrentUviValue,
+            setAmountOfRain,
+            setAmountOfSnow,
+            setTemperatureForHour,
+            setTemperatureForDay
+          }
+        )
+        
+        stopCall = true
       }
+      else if(
+        (statusForegroundLocation != null) &&
+        (statusBackgroundLocation != null) &&
+        (statusForegroundLocation.status != "granted") &&
+        (statusBackgroundLocation.status != "granted"))
+        setMsgValue("Informe sua cidade para começarmos!")
     }
-  }
+  }, [stopCall, statusForegroundLocation, statusBackgroundLocation])
 
-  function renderInformations(information){
-    setCityName(information.city);
-    setState(information.state);
-
-    renderCurrentInformations(information.current)
-    renderHourlyInformations(information.hourly)
-    renderDailyInformations(information.daily)
-
-    setTemperatureVisibility(true);
-  }
-
-  function renderCurrentInformations(information){
-    setCurrentWeatherIcon(information.icon);
-    setCurrentTemperatureValue(information.temp);
-    setCurrentWeatherDescription(information.description);
-    setCurrentFeels_likeValue(information.feels_like);
-    setCurrentHumidityValue(information.humidity);
-    setCurrentUviValue(information.uvi)
-    setAmountOfRain(information.rain)
-    setAmountOfSnow(information.snow)
-  }
-
-  function renderHourlyInformations(informations){
-    const content = []
-    for(let hour of informations){
-      content.push({
-        hour: hour.hour,
-        temp: hour.temp,
-        feels_like: hour.feels_like,
-        uvi: hour.uvi,
-        humidity: hour.humidity,
-        description: hour.description,
-        icon: hour.icon,
-        pop: hour.pop,
-        rain: {
-          rainy: hour.rain.rainy,
-          rain: hour.rain.rain
-        },
-        snow: {
-          snowed: hour.snow.snowed,
-          snow: hour.snow.snow
-        }
-      })
-    }
-    setTemperatureForHour(content)
-  }
-
-  function renderDailyInformations(informations){
-    const content = []
-    for(let day of informations){
-      content.push({
-        moon_phase: day.moon_phase,
-        temp: {
-          morn: day.temp.morn,
-          day: day.temp.day,
-          eve: day.temp.eve,
-          night: day.temp.night,
-          min: day.temp.min,
-          max: day.temp.max
-        },
-        feels_like: {
-          morn: day.feels_like.morn,
-          day: day.feels_like.day,
-          eve: day.feels_like.eve,
-          night: day.feels_like.night
-        },
-        uvi: day.uvi,
-        humidity: day.humidity,
-        description: day.description,
-        icon: day.icon,
-        pop: day.pop,
-        rain: {
-          rainy: day.rain.rainy,
-          rain: day.rain.rain
-        },
-        snow: {
-          snowed: day.snow.snowed,
-          snow: day.snow.snow
-        }
-      })
-    }
-    setTemperatureForDay(content)
-  }
-
-  function renderErr(msg){
-    setMsgValue(msg);
-    setTemperatureVisibility(false);
-  }
-
-  function verifyResponse(information){
-    if (information.cod === 200)
-      renderInformations(information)
-    else
-      renderErr(information.msg)
-  }
-
-  async function submitCityVerifyResponseAndRenderInformations(cityValue) {
-    const information = await fetchWeatherInformation(cityValue);
-    verifyResponse(information)
-    return "";
-  }
+  const [fontLoaded] = useFonts({
+    'Poppins': require('./../assets/Poppins/Poppins-Regular.ttf'),
+  })
 
   return (
     <View>
-      <View style={[styles.formCity, { fontFamily: 'Poppins' }]}>
+      <View style={{
+          fontFamily: 'Poppins',
+          color: '#fdfdfd',
+          fontSize: 20,
+          alignItems: 'center'
+        }}>
         <View>
           <Text style={{ color: '#fdfdfd', fontSize: 20, fontFamily: 'Poppins' }}>
             Informe sua cidade:
@@ -173,14 +93,20 @@ function CitySelection({
         </View>
 
         <TextInput
-          style={[styles.formCityButtonInput, { fontFamily: 'Poppins' }]}
+          style={{
+            fontFamily: 'Poppins',
+            fontSize: 20,
+            padding: 8,
+            backgroundColor: '#fdfdfd',
+            width: 300
+          }}
           defaultValue={cityValue}
           onChangeText={newText => setCityValue(newText)}
         />
 
         <SubmitButton
           setCityValue={setCityValue}
-          submitCity={submitCityVerifyResponseAndRenderInformations}
+          submitCity={submitCity}
           cityValue={cityValue}
         />
       </View>
@@ -200,7 +126,26 @@ function SubmitButton({
 
   return (
     <Pressable
-      onPress={() => setCityValue(submitCity(cityValue))}
+      onPress={() => submitCity(
+        cityValue,
+        setCityValue,
+        {
+          setMsgValue,
+          setTemperatureVisibility,
+          setCityName,
+          setState,
+          setCurrentTemperatureValue,
+          setCurrentWeatherDescription,
+          setCurrentWeatherIcon,
+          setCurrentFeels_likeValue,
+          setCurrentHumidityValue,
+          setCurrentUviValue,
+          setAmountOfRain,
+          setAmountOfSnow,
+          setTemperatureForHour,
+          setTemperatureForDay
+        }
+      )}
       onPressIn={() => setButtonColor('#999')}
       onPressOut={() => setButtonColor('#777')}
     >

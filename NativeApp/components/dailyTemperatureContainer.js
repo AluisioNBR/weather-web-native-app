@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { ScrollView } from 'react-native'
 import { DailyTemperature } from './temperature/dailyTemperature'
 
@@ -10,7 +11,7 @@ function DailyTemperaturesContainer({ dailyTemperatures }){
       const date = `${dateDay} ${gmtDate[2]} de ${gmtDate[3]}`
       dateDay += 1
       currentKey += 1
-      return <DailyTemperature key={currentKey} day={day} date={date}/>
+      return <DailyTemperature key={`day${currentKey}`} day={day} date={date}/>
   })
   return (
       <ScrollView style={{ flex: 1 }}>

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 
   weatherDescription: {
-    fontSize: 25,
+    fontSize: 20,
     color: '#fdfdfd',
     alignItems: 'center',
   },
