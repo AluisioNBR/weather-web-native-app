@@ -44,15 +44,16 @@ async function submitCity(
 async function fetchWeatherInformation(cityValue) {
 	try {
 	  const data = await axios.get(`https://weather-webapp-jim4xz2ag-aluisionbr.vercel.app/api/${cityValue}`, {
-			params: {
-			  myApiSecret: '9b7nn6gu275ssd0db09jj2232ppxxx27'
-			}
-		  })
-		  return await data.data
-		} catch (error) {
-		  return {
-			cod: 502,
-			msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
+		params: {
+		  myApiSecret: process.env.MY_API_SECRET
+		  date: new Date().toLocaleString().split(' ')[0]
+		}
+	  })
+	  return await data.data
+	} catch (error) {
+	  return {
+		cod: 502,
+		msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
 	  }
 	}
 }
