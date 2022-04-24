@@ -45,7 +45,7 @@ async function fetchWeatherInformation(cityValue) {
 	try {
 	  const data = await axios.get(`https://weather-webapp-jim4xz2ag-aluisionbr.vercel.app/api/${cityValue}`, {
 		params: {
-		  myApiSecret: process.env.MY_API_SECRET
+		  myApiSecret: '9b7nn6gu275ssd0db09jj2232ppxxx27'
 		  date: new Date().toLocaleString().split(' ')[0]
 		}
 	  })

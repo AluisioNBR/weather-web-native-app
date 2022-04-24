@@ -2,8 +2,8 @@ import {
   formatCurrentWeather,
   formatHourWeather,
   formatDayWeather
-} from './../../components/api/dataFormatation'
-import { returnGeocodingLocalization, returnWeatherData } from './../../components/api/dataReqs'
+} from '../../components/api/dataFormatation'
+import { returnGeocodingLocalization, returnWeatherData } from '../../components/api/dataReqs'
 
 export default async function returnData(req, res) {
   if(req.query.myApiSecret === process.env.MY_API_SECRET)
