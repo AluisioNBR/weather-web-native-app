@@ -4,6 +4,8 @@ App de clima simples para qualquer cidade/estado **brasileiro**, construído uti
 
 __[Clique aqui para acessar a página web!](https://weather-webapp-seven.vercel.app/)__
 
-## Android
+## Instalação Android
 
-__[Clique aqui para baixar a versão mais atual do app!](https://expo.dev/artifacts/eas/fki1ry9h8rkJieiwNjGJUN.apk)__
+Para fazer o download da versão mais atualizada do app, você pode __[clicar aqui!](https://expo.dev/artifacts/eas/aGfH9EVGuYLP3jrj4BJSVD.apk)__ Ou se quiser uma versão específica, pode procurá-la na aba de "lançamentos" aqui no repositório:
+
+![./NativeApp/assets/releases_exemple.jpg]
