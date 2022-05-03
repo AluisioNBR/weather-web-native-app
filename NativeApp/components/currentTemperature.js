@@ -1,34 +1,22 @@
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image } from 'react-native';
+import { useState } from 'react';
 import { useFonts } from 'expo-font';
 
 import { MainTemperature } from './temperature/mainTemperature'
 import { TemperatureDetails } from './temperature/temperatureDetails'
-
-function Localization(props){
-  const [loaded] = useFonts({
-    'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
-  })
-  return (
-    <View style={{ alignItems: 'center', flexDirection: 'row'}}>
-      <Image
-        style={{ width: 32, height: 32 }}
-        source={require("../assets/pin-localization.png")}
-      />
-
-      <Text style={[styles.local, { fontFamily: 'Poppins' }]}>
-        {props.city}, {props.state}
-      </Text>
-    </View>
-  )
-}
+import { colors } from './colors';
 
 function CurrentTemperature(props) {
   const [loaded] = useFonts({
     'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
   })
-  if (props.visibility)
+
+  if(props.visibility)
     return (
-      <View style={styles.temperatureContainer}>
+      <View style={{
+        margin: 16,
+        alignItems: 'center'
+      }}>
         <Localization
           city={props.city}
           state={props.state}
@@ -50,11 +38,17 @@ function CurrentTemperature(props) {
       </View>
     );
 
+  else if(props.loadingWeather)
+    return <AnimatedLoading />
+
   else
     return (
-      <View style={styles.temperatureContainer}>
+      <View style={{
+        margin: 16,
+        alignItems: 'center'
+      }}>
         <Text style={{
-          color: '#fdfdfd',
+          color: colors.mainWhite,
           fontSize: 22,
           textAlign: 'center',
           fontFamily: 'Poppins'
@@ -65,31 +59,27 @@ function CurrentTemperature(props) {
     );
 }
 
+function Localization(props){
+  const [loaded] = useFonts({
+    'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
+  })
+  return (
+    <View style={{ alignItems: 'center', flexDirection: 'row'}}>
+      <Image
+        style={{ width: 32, height: 32 }}
+        source={require("../assets/pin-localization.png")}
+      />
+
+      <Text style={{
+        fontFamily: 'Poppins',
+        textAlign: 'center',
+        color: colors.mainWhite,
+        fontSize: 22
+      }}>
+        {props.city}, {props.state}
+      </Text>
+    </View>
+  )
+}
+
 export { CurrentTemperature };
-
-const styles = StyleSheet.create({
-  temperatureContainer: {
-    margin: 16,
-    alignItems: 'center'
-  },
-
-  MainTemperature: {
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    width: 240,
-    height: 240,
-    padding: 24,
-    
-    color: '#fdfdfd',
-    fontSize: 20,
-
-    textAlign: 'center'
-  },
-
-  local:{
-    textAlign: 'center',
-    color: '#fdfdfd',
-    fontSize: 22
-  }
-})

@@ -6,6 +6,7 @@ async function submitCity(
 	{
 		setMsgValue,
 		setTemperatureVisibility,
+		setLoadingWeather,
 		setCityName,
 		setState,
 		setCurrentTemperatureValue,
@@ -20,7 +21,7 @@ async function submitCity(
 		setTemperatureForDay
 	}
 ) {
-	const information = await fetchWeatherInformation(cityValue);
+	const information = await fetchWeatherInformation(cityValue, setLoadingWeather);
 	verifyResponse(
 		information, {
 			setMsgValue,
@@ -41,19 +42,27 @@ async function submitCity(
 	setCityValue("")
 }
 
-async function fetchWeatherInformation(cityValue) {
+async function fetchWeatherInformation(cityValue, setLoadingWeather) {
+	let limiter = 0
 	try {
-	  const data = await axios.get(`https://weather-webapp-jim4xz2ag-aluisionbr.vercel.app/api/${cityValue}`, {
-		params: {
-		  myApiSecret: '9b7nn6gu275ssd0db09jj2232ppxxx27'
-		  date: new Date().toLocaleString().split(' ')[0]
-		}
-	  })
+		if(limiter > 0)
+			throw new Error("Ocorreu um problema com a conexão com o servidor. Aguarde um pouco e tente novamente!")
+		  const data = await axios.get(`https://weather-webapp-9w8bha15o-aluisionbr.vercel.app/api/${cityValue}`, {
+				params: {
+				  myApiSecret: process.env.MY_API_SECRET,
+				  date: new Date().toLocaleString().split(' ')[0]
+				}
+	  	})
+		  limiter += 1
+		  setTimeout(() => {
+		  	limiter = 0
+		  	setLoadingWeather(false)
+		  }, 5000)
 	  return await data.data
 	} catch (error) {
 	  return {
 		cod: 502,
-		msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
+		msg: error
 	  }
 	}
 }

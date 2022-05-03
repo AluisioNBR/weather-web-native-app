@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { AdditionalInf } from './additionalInf'
+import { colors } from '../colors';
 
 const styles = StyleSheet.create({
   temperatureDetails: {
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
   },
 
   containterDetails: {
-    backgroundColor: '#555',
+    backgroundColor: colors.black2,
     borderRadius: 100,
     padding: 4
   }

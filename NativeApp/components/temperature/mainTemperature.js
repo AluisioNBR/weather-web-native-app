@@ -1,5 +1,6 @@
 import { Text, View, Image, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
+import { colors } from '../colors';
 
 const styles = StyleSheet.create({
   MainTemperature: {
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 24,
     
-    color: '#fdfdfd',
+    color: colors.mainWhite,
     fontSize: 20,
 
     textAlign: 'center'
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   
   currentTemperatureText: {
     fontSize: 54,
-    color: '#fdfdfd'
+    color: colors.mainWhite
   },
   
   currentDescription: {
@@ -36,13 +37,13 @@ const styles = StyleSheet.create({
 
   weatherDescription: {
     fontSize: 20,
-    color: '#fdfdfd',
+    color: colors.mainWhite,
     alignItems: 'center',
   },
 
   currentFeelsLike:{
     fontSize: 14,
-    color: '#cccccc'
+    color: colors.gray1
   }
 })
 

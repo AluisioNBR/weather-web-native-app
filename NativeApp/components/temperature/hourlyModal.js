@@ -3,12 +3,13 @@ import { useFonts } from 'expo-font';
 import { Pressable, View, Text, Modal } from 'react-native'
 import { MainTemperature } from './mainTemperature'
 import { CompostTemperatureDetails } from './compostTemperatureDetails'
+import { colors } from '../colors';
 
 function HourlyModal({ data, visible, setVisible }){
 	const [loaded] = useFonts({
 	   'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
-	const [closeButtonColor, setCloseButtonColor] = useState('#666')
+	const [closeButtonColor, setCloseButtonColor] = useState(colors.black2)
 	return(
 		<Modal
 			animationType='fade'
@@ -18,7 +19,7 @@ function HourlyModal({ data, visible, setVisible }){
 		>
 			<View
 				style={{
-					backgroundColor: '#00000055',
+					backgroundColor: colors.blackOpacity,
 					
 					flex: 1,
 					alignItems: 'center',
@@ -27,7 +28,7 @@ function HourlyModal({ data, visible, setVisible }){
 			>
 				<View
 					style={{
-						backgroundColor: '#333',
+						backgroundColor: colors.mainBlack,
 						borderRadius: 50,
 						
 						width: 385,
@@ -40,7 +41,7 @@ function HourlyModal({ data, visible, setVisible }){
 						alignItems: 'center'
 					}}
 				>
-					<Text style={{ fontSize: 30, color: '#fdfdfd', fontFamily: 'Poppins' }}>
+					<Text style={{ fontSize: 30, color: colors.mainWhite, fontFamily: 'Poppins' }}>
 						{data.hour}
 					</Text>
 
@@ -57,11 +58,11 @@ function HourlyModal({ data, visible, setVisible }){
 			
 					<Pressable
 						onPress={() => setVisible(false)}
-						onPressIn={() => setCloseButtonColor('#777')}
-					  onPressOut={() => setCloseButtonColor('#666')}
+						onPressIn={() => setCloseButtonColor(colors.black4)}
+					  onPressOut={() => setCloseButtonColor(colors.black3)}
 					>
 						<View style={{ backgroundColor: closeButtonColor, padding: 4, borderRadius: 50, width: 100 }}>
-							<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
+							<Text style={{ color: colors.mainWhite, fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
 								Fechar
 							</Text>
 						</View>

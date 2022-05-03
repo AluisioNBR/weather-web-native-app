@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useFonts } from 'expo-font';
 import { Pressable, View, Text, Modal, Image } from 'react-native'
 import { CompostTemperatureDetails } from './compostTemperatureDetails'
+import { colors } from '../colors';
 
 function selectTemp(instant) {
 	if(instant == 'Manhã')
@@ -18,20 +19,20 @@ function ModalInformations({ data, visible, setVisible, date }){
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
-	const [closeButtonColor, setCloseButtonColor] = useState('#666')
+	const [closeButtonColor, setCloseButtonColor] = useState(colors.black3)
 	const temps = ['Manhã', 'Dia', 'Tarde', 'Noite'].map((instant) => {
 		let temp = selectTemp(instant)
 		return (
 			<View style={{ marginRight: 12, marginLeft: 12 }}>
-				<Text style={{ color: '#fdfdfd', fontSize: 20, fontFamily: 'Poppins' }}>
+				<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
 					{instant}
 				</Text>
 
-				<Text style={{ color: '#fdfdfd', fontSize: 18, textAlign: 'center', fontFamily: 'Poppins' }}>
+				<Text style={{ color: colors.mainWhite, fontSize: 18, textAlign: 'center', fontFamily: 'Poppins' }}>
 					{data.temp[`${temp}`]}°C
 				</Text>
 
-				<Text style={{ color: '#ccc', fontSize: 16, textAlign: 'center', fontFamily: 'Poppins' }}>
+				<Text style={{ color: colors.gray1, fontSize: 16, textAlign: 'center', fontFamily: 'Poppins' }}>
 					{data.feels_like[`${temp}`]}°C
 				</Text>				
 			</View>
@@ -39,7 +40,7 @@ function ModalInformations({ data, visible, setVisible, date }){
 	})
 	return(
 		<View>
-			<Text style={{ color: '#fdfdfd', fontSize: 22, textAlign: 'center', fontFamily: 'Poppins' }}>
+			<Text style={{ color: colors.mainWhite, fontSize: 22, textAlign: 'center', fontFamily: 'Poppins' }}>
 				{date}
 			</Text>
 
@@ -51,18 +52,18 @@ function ModalInformations({ data, visible, setVisible, date }){
 					style={{ width: 32, height: 32 }}
 				/>
 
-				<Text style={{ color: '#fdfdfd', fontSize: 22, textAlign: 'center', fontFamily: 'Poppins' }}>
+				<Text style={{ color: colors.mainWhite, fontSize: 22, textAlign: 'center', fontFamily: 'Poppins' }}>
 					{data.description}
 				</Text>
 			</View>
 
 			<View style={{ margin: 2 }}>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-					<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
+					<Text style={{ color: colors.mainWhite, fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
 						Máxima: {data.temp.max}°C
 					</Text>
 
-					<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
+					<Text style={{ color: colors.mainWhite, fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
 						Mínima: {data.temp.min}°C
 					</Text>
 				</View>
@@ -83,7 +84,7 @@ function DailyModal({ data, date, visible, setVisible }) {
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
-	const [closeButtonColor, setCloseButtonColor] = useState('#777')
+	const [closeButtonColor, setCloseButtonColor] = useState(colors.black4)
 	return(
 		<Modal
 			animationType='fade'
@@ -93,7 +94,7 @@ function DailyModal({ data, date, visible, setVisible }) {
 		>
 			<View
 				style={{
-					backgroundColor: '#00000055',
+					backgroundColor: colors.blackOpacity,
 					
 					flex: 1,
 					alignItems: 'center',
@@ -102,7 +103,7 @@ function DailyModal({ data, date, visible, setVisible }) {
 			>
 				<View
 					style={{
-						backgroundColor: '#333',
+						backgroundColor: colors.mainBlack,
 						borderRadius: 50,
 						
 						width: 360,
@@ -119,8 +120,8 @@ function DailyModal({ data, date, visible, setVisible }) {
 
 					<Pressable
 						onPress={() => setVisible(false)}
-						onPressIn={() => setCloseButtonColor('#777')}
-						onPressOut={() => setCloseButtonColor('#666')}
+						onPressIn={() => setCloseButtonColor(colors.black4)}
+						onPressOut={() => setCloseButtonColor(colors.black3)}
 					>
 						<View style={{
 							backgroundColor: closeButtonColor,
@@ -130,7 +131,7 @@ function DailyModal({ data, date, visible, setVisible }) {
 							alignItems: 'center',
 							justifyContent: 'center'
 						}}>
-							<Text style={{ color: '#fdfdfd', fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
+							<Text style={{ color: colors.mainWhite, fontSize: 20, textAlign: 'center', fontFamily: 'Poppins' }}>
 								Fechar
 							</Text>
 						</View>

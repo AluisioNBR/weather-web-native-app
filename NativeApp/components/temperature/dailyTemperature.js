@@ -2,13 +2,14 @@ import { Pressable, View, Text, Image } from 'react-native'
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
 import { DailyModal } from './dailyModal'
+import { colors } from '../colors';
 
 function DailyTemperature({ day, date }) {
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
 	const [modalVisible, setModalVisible] = useState(false)
-	const [backgroundColor, setBackgroundColor] = useState('#555')
+	const [backgroundColor, setBackgroundColor] = useState(colors.black2)
 	return (
 		<View>
 			<DailyModal
@@ -20,8 +21,8 @@ function DailyTemperature({ day, date }) {
 
 			<Pressable
 				onPress={() => setModalVisible(true)}
-				onPressIn={() => setBackgroundColor('#777')}
-				onPressOut={() => setBackgroundColor('#555')}
+				onPressIn={() => setBackgroundColor(colors.black4)}
+				onPressOut={() => setBackgroundColor(colors.black2)}
 			>
 				<View style={{
 					backgroundColor: backgroundColor,
@@ -35,7 +36,7 @@ function DailyTemperature({ day, date }) {
 					padding: 12,
 					borderRadius: 10
 				}}>
-					<Text style={{ color: '#fdfdfd', fontSize: 20, fontFamily: 'Poppins' }}>
+					<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
 						{date}
 					</Text>
 
@@ -45,7 +46,7 @@ function DailyTemperature({ day, date }) {
 							style={{ width: 32, height: 32 }}
 						/>
 
-						<Text style={{ color: '#fdfdfd', fontSize: 20, fontFamily: 'Poppins' }}>
+						<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
 							{day.temp.min}°C - {day.temp.max}°C
 						</Text>
 					</View>

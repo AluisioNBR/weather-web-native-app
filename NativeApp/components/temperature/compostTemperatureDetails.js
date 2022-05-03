@@ -1,6 +1,7 @@
 import { TemperatureDetails } from './temperatureDetails'
 import { View, Text } from 'react-native'
 import { useFonts } from 'expo-font';
+import { colors } from '../colors';
 
 function CompostTemperatureDetails({ data }){
 	const [loaded] = useFonts({
@@ -18,7 +19,7 @@ function CompostTemperatureDetails({ data }){
 			<View style={{ alignItems: 'center' }}>
         <Text style={{
           fontSize: 14,
-          color: '#ccc',
+          color: colors.gray1,
           margin: 8,
       		fontFamily: 'Poppins'
         }}>

@@ -2,13 +2,14 @@ import { Pressable, View, Text, Image } from 'react-native'
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
 import { HourlyModal } from './hourlyModal'
+import { colors } from '../colors';
 
 function HourlyTemperature({hour}){
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	  })
 	const [modalVisible, setModalVisible] = useState(false)
-	const [backgroundColor, setBackgroundColor] = useState('#555')
+	const [backgroundColor, setBackgroundColor] = useState(colors.black2)
 	return (
 		<View>
 			<HourlyModal
@@ -19,8 +20,8 @@ function HourlyTemperature({hour}){
 
 			<Pressable
 				onPress={() => setModalVisible(true)}
-				onPressIn={() => setBackgroundColor('#777')}
-				onPressOut={() => setBackgroundColor('#555')}
+				onPressIn={() => setBackgroundColor(colors.black4)}
+				onPressOut={() => setBackgroundColor(colors.black2)}
 			>
 				<View style={{
 					backgroundColor: backgroundColor,            	
@@ -35,7 +36,7 @@ function HourlyTemperature({hour}){
 					width: 165,
 					height: 165
 				}}>
-					<Text style={{ color: '#fdfdfd', fontSize: 20, fontFamily: 'Poppins' }}>
+					<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
 							{hour.hour}
 					</Text>
 					
@@ -45,12 +46,12 @@ function HourlyTemperature({hour}){
 							style={{ width: 32, height: 32}}
 						/>
 
-						<Text style={{ color: '#fdfdfd', fontSize: 32, fontFamily: 'Poppins' }}>
+						<Text style={{ color: colors.mainWhite, fontSize: 32, fontFamily: 'Poppins' }}>
 								{hour.temp}°C
 						</Text>
 					</View>
 					
-					<Text style={{ color: '#bbb', fontFamily: 'Poppins', textAlign: 'center' }}>
+					<Text style={{ color: colors.gray2, fontFamily: 'Poppins', textAlign: 'center' }}>
 							Sensação Térmica: {hour.feels_like}°C
 					</Text>
 				</View>

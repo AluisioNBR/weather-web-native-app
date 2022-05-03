@@ -3,15 +3,19 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font';
 import { View, Text } from 'react-native';
+import * as Animatable from 'react-native-animatable'
+import { LinearGradient } from 'expo-linear-gradient';
 import AppLoading from 'expo-app-loading'
 
 import { CitySelection } from './components/citySelection'
 import { CurrentTemperature } from './components/currentTemperature'
 import { HourlyTemperaturesContainer } from './components/hourlyTemperaturesContainer'
 import { DailyTemperaturesContainer } from './components/dailyTemperatureContainer';
+import { colors } from './components/colors';
 
 export default function App() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
+  const [loadingWeather, setLoadingWeather] = useState(false)
 
   const [cityName, setCityName] = useState("undefined");
   const [state, setState] = useState("undefined");
@@ -29,7 +33,7 @@ export default function App() {
   const [temperatureForDay, setTemperatureForDay] = useState([])
 
   const [msgValue, setMsgValue] = useState(
-    "Carregando..."
+    "Informe sua cidade para começarmos!"
   );
 
   const [appLoaded, setAppLoaded] = useState(false)
@@ -52,23 +56,13 @@ export default function App() {
 
   if(!appLoaded)
     return <AppLoading />
-  /*
-  (
-    <View style={{
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#333'
-    }}>
-      <Text style={{ color: '#fdfdfd', fontSize: 32 }}>Carregando...</Text>
-    </View>
-  )
-  */
+  else if(loadingWeather)
+    return <AnimatedLoading/>
   else
     return (
       <View style={{
         flex: 1,
-        backgroundColor: '#333',
+        backgroundColor: colors.mainBlack,
         alignItems: 'center',
         padding: 16
       }}>
@@ -78,6 +72,7 @@ export default function App() {
           <CitySelection
             setMsgValue={setMsgValue}
             setTemperatureVisibility={setTemperatureVisibility}
+            setLoadingWeather={setLoadingWeather}
             setCityName={setCityName}
             setState={setState}
             setCurrentTemperatureValue={setCurrentTemperatureValue}
@@ -105,6 +100,7 @@ export default function App() {
             rain={amountOfRain}
             snow={amountOfSnow}
             visibility={temperatureVisibility}
+            loadingWeather={loadingWeather}
           />
 
           <HourlyTemperaturesContainer hourlyTemperatures={temperatureForHour}/>
@@ -113,4 +109,65 @@ export default function App() {
         </View>
       </View>
     );
+}
+
+function AnimatedLoading(){
+  const rotate = {
+    from: {
+      transform: [{ rotate: `${0}deg` }],
+    },
+    to: {
+      transform: [{ rotate: `${360}deg` }],
+    },
+  }
+  return (
+    <View 
+      style={{
+        flex: 1,
+        backgroundColor: colors.mainBlack,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <Text style={{
+        position: 'absolute',
+        zIndex: 3,
+        color: colors.mainWhite,
+        fontWeight: 'bold',
+        fontSize: 30
+      }}>
+        Carregando...
+      </Text>
+
+      <Animatable.View
+        animation={rotate}
+        iterationCount={Infinity}
+        duration={1000}
+        style={{ padding: 32 }}
+      >
+        <LinearGradient
+          colors={[colors.gray2, colors.black2]}
+          style={{
+            width: 220,
+            height: 220,
+            borderRadius: 200,
+
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <View style={{
+            width: 200,
+            height: 200,
+            borderRadius: 200,
+
+            backgroundColor: colors.mainBlack,
+            
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}></View>
+        </LinearGradient>
+      </Animatable.View>
+    </View>
+  )
 }
