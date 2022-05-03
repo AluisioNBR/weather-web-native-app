@@ -8,4 +8,4 @@ __[Clique aqui para acessar a página web!](https://weather-webapp-seven.vercel.
 
 Para fazer o download da versão mais atualizada do app, você pode __[clicar aqui!](https://expo.dev/artifacts/eas/aGfH9EVGuYLP3jrj4BJSVD.apk)__ Ou se quiser uma versão específica, pode procurá-la na aba de "lançamentos" aqui no repositório:
 
-![./NativeApp/assets/releases_exemple.jpg]
+![lançamentos](./NativeApp/assets/releases_exemple.jpg)
