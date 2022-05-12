@@ -51,7 +51,7 @@ function HourlyTemperature({hour}){
 						</Text>
 					</View>
 					
-					<Text style={{ color: colors.gray2, fontFamily: 'Poppins', textAlign: 'center' }}>
+					<Text style={{ color: colors.gray1, fontFamily: 'Poppins', textAlign: 'center' }}>
 							Sensação Térmica: {hour.feels_like}°C
 					</Text>
 				</View>

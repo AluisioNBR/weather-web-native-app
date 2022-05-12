@@ -36,7 +36,7 @@ function DailyTemperature({ day, date }) {
 					padding: 12,
 					borderRadius: 10
 				}}>
-					<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
+					<Text style={{ color: colors.mainWhite, fontSize: 18, fontFamily: 'Poppins' }}>
 						{date}
 					</Text>
 
@@ -46,7 +46,7 @@ function DailyTemperature({ day, date }) {
 							style={{ width: 32, height: 32 }}
 						/>
 
-						<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
+						<Text style={{ color: colors.mainWhite, fontSize: 18, fontFamily: 'Poppins' }}>
 							{day.temp.min}°C - {day.temp.max}°C
 						</Text>
 					</View>

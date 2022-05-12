@@ -4,10 +4,6 @@ function MainTemperature(props) {
   return (
     <div id={styles.MainTemperatureContainer}>
       <div className={styles.MainTemperature}>
-        <h2 id={styles.local}>
-          {props.city}, {props.state}
-        </h2>
-
         <div>
           <div id={styles.currentTemperature}>
             <img

@@ -61,6 +61,11 @@
   background: linear-gradient(135deg, #0932C2, #4E2BF2);
 }
 
+#localization{
+  display: flex;
+  align-items: center;
+}
+
 #local{
   text-align: center;
 }

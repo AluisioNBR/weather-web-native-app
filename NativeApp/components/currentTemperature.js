@@ -1,5 +1,4 @@
 import { Text, View, Image } from 'react-native';
-import { useState } from 'react';
 import { useFonts } from 'expo-font';
 
 import { MainTemperature } from './temperature/mainTemperature'
@@ -37,9 +36,6 @@ function CurrentTemperature(props) {
         />
       </View>
     );
-
-  else if(props.loadingWeather)
-    return <AnimatedLoading />
 
   else
     return (
