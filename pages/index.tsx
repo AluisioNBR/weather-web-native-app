@@ -1,10 +1,15 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { CitySelection } from "../components/citySelection";
-import { Temperature } from "../components/temperature";
+import { CitySelection } from "../components/CitySelection";
+import { CurrentTemperature } from "../components/CurrentTemperature";
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 
-function Home(props) {
+interface APIProps{
+  myApiSecret: string;
+}
+
+function Home(props: APIProps) {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
 
   const [cityName, setCityName] = useState("undefined");
@@ -49,7 +54,7 @@ function Home(props) {
           setHumidityValue={setHumidityValue}
         />
 
-        <Temperature
+        <CurrentTemperature
           msg={msgValue}
           city={cityName}
           state={state}
@@ -69,7 +74,7 @@ function Home(props) {
 
 export default Home;
 
-export function getStaticProps(){
+export const getStaticProps: GetStaticProps = async() => {
   return {
     props:{
       myApiSecret: process.env.MY_API_SECRET

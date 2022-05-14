@@ -1,8 +1,23 @@
 import styles from "../styles/Home.module.css";
 import { MainTemperature } from './temperature/mainTemperature'
 import { TemperatureDetails } from './temperature/temperatureDetails'
+import Image from "next/image"
 
-function CurrentTemperature(props) {
+interface CurrentTemperatureProps{
+  msg: string,
+  city: string,
+  state: string,
+  icon: string,
+  temperature: number,
+  description: string,
+  feels_like: number,
+  temp_max: number,
+  temp_min: number,
+  humidity: number,
+  visibility: boolean
+}
+
+function CurrentTemperature(props: CurrentTemperatureProps) {
   if (props.visibility)
     return (
       <div id={styles.temperatureContainer}>
@@ -33,16 +48,23 @@ function CurrentTemperature(props) {
     );
 }
 
-function Localization({ city, state }) {
+interface LocalizationProps{
+  city: string,
+  state: string
+}
+
+function Localization({ city, state }: LocalizationProps) {
   return(
     <div id={styles.localization}>
-      <img
-        style={{ width: 32, height: 32 }}
+      <Image
+        width='32'
+        height='32'
         src="../assets/pin-localization.png"
+        alt='Pin de Localização'
       />
       
       <h2 id={styles.local}>
-        {props.city}, {props.state}
+        {city}, {state}
       </h2>
     </div>
   )

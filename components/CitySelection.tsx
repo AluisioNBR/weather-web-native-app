@@ -2,6 +2,23 @@ import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import axios from 'axios'
 
+import type { Dispatch, SetStateAction } from 'react'
+
+interface CitySelectionProps {
+  myApiSecret: string,
+  setMsgValue: Dispatch<SetStateAction<string>>,
+  setTemperatureVisibility: Dispatch<SetStateAction<boolean>>,
+  setCityName: Dispatch<SetStateAction<string>>,
+  setState: Dispatch<SetStateAction<string>>,
+  setTemperatureValue: Dispatch<SetStateAction<number>>,
+  setWeatherDescription: Dispatch<SetStateAction<string>>,
+  setWeatherIcon: Dispatch<SetStateAction<string>>,
+  setfeels_likeValue: Dispatch<SetStateAction<number>>,
+  setTemperatureMax: Dispatch<SetStateAction<number>>,
+  setTemperatureMin: Dispatch<SetStateAction<number>>,
+  setHumidityValue: Dispatch<SetStateAction<number>>
+}
+
 function CitySelection({
   myApiSecret,
   setMsgValue,
@@ -15,10 +32,10 @@ function CitySelection({
   setTemperatureMax,
   setTemperatureMin,
   setHumidityValue
-}) {
+}: CitySelectionProps) {
   const [cityValue, setCityValue] = useState("");
 
-  async function fetchWeatherInformation(cityValue) {
+  async function fetchWeatherInformation(cityValue: string) {
     try {
       const data = await axios.get(`/api/${cityValue}`, {
         params: {
@@ -47,7 +64,7 @@ function CitySelection({
 
     setTemperatureVisibility(true);
   }
-  function renderErr(msg){
+  function renderErr(msg: string){
     setMsgValue(msg);
     setTemperatureVisibility(false);
   }
@@ -55,17 +72,19 @@ function CitySelection({
     if (information.cod === 200) renderInformations(information)
     else renderErr(information.msg)
   }
-  async function submitCityVerifyResponseAndRenderInformations(event, cityValue) {
+  async function submitCityVerifyResponseAndRenderInformations(event: FormEvent<HTMLFormElement>, cityValue: string) {
     event.preventDefault()
     const information = await fetchWeatherInformation(cityValue);
     verifyResponse(information)
-    return "";
   }
 
   return (
     <div>
       <form
-        onSubmit={event => setCityValue(submitCityVerifyResponseAndRenderInformations(event, cityValue))}
+        onSubmit={(event) => {
+          setCityValue("")
+          submitCityVerifyResponseAndRenderInformations(event, cityValue)
+        }}
         id={styles.formCity}
       >
         <label htmlFor="nameInput">Informe sua cidade:</label><br/>
