@@ -1,7 +1,10 @@
 import styles from "../styles/Home.module.css";
-import { MainTemperature } from './temperature/mainTemperature'
-import { TemperatureDetails } from './temperature/temperatureDetails'
+import { MainTemperature } from './temperature/MainTemperature'
+import { TemperatureDetails } from './temperature/TemperatureDetails'
 import Image from "next/image"
+import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../pages/index'
+
+import PinImage from "../assets/pin-localization.png";
 
 interface CurrentTemperatureProps{
   msg: string,
@@ -11,10 +14,12 @@ interface CurrentTemperatureProps{
   temperature: number,
   description: string,
   feels_like: number,
-  temp_max: number,
-  temp_min: number,
   humidity: number,
-  visibility: boolean
+  uvi: number,
+  rain: NoRain | AmountOfRain,
+  snow: NoSnow | AmountOfSnow,
+  visibility: boolean,
+  loadingWeather: boolean
 }
 
 function CurrentTemperature(props: CurrentTemperatureProps) {
@@ -34,8 +39,6 @@ function CurrentTemperature(props: CurrentTemperatureProps) {
 
         <TemperatureDetails
           feels_like={props.feels_like}
-          temp_max={props.temp_max}
-          temp_min={props.temp_min}
           humidity={props.humidity}
         />
       </div>
@@ -59,7 +62,7 @@ function Localization({ city, state }: LocalizationProps) {
       <Image
         width='32'
         height='32'
-        src="../assets/pin-localization.png"
+        src={PinImage}
         alt='Pin de Localização'
       />
       

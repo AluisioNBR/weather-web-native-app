@@ -5,6 +5,7 @@ import {
 } from '../../components/api/dataFormatation'
 import { returnGeocodingLocalization, returnWeatherData } from '../../components/api/dataReqs'
 import type { Local, CityFound, DataToUse, DataFailed } from '../../components/api/dataReqs'
+import type { FormatCurrentWeather, FormatCurrentHourWeather, FormatCurrentDayWeather } from '../../components/api/dataFormatation'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function returnData(req: NextApiRequest, res: NextApiResponse) {
@@ -34,29 +35,45 @@ async function verifyCity(city: string): Promise<DataToUse | DataFailed>{
     }
   }
   catch (error) {
-    return { weather: { cod: 404 } }
+    return { cod: 404 }
   }
 }
 
 function verifyApiData(data: DataToUse | DataFailed){
-  const ifNotFound = (data.weather.cod === 404) || (data.weather.cod === 400)
+  const ifNotFound = (data.cod === 404) || (data.cod === 400)
   return ifNotFound ? notFoundDataOfRequest(): foundDataOfRequest(data as DataToUse)
 }
 
-function foundDataOfRequest(data: DataToUse){
+interface FoundDataOfRequest{
+  cod: number;
+  city: string;
+  state: string;
+  current: FormatCurrentWeather;
+  hourly: FormatCurrentHourWeather[];
+  daily: FormatCurrentDayWeather[];
+}
+
+function foundDataOfRequest(data: DataToUse): FoundDataOfRequest{
   return {
     cod: 200,
     city: `${data.localization.city}`,
     state: `${data.localization.state}`,
-    current: formatCurrentWeather(data.weather.weatherData.current),
-    hourly: formatHourWeather(data.weather.weatherData.hourly),
-    daily: formatDayWeather(data.weather.weatherData.daily)
+    current: formatCurrentWeather(data.weather.current),
+    hourly: formatHourWeather(data.weather.hourly),
+    daily: formatDayWeather(data.weather.daily)
   }
 }
 
-function notFoundDataOfRequest(){
+interface NotFoundDataOfRequest{
+  cod: number;
+  msg: string
+}
+
+function notFoundDataOfRequest(): NotFoundDataOfRequest{
   return {
     cod: 404,
     msg: "Cidade não encontrada! Tente outra cidade!"
   }
 }
+
+export type { FoundDataOfRequest, NotFoundDataOfRequest }

@@ -37,13 +37,11 @@ async function returnGeocodingLocalization(city: string): Promise<CityFound | Ci
 }
 
 interface DataToUse{
+  cod: number;
   weather: {
-    cod: number;
-    weatherData: {
-        current: Current;
-        hourly: Hourly;
-        daily: Daily;
-    };
+    current: Current;
+    hourly: Hourly;
+    daily: Daily;
   };
   localization: {
     city: string;
@@ -51,9 +49,7 @@ interface DataToUse{
   }
 }
 
-interface DataFailed{
-  weather: { cod: number }
-}
+interface DataFailed{ cod: number }
 
 async function returnWeatherData(local: Local): Promise<DataToUse | DataFailed>{
   try {
@@ -69,14 +65,13 @@ async function returnWeatherData(local: Local): Promise<DataToUse | DataFailed>{
     })
     const weatherData = splitWeatherDataType(await data.data as Data)
     return {
-      weather: { cod: 200, weatherData },
+      cod: 200,
+      weather: weatherData,
       localization: { city: local.name, state: local.state }
     }
   }
   catch (error) {
-    return {
-      weather: { cod: 404 }
-    }
+    return { cod: 404 }
   }
 }
 

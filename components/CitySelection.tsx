@@ -2,36 +2,52 @@ import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import axios from 'axios'
 
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction, FormEvent } from 'react'
+import type { FoundDataOfRequest, NotFoundDataOfRequest } from '../pages/api/[city]'
+import type { Hourly, Daily } from './api/formatGenericalData'
+import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../pages/index'
 
 interface CitySelectionProps {
   myApiSecret: string,
   setMsgValue: Dispatch<SetStateAction<string>>,
   setTemperatureVisibility: Dispatch<SetStateAction<boolean>>,
+  setLoadingWeather: Dispatch<SetStateAction<boolean>>,
   setCityName: Dispatch<SetStateAction<string>>,
   setState: Dispatch<SetStateAction<string>>,
-  setTemperatureValue: Dispatch<SetStateAction<number>>,
-  setWeatherDescription: Dispatch<SetStateAction<string>>,
-  setWeatherIcon: Dispatch<SetStateAction<string>>,
-  setfeels_likeValue: Dispatch<SetStateAction<number>>,
-  setTemperatureMax: Dispatch<SetStateAction<number>>,
-  setTemperatureMin: Dispatch<SetStateAction<number>>,
-  setHumidityValue: Dispatch<SetStateAction<number>>
+  setCurrentTemperatureValue: Dispatch<SetStateAction<number>>,
+  setCurrentWeatherDescription: Dispatch<SetStateAction<string>>,
+  setCurrentWeatherIcon: Dispatch<SetStateAction<string>>,
+  setCurrentFeels_likeValue: Dispatch<SetStateAction<number>>,
+  setCurrentHumidityValue: Dispatch<SetStateAction<number>>,
+  setCurrentUviValue: Dispatch<SetStateAction<number>>,
+  setAmountOfRain: Dispatch<SetStateAction<NoRain | AmountOfRain>>,
+  setAmountOfSnow: Dispatch<SetStateAction<NoSnow | AmountOfSnow>>,
+  setTemperatureForHour: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>,
+  setTemperatureForDay: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Daily>>
+}
+
+interface ServerError{
+  cod: number,
+  msg: string
 }
 
 function CitySelection({
   myApiSecret,
   setMsgValue,
   setTemperatureVisibility,
+  setLoadingWeather,
   setCityName,
   setState,
-  setTemperatureValue,
-  setWeatherDescription,
-  setWeatherIcon,
-  setfeels_likeValue,
-  setTemperatureMax,
-  setTemperatureMin,
-  setHumidityValue
+  setCurrentTemperatureValue,
+  setCurrentWeatherDescription,
+  setCurrentWeatherIcon,
+  setCurrentFeels_likeValue,
+  setCurrentHumidityValue,
+  setCurrentUviValue,
+  setAmountOfRain,
+  setAmountOfSnow,
+  setTemperatureForHour,
+  setTemperatureForDay
 }: CitySelectionProps) {
   const [cityValue, setCityValue] = useState("");
 
@@ -50,17 +66,17 @@ function CitySelection({
       }
     }
   }
-  function renderInformations(information){
+  function renderInformations(information: FoundDataOfRequest){
     setCityName(information.city);
     setState(information.state);
-    setWeatherIcon(information.icon);
-    setTemperatureValue(information.temperature);
-    setWeatherDescription(information.description);
-
-    setfeels_likeValue(information.main.feels_like);
-    setTemperatureMax(information.main.temp_max);
-    setTemperatureMin(information.main.temp_min);
-    setHumidityValue(information.main.humidity);
+    setCurrentWeatherIcon(information.current.icon);
+    setCurrentTemperatureValue(information.current.temp);
+    setCurrentWeatherDescription(information.current.description);
+    setCurrentFeels_likeValue(information.current.feels_like);
+    setCurrentHumidityValue(information.current.humidity);
+    setCurrentUviValue(information.current.uvi)
+    setAmountOfRain(information.current.rain)
+    setAmountOfSnow(information.current.snow)
 
     setTemperatureVisibility(true);
   }
@@ -68,13 +84,16 @@ function CitySelection({
     setMsgValue(msg);
     setTemperatureVisibility(false);
   }
-  function verifyResponse(information){
-    if (information.cod === 200) renderInformations(information)
-    else renderErr(information.msg)
+  function verifyResponse(information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError){
+    if (information.cod === 200) renderInformations(information as FoundDataOfRequest)
+    else {
+      const informationToUse = information as ServerError
+      renderErr(informationToUse.msg)
+    }
   }
   async function submitCityVerifyResponseAndRenderInformations(event: FormEvent<HTMLFormElement>, cityValue: string) {
     event.preventDefault()
-    const information = await fetchWeatherInformation(cityValue);
+    const information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError = await fetchWeatherInformation(cityValue);
     verifyResponse(information)
   }
 

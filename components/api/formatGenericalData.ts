@@ -16,14 +16,34 @@ function formatTemperature(temp: number){
   return numberToReturn
 }
 
-function ifRainy(main: string, rain: number){
+interface Rain{
+  rainy: string;
+  rain: number;
+}
+
+interface NoRain{
+  rainy: string;
+  rain?: undefined;
+}
+
+function ifRainy(main: string, rain: number): NoRain | Rain{
   return main === "Rain" ? {
     rainy: 'rain',
     rain: rain
   }: { rainy: 'no-rain' }
 }
 
-function ifSnowed(main: string, snow: number){
+interface Snow{
+  snowed: string;
+  snow: number;
+}
+
+interface NoSnow{
+  snowed: string;
+  snow?: undefined;
+}
+
+function ifSnowed(main: string, snow: number): NoSnow | Snow{
   return main === "Snow" ? {
     snowed: 'snow',
     snow: snow
@@ -143,5 +163,5 @@ function splitWeatherDataType(data: Data){
   }
 }
 
-export type { Data, Current, Hour, Hourly, Day, Daily }
+export type { Data, Current, Hour, Hourly, Day, Daily, NoRain, NoSnow, Rain, Snow }
 export { formatMoonPhase, formatTemperature, ifRainy, ifSnowed, splitWeatherDataType }

@@ -1,6 +1,11 @@
 import styles from "../../styles/Home.module.css";
 
-function AdditionalInformations(props) {
+interface AdditionalInformationsProps{
+  children: string;
+  value: string
+}
+
+function AdditionalInformations(props: AdditionalInformationsProps) {
   return (
     <div>
       <h3>{props.children}</h3>

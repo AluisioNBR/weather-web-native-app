@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#071b37"
+      "backgroundColor": "#333"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -27,7 +27,7 @@
       "package": "com.aluisionbr.weatherapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#333333"
+        "backgroundColor": "#071b37"
       },
       "permissions": ["LOCATION"],
       "versionCode": 4

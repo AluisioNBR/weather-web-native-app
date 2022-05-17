@@ -16,6 +16,7 @@
 #temperatureContainer{
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -67,6 +68,7 @@
 }
 
 #local{
+  color: #fdfdfd;
   text-align: center;
 }
 
@@ -74,15 +76,24 @@
   font-size: 1.25rem;
 }
 
-#MainTemperature, #currentTemperature, #weatherDescription{
+.MainTemperature, #currentTemperature, #weatherDescription{
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 #currentTemperature{
   justify-content: center;
   flex-direction: row;
+}
+
+#currentTemperature span {
+  font-size: 2rem;
+}
+
+#weatherDescription{
+  font-size: 1.5rem;
 }
 
 #temperatureDetails{
@@ -124,12 +135,6 @@
 
 .containerDetails h3{
   text-align: center;
-}
-
-#minMax div{
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
 }
 
 .categoryValue{

@@ -4,24 +4,39 @@ import { useState } from "react";
 import { CitySelection } from "../components/CitySelection";
 import { CurrentTemperature } from "../components/CurrentTemperature";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import type { Hourly, Daily } from '../components/api/formatGenericalData'
+import type { Dispatch, SetStateAction } from 'react'
 
 interface APIProps{
   myApiSecret: string;
 }
 
+interface NoRain{ rainy: string }
+
+interface AmountOfRain{ rainy: string, rain: number }
+
+interface NoSnow{ snowed: string }
+
+interface AmountOfSnow{ snowed: string, snow: number }
+
 function Home(props: APIProps) {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
+  const [loadingWeather, setLoadingWeather] = useState(false)
 
   const [cityName, setCityName] = useState("undefined");
   const [state, setState] = useState("undefined");
-  const [weatherIcon, setWeatherIcon] = useState("undefined.png");
-  const [temperatureValue, setTemperatureValue] = useState(30);
-  const [weatherDescription, setWeatherDescription] = useState("undefined");
 
-  const [feels_likeValue, setfeels_likeValue] = useState(30);
-  const [temperatureMax, setTemperatureMax] = useState(30);
-  const [temperatureMin, setTemperatureMin] = useState(30);
-  const [humidityValue, setHumidityValue] = useState(0);
+  const [currentWeatherIcon, setCurrentWeatherIcon] = useState("undefined.png");
+  const [currentTemperatureValue, setCurrentTemperatureValue] = useState(30);
+  const [currentWeatherDescription, setCurrentWeatherDescription] = useState("undefined");
+  const [currentFeels_likeValue, setCurrentFeels_likeValue] = useState(30);
+  const [currentHumidityValue, setCurrentHumidityValue] = useState(0);
+  const [currentUviValue, setCurrentUviValue] = useState(0)
+  const [amountOfRain, setAmountOfRain]: [NoRain | AmountOfRain, Dispatch<SetStateAction<NoRain | AmountOfRain>>] = useState({ rainy: 'no-rain' })
+  const [amountOfSnow, setAmountOfSnow]: [NoSnow | AmountOfSnow, Dispatch<SetStateAction<NoSnow | AmountOfSnow>>] = useState({ snowed: 'no-snow' })
+
+  const [temperatureForHour, setTemperatureForHour]: [never[] | Hourly, Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>] = useState([])
+  const [temperatureForDay, setTemperatureForDay]: [never[] | Daily, Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>] = useState([])
 
   const [msgValue, setMsgValue] = useState(
     "Informe sua cidade para começarmos!"
@@ -35,7 +50,7 @@ function Home(props: APIProps) {
           name="description"
           content="App web simples para consumir os dados da API do Open Weather Map"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="../assets/favicon.png" />
       </Head>
 
       <main className={styles.main}>
@@ -43,29 +58,35 @@ function Home(props: APIProps) {
           myApiSecret={props.myApiSecret}
           setMsgValue={setMsgValue}
           setTemperatureVisibility={setTemperatureVisibility}
+          setLoadingWeather={setLoadingWeather}
           setCityName={setCityName}
           setState={setState}
-          setTemperatureValue={setTemperatureValue}
-          setWeatherDescription={setWeatherDescription}
-          setWeatherIcon={setWeatherIcon}
-          setfeels_likeValue={setfeels_likeValue}
-          setTemperatureMax={setTemperatureMax}
-          setTemperatureMin={setTemperatureMin}
-          setHumidityValue={setHumidityValue}
+          setCurrentTemperatureValue={setCurrentTemperatureValue}
+          setCurrentWeatherDescription={setCurrentWeatherDescription}
+          setCurrentWeatherIcon={setCurrentWeatherIcon}
+          setCurrentFeels_likeValue={setCurrentFeels_likeValue}
+          setCurrentHumidityValue={setCurrentHumidityValue}
+          setCurrentUviValue={setCurrentUviValue}
+          setAmountOfRain={setAmountOfRain}
+          setAmountOfSnow={setAmountOfSnow}
+          setTemperatureForHour={setTemperatureForHour}
+          setTemperatureForDay={setTemperatureForDay}
         />
 
         <CurrentTemperature
           msg={msgValue}
           city={cityName}
           state={state}
-          icon={weatherIcon}
-          temperature={temperatureValue}
-          description={weatherDescription}
-          feels_like={feels_likeValue}
-          temp_max={temperatureMax}
-          temp_min={temperatureMin}
-          humidity={humidityValue}
+          icon={currentWeatherIcon}
+          temperature={currentTemperatureValue}
+          description={currentWeatherDescription}
+          feels_like={currentFeels_likeValue}
+          humidity={currentHumidityValue}
+          uvi={currentUviValue}
+          rain={amountOfRain}
+          snow={amountOfSnow}
           visibility={temperatureVisibility}
+          loadingWeather={loadingWeather}
         />
       </main>
     </div>
@@ -73,6 +94,8 @@ function Home(props: APIProps) {
 }
 
 export default Home;
+
+export type { NoRain, AmountOfRain, NoSnow, AmountOfSnow }
 
 export const getStaticProps: GetStaticProps = async() => {
   return {
