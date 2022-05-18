@@ -1,10 +1,13 @@
 import { Pressable, View, Text, Image } from 'react-native'
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
-import { HourlyModal } from './hourlyModal'
+import { HourlyModal } from './HourlyModal'
 import { colors } from '../colors';
 
-function HourlyTemperature({hour}){
+import type { HourWeather}	 from '../../App'
+interface HourlyTemperatureProps{ hour: HourWeather }
+
+function HourlyTemperature({ hour }: HourlyTemperatureProps){
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	  })

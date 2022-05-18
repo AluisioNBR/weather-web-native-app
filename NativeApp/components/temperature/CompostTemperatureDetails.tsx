@@ -1,9 +1,19 @@
-import { TemperatureDetails } from './temperatureDetails'
+import { TemperatureDetails } from './TemperatureDetails'
 import { View, Text } from 'react-native'
 import { useFonts } from 'expo-font';
 import { colors } from '../colors';
 
-function CompostTemperatureDetails({ data }){
+import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../../App'
+
+interface CompostTemperatureDetailsProps{ data: {
+  humidity: number;
+  uvi: number;
+  pop: number;
+  rain: NoRain | AmountOfRain;
+  snow: NoSnow | AmountOfSnow
+} }
+
+function CompostTemperatureDetails({ data }: CompostTemperatureDetailsProps){
 	const [loaded] = useFonts({
     'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
   })

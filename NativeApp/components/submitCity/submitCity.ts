@@ -1,8 +1,11 @@
 import axios from 'axios'
 
+import type { CitySelectionProps } from '../CitySelection'
+import type { NoRain, NoSnow, AmountOfRain, AmountOfSnow, CurrentWeather, HourWeather, DayWeather } from '../../App'
+
 async function submitCity(
-	cityValue,
-	setCityValue,
+	cityValue: string,
+	setCityValue: React.Dispatch<React.SetStateAction<string>>,
 	{
 		setMsgValue,
 		setTemperatureVisibility,
@@ -19,7 +22,7 @@ async function submitCity(
 		setAmountOfSnow,
 		setTemperatureForHour,
 		setTemperatureForDay
-	}
+	}: CitySelectionProps
 ) {
 	const information = await fetchWeatherInformation(cityValue, setLoadingWeather);
 	verifyResponse(
@@ -38,19 +41,32 @@ async function submitCity(
 			setAmountOfSnow,
 			setTemperatureForHour,
 			setTemperatureForDay
-		})
+		} as CitySelectionProps)
 	setCityValue("")
 }
 
-async function fetchWeatherInformation(cityValue, setLoadingWeather) {
+interface FoundDataOfRequest{
+  cod: number;
+  city: string;
+  state: string;
+  current: CurrentWeather;
+  hourly: HourWeather[];
+  daily: DayWeather[];
+}
+
+interface NotFoundDataOfRequest{
+  cod: number;
+  msg: string
+}
+
+async function fetchWeatherInformation(cityValue: string, setLoadingWeather: React.Dispatch<React.SetStateAction<boolean>>): Promise<FoundDataOfRequest | NotFoundDataOfRequest> {
 	let limiter = 0
 	try {
 		if(limiter > 0)
 			throw new Error("Ocorreu um problema com a conexão com o servidor. Aguarde um pouco e tente novamente!")
-		  const data = await axios.get(`https://weather-webapp-9w8bha15o-aluisionbr.vercel.app/api/${cityValue}`, {
+		  const data = await axios.get(`https://weather-webapp-seven.vercel.app/api/${cityValue}`, {
 				params: {
-				  myApiSecret: process.env.MY_API_SECRET,
-				  date: new Date().toLocaleString().split(' ')[0]
+				  myApiSecret: process.env.MY_API_SECRET
 				}
 	  	})
 		  limiter += 1
@@ -61,14 +77,14 @@ async function fetchWeatherInformation(cityValue, setLoadingWeather) {
 	  return await data.data
 	} catch (error) {
 	  return {
-		cod: 502,
-		msg: error
+			cod: 502,
+			msg: error
 	  }
 	}
 }
 
 function verifyResponse(
-	information,
+	information: FoundDataOfRequest | NotFoundDataOfRequest,
 	{
 		setMsgValue,
 		setTemperatureVisibility,
@@ -84,11 +100,11 @@ function verifyResponse(
 		setAmountOfSnow,
 		setTemperatureForHour,
 		setTemperatureForDay
-	}
+	}: CitySelectionProps
 ){
 	if (information.cod === 200)
 	  renderInformations(
-		information, 
+		information as FoundDataOfRequest, 
 		{
 			setTemperatureVisibility,
 			setCityName,
@@ -103,29 +119,51 @@ function verifyResponse(
 			setAmountOfSnow,
 			setTemperatureForHour,
 			setTemperatureForDay
-		}
-	  )
-	else
+		})
+	else{
+		const informationFailed = information as NotFoundDataOfRequest
 	  renderErr(
-		information.msg, {
+			informationFailed.msg, {
 			setMsgValue,
 			setTemperatureVisibility
 		})
+	}
+}
+
+interface RenderErrFunctions{
+	setMsgValue: React.Dispatch<React.SetStateAction<string>>;
+	setTemperatureVisibility: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function renderErr(
-	msg,
+	msg: string,
 	{
 		setMsgValue,
 		setTemperatureVisibility
-	}
+	}: RenderErrFunctions
 ){
 	setMsgValue(msg);
 	setTemperatureVisibility(false);
 }
 
+interface RenderInformationsFunctions{
+	setTemperatureVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+	setCityName: React.Dispatch<React.SetStateAction<string>>
+	setState: React.Dispatch<React.SetStateAction<string>>;
+	setCurrentTemperatureValue: React.Dispatch<React.SetStateAction<number>>;
+	setCurrentWeatherDescription: React.Dispatch<React.SetStateAction<string>>;
+	setCurrentWeatherIcon: React.Dispatch<React.SetStateAction<string>>;
+	setCurrentFeels_likeValue: React.Dispatch<React.SetStateAction<number>>;
+	setCurrentHumidityValue: React.Dispatch<React.SetStateAction<number>>;
+	setCurrentUviValue: React.Dispatch<React.SetStateAction<number>>;
+	setAmountOfRain: React.Dispatch<React.SetStateAction<NoRain | AmountOfRain>>;
+	setAmountOfSnow: React.Dispatch<React.SetStateAction<NoSnow | AmountOfSnow>>;
+	setTemperatureForHour: React.Dispatch<React.SetStateAction<HourWeather[] | never[]>>;
+	setTemperatureForDay: React.Dispatch<React.SetStateAction<DayWeather[] | never[]>>;
+}
+
 function renderInformations(
-	information,
+	information: FoundDataOfRequest,
 	{
 		setTemperatureVisibility,
 		setCityName,
@@ -140,7 +178,7 @@ function renderInformations(
 		setAmountOfSnow,
 		setTemperatureForHour,
 		setTemperatureForDay
-	}
+	}: RenderInformationsFunctions
 ){
 	setCityName(information.city);
 	setState(information.state);
@@ -164,18 +202,29 @@ function renderInformations(
 	setTemperatureVisibility(true);
 }
 
+interface renderCurrentInformationsFunctions{
+	setCurrentTemperatureValue: React.Dispatch<React.SetStateAction<number>>,
+	setCurrentWeatherDescription: React.Dispatch<React.SetStateAction<string>>,
+	setCurrentWeatherIcon: React.Dispatch<React.SetStateAction<string>>,
+	setCurrentFeels_likeValue: React.Dispatch<React.SetStateAction<number>>,
+	setCurrentHumidityValue: React.Dispatch<React.SetStateAction<number>>,
+	setCurrentUviValue: React.Dispatch<React.SetStateAction<number>>,
+	setAmountOfRain: React.Dispatch<React.SetStateAction<NoRain | AmountOfRain>>,
+	setAmountOfSnow: React.Dispatch<React.SetStateAction<NoSnow | AmountOfSnow>>,
+}
+
 function renderCurrentInformations(
-	information,
-		{
-			setCurrentTemperatureValue,
-			setCurrentWeatherDescription,
-			setCurrentWeatherIcon,
-			setCurrentFeels_likeValue,
-			setCurrentHumidityValue,
-			setCurrentUviValue,
-			setAmountOfRain,
-			setAmountOfSnow,
-		}
+	information: CurrentWeather,
+	{
+		setCurrentTemperatureValue,
+		setCurrentWeatherDescription,
+		setCurrentWeatherIcon,
+		setCurrentFeels_likeValue,
+		setCurrentHumidityValue,
+		setCurrentUviValue,
+		setAmountOfRain,
+		setAmountOfSnow,
+	}: renderCurrentInformationsFunctions
 ){
 	setCurrentWeatherIcon(information.icon);
 	setCurrentTemperatureValue(information.temp);
@@ -187,7 +236,7 @@ function renderCurrentInformations(
 	setAmountOfSnow(information.snow)
 }
 
-function renderHourlyInformations(informations, setTemperatureForHour){
+function renderHourlyInformations(informations: HourWeather[], setTemperatureForHour: React.Dispatch<React.SetStateAction<HourWeather[] | never[]>>){
 	const content = []
 	for(let hour of informations){
 	  content.push({
@@ -199,20 +248,14 @@ function renderHourlyInformations(informations, setTemperatureForHour){
 		description: hour.description,
 		icon: hour.icon,
 		pop: hour.pop,
-		rain: {
-		  rainy: hour.rain.rainy,
-		  rain: hour.rain.rain
-		},
-		snow: {
-		  snowed: hour.snow.snowed,
-		  snow: hour.snow.snow
-		}
+		rain: hour.rain,
+		snow: hour.snow
 	  })
 	}
 	setTemperatureForHour(content)
 }
 
-function renderDailyInformations(informations, setTemperatureForDay){
+function renderDailyInformations(informations: DayWeather[], setTemperatureForDay: React.Dispatch<React.SetStateAction<DayWeather[] | never[]>>){
 	const content = []
 	for(let day of informations){
 	  content.push({
@@ -236,14 +279,8 @@ function renderDailyInformations(informations, setTemperatureForDay){
 		description: day.description,
 		icon: day.icon,
 		pop: day.pop,
-		rain: {
-		  rainy: day.rain.rainy,
-		  rain: day.rain.rain
-		},
-		snow: {
-		  snowed: day.snow.snowed,
-		  snow: day.snow.snow
-		}
+		rain: day.rain,
+		snow: day.snow
 	  })
 	}
 	setTemperatureForDay(content)

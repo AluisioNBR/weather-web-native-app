@@ -4,6 +4,26 @@ import { Text, View, Pressable, TextInput } from 'react-native';
 import { submitCity } from './submitCity/submitCity'
 import { colors } from './colors';
 
+import type { NoRain, NoSnow, AmountOfRain, AmountOfSnow, HourWeather, DayWeather } from '../App'
+
+interface CitySelectionProps {
+  setMsgValue: React.Dispatch<React.SetStateAction<string>>,
+  setTemperatureVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+  setLoadingWeather: React.Dispatch<React.SetStateAction<boolean>>,
+  setCityName: React.Dispatch<React.SetStateAction<string>>,
+  setState: React.Dispatch<React.SetStateAction<string>>,
+  setCurrentTemperatureValue: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentWeatherDescription: React.Dispatch<React.SetStateAction<string>>,
+  setCurrentWeatherIcon: React.Dispatch<React.SetStateAction<string>>,
+  setCurrentFeels_likeValue: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentHumidityValue: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentUviValue: React.Dispatch<React.SetStateAction<number>>,
+  setAmountOfRain: React.Dispatch<React.SetStateAction<NoRain | AmountOfRain>>,
+  setAmountOfSnow: React.Dispatch<React.SetStateAction<NoSnow | AmountOfSnow>>,
+  setTemperatureForHour: React.Dispatch<React.SetStateAction<never[] | HourWeather[]>>,
+  setTemperatureForDay: React.Dispatch<React.SetStateAction<never[] | DayWeather[]>>
+}
+
 function CitySelection({
   setMsgValue,
   setTemperatureVisibility,
@@ -20,7 +40,7 @@ function CitySelection({
   setAmountOfSnow,
   setTemperatureForHour,
   setTemperatureForDay
-}) {
+}: CitySelectionProps) {
   const [fontLoaded] = useFonts({
     'Poppins': require('./../assets/Poppins/Poppins-Regular.ttf'),
   })
@@ -132,3 +152,4 @@ function SubmitButton({ content }){
 }
 
 export { CitySelection };
+export type { CitySelectionProps };

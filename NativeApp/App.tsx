@@ -1,17 +1,74 @@
+import React, { useState, useEffect } from 'react';
+import { View } from 'react-native';
+
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { useState, useEffect } from "react";
 import { useFonts } from 'expo-font';
-import { View, Text } from 'react-native';
-import * as Animatable from 'react-native-animatable'
-import { LinearGradient } from 'expo-linear-gradient';
 import AppLoading from 'expo-app-loading'
 
-import { CitySelection } from './components/citySelection'
-import { CurrentTemperature } from './components/currentTemperature'
-import { HourlyTemperaturesContainer } from './components/hourlyTemperaturesContainer'
-import { DailyTemperaturesContainer } from './components/dailyTemperatureContainer';
+import { CitySelection } from './components/CitySelection'
+import { CurrentTemperature } from './components/CurrentTemperature'
+import { HourlyTemperaturesContainer } from './components/HourlyTemperaturesContainer'
+import { DailyTemperaturesContainer } from './components/DailyTemperatureContainer';
+import { AnimatedLoading } from './components/AnimatedLoading'
 import { colors } from './components/colors';
+
+interface NoRain{ rainy: string }
+
+interface AmountOfRain{ rainy: string, rain: number }
+
+interface NoSnow{ snowed: string }
+
+interface AmountOfSnow{ snowed: string, snow: number }
+
+interface CurrentWeather{
+  temp: number;
+  feels_like: number;
+  uvi: number;
+  humidity: number;
+  description: string;
+  icon: string;
+  rain: NoRain | AmountOfRain;
+  snow: NoSnow | AmountOfSnow
+;
+}
+
+interface HourWeather{
+  hour: string;
+  temp: number;
+  feels_like: number;
+  uvi: number;
+  humidity: number;
+  description: string;
+  icon: string;
+  pop: number;
+  rain: NoRain | AmountOfRain;
+  snow: NoSnow | AmountOfSnow
+}
+
+interface DayWeather{
+  moon_phase: string;
+  temp: {
+      morn: number;
+      day: number;
+      eve: number;
+      night: number;
+      min: number;
+      max: number;
+  };
+  feels_like: {
+      morn: number;
+      day: number;
+      eve: number;
+      night: number;
+  };
+  uvi: number;
+  humidity: number;
+  description: string;
+  icon: string;
+  pop: number;
+  rain: NoRain | AmountOfRain;
+  snow: NoSnow | AmountOfSnow;
+}
 
 export default function App() {
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
@@ -26,11 +83,15 @@ export default function App() {
   const [currentFeels_likeValue, setCurrentFeels_likeValue] = useState(30);
   const [currentHumidityValue, setCurrentHumidityValue] = useState(0);
   const [currentUviValue, setCurrentUviValue] = useState(0)
-  const [amountOfRain, setAmountOfRain] = useState({ rainy: 'no-rain' })
-  const [amountOfSnow, setAmountOfSnow] = useState({ snowed: 'no-snow' })
+  const [amountOfRain, setAmountOfRain]: [
+    NoRain | AmountOfRain,
+    React.Dispatch<React.SetStateAction<NoRain | AmountOfRain>>] = useState({ rainy: 'no-rain' })
+  const [amountOfSnow, setAmountOfSnow]: [
+    NoSnow | AmountOfSnow,
+    React.Dispatch<React.SetStateAction<NoSnow | AmountOfSnow>>] = useState({ snowed: 'no-snow' })
 
-  const [temperatureForHour, setTemperatureForHour] = useState([])
-  const [temperatureForDay, setTemperatureForDay] = useState([])
+  const [temperatureForHour, setTemperatureForHour]: [any[] | HourWeather[], React.Dispatch<React.SetStateAction<any[] | HourWeather[]>>] = useState([])
+  const [temperatureForDay, setTemperatureForDay]: [any[] | DayWeather[], React.Dispatch<React.SetStateAction<any[] | DayWeather[]>>] = useState([])
 
   const [msgValue, setMsgValue] = useState(
     "Informe sua cidade para começarmos!"
@@ -41,7 +102,7 @@ export default function App() {
     'Poppins': require('./assets/Poppins/Poppins-Regular.ttf'),
   })
 
-  let loadingFont = setInterval(()=>{
+  let loadingFont = setInterval(() => {
     if(!fontLoaded)
       setAppLoaded(false)
     else if(fontLoaded){
@@ -49,9 +110,8 @@ export default function App() {
     }  
   }, 1000)
 
-  useEffect(()=>{
+  useEffect(() => {
     clearInterval(loadingFont)
-    loadingFont = 0
   }, [appLoaded])
 
   if(!appLoaded)
@@ -111,63 +171,4 @@ export default function App() {
     );
 }
 
-function AnimatedLoading(){
-  const rotate = {
-    from: {
-      transform: [{ rotate: `${0}deg` }],
-    },
-    to: {
-      transform: [{ rotate: `${360}deg` }],
-    },
-  }
-  return (
-    <View 
-      style={{
-        flex: 1,
-        backgroundColor: colors.mainBlack,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Text style={{
-        position: 'absolute',
-        zIndex: 3,
-        color: colors.mainWhite,
-        fontWeight: 'bold',
-        fontSize: 30
-      }}>
-        Carregando...
-      </Text>
-
-      <Animatable.View
-        animation={rotate}
-        iterationCount={Infinity}
-        duration={1000}
-        style={{ padding: 32 }}
-      >
-        <LinearGradient
-          colors={[colors.gray2, colors.black2]}
-          style={{
-            width: 220,
-            height: 220,
-            borderRadius: 200,
-
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <View style={{
-            width: 200,
-            height: 200,
-            borderRadius: 200,
-
-            backgroundColor: colors.mainBlack,
-            
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}></View>
-        </LinearGradient>
-      </Animatable.View>
-    </View>
-  )
-}
+export type { NoRain, NoSnow, AmountOfRain, AmountOfSnow, CurrentWeather, HourWeather, DayWeather }

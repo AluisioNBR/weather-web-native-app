@@ -1,11 +1,29 @@
 import { Text, View, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { MainTemperature } from './temperature/mainTemperature'
-import { TemperatureDetails } from './temperature/temperatureDetails'
+import { MainTemperature } from './temperature/MainTemperature'
+import { TemperatureDetails } from './temperature/TemperatureDetails'
 import { colors } from './colors';
 
-function CurrentTemperature(props) {
+import type { NoRain, NoSnow, AmountOfRain, AmountOfSnow } from '../App'
+
+interface CurrentTemperatureProps{
+  msg: string,
+  city: string,
+  state: string,
+  icon: string,
+  temperature: number,
+  description: string,
+  feels_like: number,
+  humidity: number,
+  uvi: number,
+  rain: NoRain | AmountOfRain,
+  snow: NoSnow | AmountOfSnow,
+  visibility: boolean,
+  loadingWeather: boolean
+}
+
+function CurrentTemperature(props: CurrentTemperatureProps) {
   const [loaded] = useFonts({
     'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
   })
@@ -55,7 +73,12 @@ function CurrentTemperature(props) {
     );
 }
 
-function Localization(props){
+interface LocalizationProps{
+  city: string,
+  state: string
+}
+
+function Localization(props: LocalizationProps){
   const [loaded] = useFonts({
     'Poppins': require('../assets/Poppins/Poppins-Regular.ttf'),
   })

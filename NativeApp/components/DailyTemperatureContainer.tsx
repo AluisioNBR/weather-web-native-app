@@ -1,10 +1,16 @@
 import { ScrollView } from 'react-native'
-import { DailyTemperature } from './temperature/dailyTemperature'
+import { DailyTemperature } from './temperature/DailyTemperature'
 
-function DailyTemperaturesContainer({ dailyTemperatures }){
-  let [baseYear, baseNumberMonth, baseNumberDay] = getCurrentDate()
+import type { DayWeather } from '../App'
 
-  const temperatures = dailyTemperatures.map((day) => {
+interface DailyTemperaturesProps{
+  dailyTemperatures: any[] | DayWeather[]
+}
+
+function DailyTemperaturesContainer({ dailyTemperatures }: DailyTemperaturesProps){
+  let [baseYear, baseNumberMonth, baseNumberDay]: number[] = getCurrentDate()
+
+  const temperatures = dailyTemperatures.map((day: DayWeather) => {
     const dateToReturn = returnDate(baseYear, (baseNumberMonth - 1), baseNumberDay)
     baseNumberDay += 1
     
@@ -28,7 +34,7 @@ function getCurrentDate() {
   return [currentDate[4], (new Date().getMonth()) + 1, Number(currentDate[2])]
 }
 
-function returnDate(baseYear, baseMonth, day) {
+function returnDate(baseYear: number, baseMonth: number, day: number) {
   const date = new Date(baseYear, baseMonth, day)
 
   const dataActualDate = []
@@ -42,7 +48,7 @@ function returnDate(baseYear, baseMonth, day) {
   return `${translateDayName(dataActualDate[0])}, ${numberDay}/${month}/${dataActualDate[3]}`
 }
 
-function translateDayName(dayName) {
+function translateDayName(dayName: string) {
   const dayNames = {
     "Sun": "Domingo",
     "Mon": "Segunda",

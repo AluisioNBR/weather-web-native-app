@@ -1,11 +1,19 @@
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
 import { Pressable, View, Text, Modal } from 'react-native'
-import { MainTemperature } from './mainTemperature'
-import { CompostTemperatureDetails } from './compostTemperatureDetails'
+import { MainTemperature } from './MainTemperature'
+import { CompostTemperatureDetails } from './CompostTemperatureDetails'
 import { colors } from '../colors';
 
-function HourlyModal({ data, visible, setVisible }){
+import type { HourWeather}	 from '../../App'
+
+interface HourlyModalProps{
+	data: HourWeather;
+	visible: boolean;
+	setVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function HourlyModal({ data, visible, setVisible }: HourlyModalProps){
 	const [loaded] = useFonts({
 	   'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
@@ -47,8 +55,8 @@ function HourlyModal({ data, visible, setVisible }){
 
 					<MainTemperature
 						icon={data.icon}
-  						temperature={data.temp}
-  						feels_like={data.feels_like}
+						temperature={String(data.temp)}
+						feels_like={String(data.feels_like)}
 						description={data.description}
 					/>
 				

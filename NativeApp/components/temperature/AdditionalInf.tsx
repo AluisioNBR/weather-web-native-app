@@ -1,8 +1,13 @@
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { colors } from '../colors';
 
-function AdditionalInf(props) {
+interface AdditionalInfProps{
+  children: string;
+  value: string
+}
+
+function AdditionalInf(props: AdditionalInfProps) {
   const [loaded] = useFonts({
     'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
   })

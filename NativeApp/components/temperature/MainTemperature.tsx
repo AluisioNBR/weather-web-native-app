@@ -47,12 +47,19 @@ const styles = StyleSheet.create({
   }
 })
 
+interface MainTemperaruteProps{
+  icon: string;
+  temperature: string;
+  feels_like: string;
+  description: string
+}
+
 function MainTemperature({
   icon,
   temperature,
   feels_like,
   description
-}) {
+}: MainTemperaruteProps) {
   const [loaded] = useFonts({
     'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
   })

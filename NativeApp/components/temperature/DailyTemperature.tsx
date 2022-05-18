@@ -1,10 +1,13 @@
 import { Pressable, View, Text, Image } from 'react-native'
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
-import { DailyModal } from './dailyModal'
+import { DailyModal } from './DailyModal'
 import { colors } from '../colors';
 
-function DailyTemperature({ day, date }) {
+import type { DayWeather}	 from '../../App'
+interface DailyTemperatureProps{ day: DayWeather; date: string }
+
+function DailyTemperature({ day, date }: DailyTemperatureProps) {
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})

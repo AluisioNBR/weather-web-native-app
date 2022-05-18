@@ -1,6 +1,8 @@
 import { View, StyleSheet } from 'react-native';
-import { AdditionalInf } from './additionalInf'
+import { AdditionalInf } from './AdditionalInf'
 import { colors } from '../colors';
+
+import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../../App'; 
 
 const styles = StyleSheet.create({
   temperatureDetails: {
@@ -15,6 +17,13 @@ const styles = StyleSheet.create({
     padding: 4
   }
 })
+
+interface TemperatureDetails{
+  humidity: number;
+  uvi: number;
+  rain: NoRain | AmountOfRain;
+  snow: NoSnow | AmountOfSnow
+}
 
 function TemperatureDetails({
   humidity,

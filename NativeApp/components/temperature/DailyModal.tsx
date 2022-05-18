@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useFonts } from 'expo-font';
 import { Pressable, View, Text, Modal, Image } from 'react-native'
-import { CompostTemperatureDetails } from './compostTemperatureDetails'
+import { CompostTemperatureDetails } from './CompostTemperatureDetails'
 import { colors } from '../colors';
+
+import type { DayWeather}	 from '../../App'
 
 function selectTemp(instant) {
 	if(instant == 'Manhã')
@@ -15,7 +17,12 @@ function selectTemp(instant) {
 		return 'night'
 }
 
-function ModalInformations({ data, visible, setVisible, date }){
+interface ModalInformationsProps{
+	data: DayWeather;
+	date: string
+}
+
+function ModalInformations({ data, date }: ModalInformationsProps){
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
@@ -23,7 +30,7 @@ function ModalInformations({ data, visible, setVisible, date }){
 	const temps = ['Manhã', 'Dia', 'Tarde', 'Noite'].map((instant) => {
 		let temp = selectTemp(instant)
 		return (
-			<View style={{ marginRight: 12, marginLeft: 12 }}>
+			<View key={instant} style={{ marginRight: 12, marginLeft: 12 }}>
 				<Text style={{ color: colors.mainWhite, fontSize: 20, fontFamily: 'Poppins' }}>
 					{instant}
 				</Text>
@@ -68,7 +75,7 @@ function ModalInformations({ data, visible, setVisible, date }){
 					</Text>
 				</View>
 
-				<View style={{ flexDirection: 'row', textAlign: 'center' }}>
+				<View style={{ flexDirection: 'row' }}>
 					{temps}
 				</View>
 			</View>
@@ -80,7 +87,14 @@ function ModalInformations({ data, visible, setVisible, date }){
 	)
 }
 
-function DailyModal({ data, date, visible, setVisible }) {
+interface DailyModalProps{
+	data: DayWeather;
+	date: string;
+	visible: boolean;
+	setVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function DailyModal({ data, date, visible, setVisible }: DailyModalProps) {
 	const [loaded] = useFonts({
 	    'Poppins': require('../../assets/Poppins/Poppins-Regular.ttf'),
 	})
