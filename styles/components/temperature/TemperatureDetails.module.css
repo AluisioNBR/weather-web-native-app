@@ -1,0 +1,33 @@
+#temperatureDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 60vw;
+}
+@media (max-width: 950px) {
+  #temperatureDetails {
+    width: 90vw;
+  }
+}
+@media (max-width: 720px) {
+  #temperatureDetails {
+    flex-direction: column;
+    justify-content: start;
+    gap: 1rem;
+  }
+}
+
+.containerDetails {
+  width: 10rem;
+  height: 10rem;
+  padding: 1.5rem;
+  border-radius: 10%;
+  background-color: #555;
+  color: #fdfdfd;
+}
+
+.containerDetails h3 {
+  text-align: center;
+}
+
+/*# sourceMappingURL=TemperatureDetails.module.css.map */

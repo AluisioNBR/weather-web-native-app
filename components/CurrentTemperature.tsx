@@ -1,7 +1,10 @@
-import styles from "../styles/Home.module.css";
+import styles from "../styles/components/CurrentTemperature.module.css";
+
 import { MainTemperature } from './temperature/MainTemperature'
 import { TemperatureDetails } from './temperature/TemperatureDetails'
+
 import Image from "next/image"
+
 import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../pages/index'
 
 import PinImage from "../assets/pin-localization.png";

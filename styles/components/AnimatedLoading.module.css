@@ -1,0 +1,51 @@
+#AnimatedLoadingContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#AnimatedLoadingContainer p {
+  position: absolute;
+  z-index: 3;
+  color: #fdfdfd;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+#LoadingBar {
+  animation: loadingbar 1s infinite;
+}
+
+#LoadingBar #ColorizedBar {
+  background: linear-gradient(#bbb, #555);
+  width: 16.1rem;
+  height: 16.1rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#LoadingBar #ColorizedBar div {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 100%;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes loadingbar {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=AnimatedLoading.module.css.map */

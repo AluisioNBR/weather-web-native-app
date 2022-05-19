@@ -1,0 +1,39 @@
+@use '../../colors' as *
+
+#MainTemperatureContainer
+  display: flex
+  align-items: center
+  justify-content: center
+
+.MainTemperature
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+
+  width: 20rem
+
+  padding: 1.5rem
+  border-radius: 10%
+  
+  color: $main-white
+  text-align: center
+
+#currentTemperature, #weatherDescription
+  font-size: 1.25rem
+
+#currentTemperature, #weatherDescription
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+
+#currentTemperature
+  justify-content: center
+  flex-direction: row
+
+#currentTemperature span
+  font-size: 2rem
+
+#weatherDescription
+  font-size: 1.5rem

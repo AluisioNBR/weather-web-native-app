@@ -1,143 +1,14 @@
 .container {
-  padding: 0 2rem;
+  height: 100vh;
   background-color: #333;
 }
 
 .main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .8rem;
+  gap: 0.8rem;
 }
 
-#temperatureContainer{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-#formCity{
-  color: #fdfdfd;
-  font-size: 1.1rem;
-}
-
-@media(max-width: 720px){
-  #formCity{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-#formCity button, #formCity input{
-  font-size: 1.1rem;
-  padding: .5rem;
-}
-
-#MainTemperatureContainer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.MainTemperature{
-  justify-content: center;
-
-  width: 15rem;
-  height:  15rem;
-  padding: 1.5rem;
-  border-radius: 10%;
-  
-  background: linear-gradient(135deg, #0C42FF, #381FAD);
-  color: #fdfdfd;
-
-  text-align: center;
-}
-
-.MainTemperature:hover{
-  background: linear-gradient(135deg, #0932C2, #4E2BF2);
-}
-
-#localization{
-  display: flex;
-  align-items: center;
-}
-
-#local{
-  color: #fdfdfd;
-  text-align: center;
-}
-
-#currentTemperature, #weatherDescription{
-  font-size: 1.25rem;
-}
-
-.MainTemperature, #currentTemperature, #weatherDescription{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#currentTemperature{
-  justify-content: center;
-  flex-direction: row;
-}
-
-#currentTemperature span {
-  font-size: 2rem;
-}
-
-#weatherDescription{
-  font-size: 1.5rem;
-}
-
-#temperatureDetails{
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-
-  width: 60vw;
-}
-
-@media(max-width: 950px){
-  #temperatureDetails{
-    width: 90vw;
-  }
-}
-
-@media(max-width: 720px){
-  #temperatureDetails{
-    flex-direction: column;
-    justify-content: start;
-    gap: 1rem;
-  }
-}
-
-.containerDetails{
-  width: 10rem;
-  height: 10rem;
-
-  padding: 1.5rem;
-  border-radius: 10%;
-
-  background: linear-gradient(135deg, #F216AA, #B211F2);
-  color: #fdfdfd;
-}
-
-.containerDetails:hover{
-  background: linear-gradient(135deg, #B211F2, #F216AA);
-}
-
-.containerDetails h3{
-  text-align: center;
-}
-
-.categoryValue{
-  text-align: center;
-  font-weight: 400;
-}
+/*# sourceMappingURL=Home.module.css.map */

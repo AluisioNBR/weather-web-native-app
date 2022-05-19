@@ -1,4 +1,4 @@
-import styles from "../../styles/Home.module.css";
+import styles from "../../styles/components/temperature/TemperatureDetails.module.css";
 import { AdditionalInformations } from './AdditionalInformations'
 
 interface TemperatureDetailsProps{

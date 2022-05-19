@@ -2,7 +2,7 @@
   "expo": {
     "name": "Weather App",
     "slug": "weather-app",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "App simples para consumir os dados da API do Open Weather Map",
     "githubUrl": "https://github.com/AluisioNBR/weather-web-native-app",
     "orientation": "portrait",
@@ -20,14 +20,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "2.1.0",
+      "buildNumber": "2.1.1",
       "bundleIdentifier": "com.aluisionbr.weatherapp"
     },
     "android": {
       "package": "com.aluisionbr.weatherapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#071b37"
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
       "permissions": ["LOCATION"],
       "versionCode": 4

@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css";
+import styles from "../styles/components/CitySelection.module.css";
 import { useState } from "react";
 import axios from 'axios'
 
@@ -80,10 +80,12 @@ function CitySelection({
 
     setTemperatureVisibility(true);
   }
+
   function renderErr(msg: string){
     setMsgValue(msg);
     setTemperatureVisibility(false);
   }
+  
   function verifyResponse(information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError){
     if (information.cod === 200) renderInformations(information as FoundDataOfRequest)
     else {
@@ -91,6 +93,7 @@ function CitySelection({
       renderErr(informationToUse.msg)
     }
   }
+
   async function submitCityVerifyResponseAndRenderInformations(event: FormEvent<HTMLFormElement>, cityValue: string) {
     event.preventDefault()
     const information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError = await fetchWeatherInformation(cityValue);
