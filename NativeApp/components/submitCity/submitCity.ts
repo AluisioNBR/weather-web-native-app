@@ -60,7 +60,7 @@ async function fetchWeatherInformation(cityValue: string,
 	setLoadingWeather: React.Dispatch<React.SetStateAction<boolean>>):
 	Promise<FoundDataOfRequest | NotFoundDataOfRequest> {
 	try {
-		const data = await axios.get(`https://weather-webapp-seven.vercel.app/api/${cityValue}`, {
+		const data = await axios.get(`https://weather-webapp-tau.vercel.app/api/${cityValue}`, {
 			params: {
 				myApiSecret: process.env.MY_API_SECRET
 			}

@@ -1,8 +1,8 @@
 # Weather App
 
-App de clima simples para qualquer cidade/estado **brasileiro**, construído utilizando a API do __[Open Weather Map](https://openweathermap.org/)__
+App de clima simples para qualquer cidade **brasileira**, construído utilizando a API do __[Open Weather Map](https://openweathermap.org/)__
 
-__[Clique aqui para acessar a página web!](https://weather-webapp-seven.vercel.app/)__
+__[Clique aqui para acessar a página web!](https://weather-webapp-tau.vercel.app/)__
 
 ## Instalação Android
 
