@@ -26,7 +26,8 @@
     "android": {
       "package": "com.aluisionbr.weatherapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png"
+        "foregroundImage": "./assets/adaptive-icon.png",
+      	"backgroundColor": "#333"
       },
       "permissions": ["LOCATION"],
       "versionCode": 4
