@@ -37,12 +37,15 @@ function CurrentTemperature(props: CurrentTemperatureProps) {
         <MainTemperature
           icon={props.icon}
           temperature={props.temperature}
+          feels_like={props.feels_like}
           description={props.description}
         />
 
         <TemperatureDetails
-          feels_like={props.feels_like}
           humidity={props.humidity}
+          uvi={props.uvi}
+          rain={props.rain}
+          snow={props.snow}
         />
       </div>
     );

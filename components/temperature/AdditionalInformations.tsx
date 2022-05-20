@@ -5,14 +5,13 @@ interface AdditionalInformationsProps{
 
 function AdditionalInformations(props: AdditionalInformationsProps) {
   return (
-    <div>
-      <h3>{props.children}</h3>
-
-      <div style={{
-        textAlign: 'center',
-        fontWeight: 400
-      }}>{props.value}</div>
-    </div>
+    <p style={{
+      textAlign: 'center',
+      fontWeight: 400,
+      margin: 0
+    }}>
+      {props.children}: {props.value}
+    </p>
   );
 }
 
