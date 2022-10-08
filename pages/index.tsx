@@ -7,6 +7,7 @@ import styles from "../styles/Home.module.css";
 import { AnimatedLoading } from "../components/AnimatedLoading";
 import { CitySelection } from "../components/CitySelection";
 import { CurrentTemperature } from "../components/CurrentTemperature";
+import { HourlyTemperaturesContainer } from "../components/HourlyTemperaturesContainer"
 
 import type { Hourly, Daily } from '../components/api/formatGenericalData'
 import type { Dispatch, SetStateAction } from 'react'
@@ -119,7 +120,7 @@ function Home(props: APIProps) {
             name="description"
             content="App web simples para consumir os dados da API do Open Weather Map"
           />
-          <link rel="icon" href="../assets/favicon.png" />
+          <link rel="icon" href='/favicon.ico' />
         </Head>
 
         <main className={styles.main}>
@@ -157,6 +158,8 @@ function Home(props: APIProps) {
             visibility={temperatureVisibility}
             loadingWeather={loadingWeather}
           />
+
+          <HourlyTemperaturesContainer hourlyTemperatures={temperatureForHour}/>
         </main>
       </div>
     );

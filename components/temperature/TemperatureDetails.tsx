@@ -22,7 +22,7 @@ function TemperatureDetails({
       <div className={styles.containerDetails}>
         <div id={styles.temperatureDetails}>
           <AdditionalInformations value={`${humidity}%`}>
-            Humidade
+            Umidade
           </AdditionalInformations>
     
           <AdditionalInformations value={`${uvi}%`}>
@@ -58,7 +58,7 @@ function TemperatureDetails({
       <div className={styles.containerDetails}>
         <div id={styles.temperatureDetails}>
           <AdditionalInformations value={`${humidity}%`}>
-            Humidade
+            Umidade
           </AdditionalInformations>
 
           <AdditionalInformations value={`${uvi}%`}>
