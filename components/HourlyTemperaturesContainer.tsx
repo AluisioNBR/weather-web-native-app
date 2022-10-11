@@ -1,22 +1,27 @@
 import { HourlyTemperature } from './temperature/HourlyTemperature'
 
-import type { HourWeather } from '../pages/index'
+import type { HourWeather } from '../types/submitCity/weatherStateReducer.types'
+import type { HourlyTemperaturesProps } from '../types/HourlyTemperatures.types'
+import { Stack } from '@chakra-ui/react'
 
-interface HourlyTemperaturesProps{
-  hourlyTemperatures: any[] | HourWeather[]
-}
-
-function HourlyTemperaturesContainer({ hourlyTemperatures }: HourlyTemperaturesProps){
+function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
   let numberKey = 0
-  const temperatures = hourlyTemperatures.map((hour: HourWeather) => {
+  const temperatures = children.map((hour: HourWeather) => {
     numberKey += 1
-    return <HourlyTemperature key={`${hour.hour}=${numberKey}`} hour={hour}/>
+    return (
+      <HourlyTemperature key={`${hour.hour}=${numberKey}`}>{hour}</HourlyTemperature>
+    )
   })
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', overflow: 'auto' }}>
-      {temperatures}
-    </div>
-  )
+
+  if(children.length == 0)
+    return null
+  
+  else
+    return (
+      <Stack direction='row' align='center' overflow='scroll' w='600px'>
+        {temperatures}
+      </Stack>
+    )
 }
 
 export { HourlyTemperaturesContainer }

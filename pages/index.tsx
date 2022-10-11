@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useReducer, useCallback } from "react";
 import Head from "next/head";
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 
 import styles from "../styles/Home.module.css";
 
@@ -9,108 +9,49 @@ import { CitySelection } from "../components/CitySelection";
 import { CurrentTemperature } from "../components/CurrentTemperature";
 import { HourlyTemperaturesContainer } from "../components/HourlyTemperaturesContainer"
 
-import type { Hourly, Daily } from '../components/api/formatGenericalData'
-import type { Dispatch, SetStateAction } from 'react'
-
-interface APIProps{
-  myApiSecret: string;
-}
-
-interface NoRain{ rainy: string }
-
-interface AmountOfRain{ rainy: string, rain: number }
-
-interface NoSnow{ snowed: string }
-
-interface AmountOfSnow{ snowed: string, snow: number }
-
-interface CurrentWeather{
-  temp: number;
-  feels_like: number;
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  rain: NoRain | AmountOfRain;
-  snow: NoSnow | AmountOfSnow
-;
-}
-
-interface HourWeather{
-  hour: string;
-  temp: number;
-  feels_like: number;
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  pop: number;
-  rain: NoRain | AmountOfRain;
-  snow: NoSnow | AmountOfSnow
-}
-
-interface DayWeather{
-  moon_phase: string;
-  temp: {
-      morn: number;
-      day: number;
-      eve: number;
-      night: number;
-      min: number;
-      max: number;
-  };
-  feels_like: {
-      morn: number;
-      day: number;
-      eve: number;
-      night: number;
-  };
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  pop: number;
-  rain: NoRain | AmountOfRain;
-  snow: NoSnow | AmountOfSnow;
-}
+import { weatherInitialValue, weatherReducer } from '../components/submitCity/weatherStateReducer'
+import type { APIProps, CurrentWeather, HourWeather, DayWeather } from  '../types/submitCity/weatherStateReducer.types'
 
 function Home(props: APIProps) {
-  const [temperatureVisibility, setTemperatureVisibility] = useState(false);
+  const [weatherState, weatherDispatch] = useReducer(
+    weatherReducer,
+    weatherInitialValue
+  )
+
+  const setLocalization = useCallback(
+    (city: string, state: string) => {
+      weatherDispatch({ type: 'city', value: city })
+      weatherDispatch({ type: 'state', value: state })
+    }, []
+  )
+
+  const setCurrentWeather = useCallback(
+    (currentWeather: CurrentWeather) => {
+      weatherDispatch({ type: 'currentWeather', value: currentWeather })
+    }, []
+  )
+
+  const setHourlyWeather = useCallback(
+    (hourlyWeather: HourWeather[]) => {
+      weatherDispatch({ type: 'hourlyWeather', value: hourlyWeather })
+    }, []
+  )
+
+  const setDailyWeather = useCallback(
+    (dailyWeather: DayWeather[]) => {
+      weatherDispatch({ type: 'dailyWeather', value: dailyWeather })
+    }, []
+  )
+  
+  const [temperatureVisibility, setTemperatureVisibility] = useState(false)
   const [loadingWeather, setLoadingWeather] = useState(false)
-
-  const [cityName, setCityName] = useState("undefined");
-  const [state, setState] = useState("undefined");
-
-  const [currentWeatherIcon, setCurrentWeatherIcon] = useState("undefined.png");
-  const [currentTemperatureValue, setCurrentTemperatureValue] = useState(30);
-  const [currentWeatherDescription, setCurrentWeatherDescription] = useState("undefined");
-  const [currentFeels_likeValue, setCurrentFeels_likeValue] = useState(30);
-  const [currentHumidityValue, setCurrentHumidityValue] = useState(0);
-  const [currentUviValue, setCurrentUviValue] = useState(0)
-  const [amountOfRain, setAmountOfRain]: [
-    NoRain | AmountOfRain,
-    Dispatch<SetStateAction<NoRain | AmountOfRain>>
-  ] = useState({ rainy: 'no-rain' })
-  const [amountOfSnow, setAmountOfSnow]: [
-    NoSnow | AmountOfSnow,
-    Dispatch<SetStateAction<NoSnow | AmountOfSnow>>
-  ] = useState({ snowed: 'no-snow' })
-
-  const [temperatureForHour, setTemperatureForHour]: [
-    never[] | Hourly,
-    Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>
-  ] = useState([])
-  const [temperatureForDay, setTemperatureForDay]: [
-    never[] | Daily,
-    Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>
-  ] = useState([])
-
   const [msgValue, setMsgValue] = useState(
     "Informe sua cidade para começarmos!"
-  );
+  )
 
   if(loadingWeather)
     return <AnimatedLoading/>
+
   else
     return (
       <div className={styles.container}>
@@ -129,45 +70,36 @@ function Home(props: APIProps) {
             setMsgValue={setMsgValue}
             setTemperatureVisibility={setTemperatureVisibility}
             setLoadingWeather={setLoadingWeather}
-            setCityName={setCityName}
-            setState={setState}
-            setCurrentTemperatureValue={setCurrentTemperatureValue}
-            setCurrentWeatherDescription={setCurrentWeatherDescription}
-            setCurrentWeatherIcon={setCurrentWeatherIcon}
-            setCurrentFeels_likeValue={setCurrentFeels_likeValue}
-            setCurrentHumidityValue={setCurrentHumidityValue}
-            setCurrentUviValue={setCurrentUviValue}
-            setAmountOfRain={setAmountOfRain}
-            setAmountOfSnow={setAmountOfSnow}
-            setTemperatureForHour={setTemperatureForHour}
-            setTemperatureForDay={setTemperatureForDay}
+            setLocalization={setLocalization}
+            setCurrentWeather={setCurrentWeather}
+            setHourlyWeather={setHourlyWeather}
+            setDailyWeather={setDailyWeather}
           />
 
-          <CurrentTemperature
-            msg={msgValue}
-            city={cityName}
-            state={state}
-            icon={currentWeatherIcon}
-            temperature={currentTemperatureValue}
-            description={currentWeatherDescription}
-            feels_like={currentFeels_likeValue}
-            humidity={currentHumidityValue}
-            uvi={currentUviValue}
-            rain={amountOfRain}
-            snow={amountOfSnow}
-            visibility={temperatureVisibility}
-            loadingWeather={loadingWeather}
-          />
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-evenly'
+          }}>
+            <CurrentTemperature
+              msg={msgValue} visibility={temperatureVisibility}
+              loadingWeather={loadingWeather}
 
-          <HourlyTemperaturesContainer hourlyTemperatures={temperatureForHour}/>
+              city={weatherState.city} state={weatherState.state}
+            >
+              {weatherState.currentWeather}
+            </CurrentTemperature>
+
+            <HourlyTemperaturesContainer>
+              {weatherState.hourlyWeather}
+            </HourlyTemperaturesContainer>
+          </div>
         </main>
       </div>
     );
 }
 
 export default Home;
-
-export type { NoRain, NoSnow, AmountOfRain, AmountOfSnow, CurrentWeather, HourWeather, DayWeather }
 
 export const getStaticProps: GetStaticProps = async() => {
   return {

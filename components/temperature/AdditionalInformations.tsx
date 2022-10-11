@@ -1,7 +1,4 @@
-interface AdditionalInformationsProps{
-  children: string;
-  value: string
-}
+import type { AdditionalInformationsProps } from '../../types/temperature/AdditionalInformations.types'
 
 function AdditionalInformations(props: AdditionalInformationsProps) {
   return (

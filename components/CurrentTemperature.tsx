@@ -1,70 +1,54 @@
-import styles from "../styles/components/CurrentTemperature.module.css";
+import { AppColors } from "../styles/AppColors";
 
 import { MainTemperature } from './temperature/MainTemperature'
 import { TemperatureDetails } from './temperature/TemperatureDetails'
 
 import Image from "next/image"
-
-import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../pages/index'
-
 import PinImage from "../assets/pin-localization.png";
 
-interface CurrentTemperatureProps{
-  msg: string,
-  city: string,
-  state: string,
-  icon: string,
-  temperature: number,
-  description: string,
-  feels_like: number,
-  humidity: number,
-  uvi: number,
-  rain: NoRain | AmountOfRain,
-  snow: NoSnow | AmountOfSnow,
-  visibility: boolean,
-  loadingWeather: boolean
-}
+import { Heading, Stack } from "@chakra-ui/react";
 
-function CurrentTemperature(props: CurrentTemperatureProps) {
+import type { CurrentTemperatureProps, LocalizationProps } from '../types/CurrentTemperature.types'
+
+export function CurrentTemperature(props: CurrentTemperatureProps) {
   if (props.visibility)
     return (
-      <div id={styles.temperatureContainer}>
+      <Stack align='center' justify='center'>
         <Localization
           city={props.city}
           state={props.state}
         />
 
         <MainTemperature
-          icon={props.icon}
-          temperature={props.temperature}
-          feels_like={props.feels_like}
-          description={props.description}
+          icon={props.children.icon}
+          temperature={props.children.temp}
+          feels_like={props.children.feels_like}
+          description={props.children.description}
         />
 
         <TemperatureDetails
-          humidity={props.humidity}
-          uvi={props.uvi}
-          rain={props.rain}
-          snow={props.snow}
+          humidity={props.children.humidity}
+          uvi={props.children.uvi}
+          rain={props.children.rain}
+          snow={props.children.snow}
         />
-      </div>
+      </Stack>
     );
   else
     return (
-      <div>
-        <h2 className={styles.MainTemperature}>{props.msg}</h2>
-      </div>
-    );
+      <Heading
+        as='h2' fontSize='1.8rem'
+        color={AppColors.MainWhite} textAlign='center'
+      >
+        {props.msg}
+      </Heading>
+    )
 }
 
-interface LocalizationProps{
-  city: string,
-  state: string
-}
-
-function Localization({ city, state }: LocalizationProps) {
+function Localization(props: LocalizationProps) {
+  const { city, state } = props
   return(
-    <div id={styles.localization}>
+    <Stack direction='row' align='center'>
       <Image
         width='32'
         height='32'
@@ -72,11 +56,9 @@ function Localization({ city, state }: LocalizationProps) {
         alt='Pin de Localização'
       />
       
-      <h2 id={styles.local}>
+      <Heading as='h2' fontSize='1.8rem' color={AppColors.MainWhite} textAlign='center'>
         {city}, {state}
-      </h2>
-    </div>
+      </Heading>
+    </Stack>
   )
 }
-
-export { CurrentTemperature };

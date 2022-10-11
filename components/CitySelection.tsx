@@ -1,125 +1,71 @@
-import styles from "../styles/components/CitySelection.module.css";
-import { useState } from "react";
-import axios from 'axios'
+import { useState, useCallback } from "react";
+import {
+  Stack,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  useMediaQuery
+} from '@chakra-ui/react'
 
-import type { Dispatch, SetStateAction, FormEvent } from 'react'
-import type { FoundDataOfRequest, NotFoundDataOfRequest } from '../pages/api/[city]'
-import type { Hourly, Daily } from './api/formatGenericalData'
-import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../pages/index'
+import type { FormEvent, ChangeEvent } from 'react'
 
-interface CitySelectionProps {
-  myApiSecret: string,
-  setMsgValue: Dispatch<SetStateAction<string>>,
-  setTemperatureVisibility: Dispatch<SetStateAction<boolean>>,
-  setLoadingWeather: Dispatch<SetStateAction<boolean>>,
-  setCityName: Dispatch<SetStateAction<string>>,
-  setState: Dispatch<SetStateAction<string>>,
-  setCurrentTemperatureValue: Dispatch<SetStateAction<number>>,
-  setCurrentWeatherDescription: Dispatch<SetStateAction<string>>,
-  setCurrentWeatherIcon: Dispatch<SetStateAction<string>>,
-  setCurrentFeels_likeValue: Dispatch<SetStateAction<number>>,
-  setCurrentHumidityValue: Dispatch<SetStateAction<number>>,
-  setCurrentUviValue: Dispatch<SetStateAction<number>>,
-  setAmountOfRain: Dispatch<SetStateAction<NoRain | AmountOfRain>>,
-  setAmountOfSnow: Dispatch<SetStateAction<NoSnow | AmountOfSnow>>,
-  setTemperatureForHour: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Hourly>>,
-  setTemperatureForDay: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<Daily>>
-}
+import { CitySelectionProps } from '../types/CitySelection.types'
+import { submitCity } from "./submitCity/submitCity";
+import { AppColors } from "../styles/AppColors";
 
-interface ServerError{
-  cod: number,
-  msg: string
-}
-
-function CitySelection({
-  myApiSecret,
-  setMsgValue,
-  setTemperatureVisibility,
-  setLoadingWeather,
-  setCityName,
-  setState,
-  setCurrentTemperatureValue,
-  setCurrentWeatherDescription,
-  setCurrentWeatherIcon,
-  setCurrentFeels_likeValue,
-  setCurrentHumidityValue,
-  setCurrentUviValue,
-  setAmountOfRain,
-  setAmountOfSnow,
-  setTemperatureForHour,
-  setTemperatureForDay
-}: CitySelectionProps) {
-  const [cityValue, setCityValue] = useState("");
-
-  async function fetchWeatherInformation(cityValue: string) {
-    try {
-      const data = await axios.get(`/api/${cityValue}`, {
-        params: {
-          myApiSecret: myApiSecret
-        }
-      })
-      return await data.data
-    } catch (error) {
-      return {
-        cod: 502,
-        msg: "Ocorreu um problema com a conexão com o servidor. Tente novamente mais tarde!"
-      }
-    }
-  }
-  function renderInformations(information: FoundDataOfRequest){
-    setCityName(information.city);
-    setState(information.state);
-    setCurrentWeatherIcon(information.current.icon);
-    setCurrentTemperatureValue(information.current.temp);
-    setCurrentWeatherDescription(information.current.description);
-    setCurrentFeels_likeValue(information.current.feels_like);
-    setCurrentHumidityValue(information.current.humidity);
-    setCurrentUviValue(information.current.uvi)
-    setAmountOfRain(information.current.rain)
-    setAmountOfSnow(information.current.snow)
-
-    setTemperatureVisibility(true);
-  }
-
-  function renderErr(msg: string){
-    setMsgValue(msg);
-    setTemperatureVisibility(false);
-  }
+export function CitySelection(props: CitySelectionProps) {
+  const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
+  const [cityValue, setCityValue] = useState("")
   
-  function verifyResponse(information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError){
-    if (information.cod === 200) renderInformations(information as FoundDataOfRequest)
-    else {
-      const informationToUse = information as ServerError
-      renderErr(informationToUse.msg)
-    }
-  }
-
-  async function submitCityVerifyResponseAndRenderInformations(event: FormEvent<HTMLFormElement>, cityValue: string) {
+  const submitCallback = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault()
-    const information: FoundDataOfRequest | NotFoundDataOfRequest | ServerError = await fetchWeatherInformation(cityValue);
-    verifyResponse(information)
+    submitCity({ cityValue, setCityValue, citySelectionProps: props })
   }
+  const onCityValueChange = useCallback( (event: ChangeEvent<HTMLInputElement>) => setCityValue(event.target.value), [])
 
   return (
-    <div>
-      <form
-        onSubmit={(event) => {
-          setCityValue("")
-          submitCityVerifyResponseAndRenderInformations(event, cityValue)
-        }}
-        id={styles.formCity}
+    <FormControl as='form' onSubmit={submitCallback}>
+      <FormLabel
+        htmlFor='city-input' color={AppColors.MainWhite}
+        textAlign='center' fontFamily='Poppins' fontSize='1.5rem'
       >
-        <label htmlFor="nameInput">Informe sua cidade:</label><br/>
-        <input
-          name="nameInput"
-          required
-          defaultValue={cityValue}
-          onChange={(event) => setCityValue(event.target.value)}
+        Informe sua cidade:
+      </FormLabel>
+
+      <Stack
+        direction={isLowerThan720 ? 'column': 'row'}
+        align='center' justify='center'
+      >
+        <Input
+          name='city-input' type='text' required={true}
+          defaultValue={cityValue} onChange={onCityValueChange}
+
+          fontFamily='Poppins' fontSize='1.1rem' p='0.5'
+          bgColor={AppColors.MainWhite} w={isLowerThan720 ? '15rem': '30rem'}
         />
-        <button>Selecionar</button>
-      </form>
-    </div>
+
+        <Button
+          as='button' variant='solid' p='0.5' bgColor={AppColors.Black2}
+          fontFamily='Poppins' fontSize='1.1rem' color={AppColors.MainWhite}
+          className='submitButton' _hover={{ backgroundColor: AppColors.Black3 }}
+        >
+          Selecionar
+        </Button>
+      </Stack>
+    </FormControl>
+    
   );
 }
 
-export { CitySelection };
+/*
+<form onSubmit={submitCallback} id={styles.formCity}>
+      <label htmlFor="nameInput">Informe sua cidade:</label><br/>
+
+      <input name="nameInput" required defaultValue={cityValue}
+        onChange={onCityValueChange}
+      />
+
+      <button>Selecionar</button>
+    </form>
+*/

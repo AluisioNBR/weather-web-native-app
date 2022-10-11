@@ -5,8 +5,8 @@ import {
 } from '../../components/api/dataFormatation'
 import { returnGeocodingLocalization, returnWeatherData } from '../../components/api/dataReqs'
 import type { Local, CityFound, DataToUse, DataFailed } from '../../components/api/dataReqs'
-import type { FormatCurrentWeather, FormatCurrentHourWeather, FormatCurrentDayWeather } from '../../components/api/dataFormatation'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import type { FoundDataOfRequest, NotFoundDataOfRequest } from '../../types/submitCity/data.types'
 
 export default async function returnData(req: NextApiRequest, res: NextApiResponse) {
   if(req.query.myApiSecret === process.env.MY_API_SECRET)
@@ -44,15 +44,6 @@ function verifyApiData(data: DataToUse | DataFailed){
   return ifNotFound ? notFoundDataOfRequest(): foundDataOfRequest(data as DataToUse)
 }
 
-interface FoundDataOfRequest{
-  cod: number;
-  city: string;
-  state: string;
-  current: FormatCurrentWeather;
-  hourly: FormatCurrentHourWeather[];
-  daily: FormatCurrentDayWeather[];
-}
-
 function foundDataOfRequest(data: DataToUse): FoundDataOfRequest{
   return {
     cod: 200,
@@ -64,16 +55,9 @@ function foundDataOfRequest(data: DataToUse): FoundDataOfRequest{
   }
 }
 
-interface NotFoundDataOfRequest{
-  cod: number;
-  msg: string
-}
-
 function notFoundDataOfRequest(): NotFoundDataOfRequest{
   return {
     cod: 404,
     msg: "Cidade não encontrada! Tente outra cidade!"
   }
 }
-
-export type { FoundDataOfRequest, NotFoundDataOfRequest }

@@ -1,72 +1,65 @@
-import styles from "../../styles/components/temperature/TemperatureDetails.module.css";
 import { AdditionalInformations } from './AdditionalInformations'
 
-import type { NoRain, AmountOfRain, NoSnow, AmountOfSnow } from '../../pages/index'
+import type { Rain, Snow } from '../../types/submitCity/weatherStateReducer.types'
+import type * as TemperatureDetailsTypes from '../../types/temperature/TemperatureDetails.types'
 
-interface TemperatureDetailsProps{
-  uvi: number;
-  humidity: number;
-  rain: NoRain | AmountOfRain;
-  snow: NoSnow | AmountOfSnow
+import { Stack } from "@chakra-ui/react";
+import { AppColors } from "../../styles/AppColors";
+
+export function TemperatureDetails(props: TemperatureDetailsTypes.TemperatureDetailsProps) {
+  if(props.rain.rainy === "rain"){
+    const rain = props.rain as Rain
+    return (
+      <DetailsOnPreciptation
+        humidity={props.humidity} uvi={props.uvi}
+        pop={rain.rain}
+      >
+        Chuva
+      </DetailsOnPreciptation>
+    )
+  }
+  else if(props.snow.snowed === "snow"){
+    const snow = props.snow as Snow
+    return (
+      <DetailsOnPreciptation 
+        humidity={props.humidity} uvi={props.uvi}
+        pop={snow.snow}
+      >
+        Neve
+      </DetailsOnPreciptation>
+    )
+  }
+  else
+    return <Details humidity={props.humidity} uvi={props.uvi} />
 }
 
-function TemperatureDetails({
-  uvi,
-  humidity,
-  rain,
-  snow
-}: TemperatureDetailsProps) {
-  if(rain.rainy === "rain"){
-    const rainYes = rain as AmountOfRain
-    return (
-      <div className={styles.containerDetails}>
-        <div id={styles.temperatureDetails}>
-          <AdditionalInformations value={`${humidity}%`}>
-            Umidade
-          </AdditionalInformations>
-    
-          <AdditionalInformations value={`${uvi}%`}>
-            Índice UV
-          </AdditionalInformations>
-        </div>
-        
-        <AdditionalInformations value={`${rainYes.rain}mm`}>Chuva</AdditionalInformations>
-      </div>
-      
-    )}
-  else if(snow.snowed === "snow"){
-    const snowYes = snow as AmountOfSnow
-    return (
-      <div className={styles.containerDetails}>
-        <div id={styles.temperatureDetails}>
-          <AdditionalInformations value={`${humidity}%`}>
-            Humidade
-          </AdditionalInformations>
-    
-          <AdditionalInformations value={`${uvi}%`}>
-            Índice UV
-          </AdditionalInformations>
-
-          <div style={{ alignItems: 'center' }}>
-            <AdditionalInformations value={`${snowYes.snow}mm`}>Neve</AdditionalInformations>
-          </div>
-        </div>
-      </div>
-    )}
-  else
-    return (
-      <div className={styles.containerDetails}>
-        <div id={styles.temperatureDetails}>
-          <AdditionalInformations value={`${humidity}%`}>
-            Umidade
-          </AdditionalInformations>
-
-          <AdditionalInformations value={`${uvi}%`}>
-            Índice UV
-          </AdditionalInformations>
-        </div>
-      </div>
+function DetailsOnPreciptation(props:  TemperatureDetailsTypes.DetailsOnPreciptationProps) {
+  return (
+    <Details humidity={props.humidity} uvi={props.uvi}>
+        <Stack align='center'>
+          <AdditionalInformations value={`${props.pop}mm`}>{props.children}</AdditionalInformations>
+        </Stack>
+    </Details>
     )
 }
 
-export { TemperatureDetails }
+function Details(props: TemperatureDetailsTypes.DetailsProps) {
+  return (
+    <Stack
+      direction='column' align='center' justify='center'
+      p='1rem' borderRadius='25%' bg={AppColors.Black1}
+      color={AppColors.MainWhite} w='25vw' h='4rem'
+    >
+      <Stack direction='row' align='center' justify='space-between' w='100%'>
+        <AdditionalInformations value={`${props.humidity}%`}>
+          Umidade
+        </AdditionalInformations>
+        <AdditionalInformations value={`${props.uvi}%`}>
+          Índice UV
+        </AdditionalInformations>
+      </Stack>
+
+      {props.children == undefined ? null: props.children}
+    </Stack>
+  )
+}

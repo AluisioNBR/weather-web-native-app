@@ -1,18 +1,8 @@
 import { formatMoonPhase, formatTemperature, ifRainy, ifSnowed } from './formatGenericalData'
-import type { Current, Hour, Hourly, Day, Daily, NoRain, NoSnow, Rain, Snow } from './formatGenericalData'
+import type { Current, Hour, Hourly, Day, Daily } from './formatGenericalData'
+import type { CurrentWeather, HourWeather, DayWeather } from '../../types/submitCity/weatherStateReducer.types'
 
-interface FormatCurrentWeather{
-  temp: number;
-  feels_like: number;
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  rain: NoRain | Rain;
-  snow: NoSnow | Snow;
-}
-
-function formatCurrentWeather(data: Current): FormatCurrentWeather{
+function formatCurrentWeather(data: Current): CurrentWeather{
   return {
     temp: formatTemperature(data.temp),
     feels_like: formatTemperature(data.feels_like),
@@ -37,20 +27,7 @@ function formatHourWeather(data: Hourly){
   return weatherHourly
 }
 
-interface FormatCurrentHourWeather{
-  hour: string;
-  temp: number;
-  feels_like: number;
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  pop: number;
-  rain: NoRain | Rain;
-  snow: NoSnow | Snow
-}
-
-function formatCurrentHourWeather(data: Hour, hour: number): FormatCurrentHourWeather{
+function formatCurrentHourWeather(data: Hour, hour: number): HourWeather{
   return {
     hour: hour > 9 ? `${hour}:00`: `0${hour}:00`,
     temp: formatTemperature(data.temp),
@@ -74,32 +51,7 @@ function formatDayWeather(data: Daily){
   return weatherDaily
 }
 
-interface FormatCurrentDayWeather{
-  moon_phase: string;
-  temp: {
-      morn: number;
-      day: number;
-      eve: number;
-      night: number;
-      min: number;
-      max: number;
-  };
-  feels_like: {
-      morn: number;
-      day: number;
-      eve: number;
-      night: number;
-  };
-  uvi: number;
-  humidity: number;
-  description: string;
-  icon: string;
-  pop: number;
-  rain: NoRain | Rain;
-  snow: NoSnow | Snow;
-}
-
-function formatCurrentDayWeather(data: Day): FormatCurrentDayWeather{
+function formatCurrentDayWeather(data: Day): DayWeather{
   return {
     moon_phase: formatMoonPhase(data.moon_phase),
     temp: {
@@ -127,4 +79,3 @@ function formatCurrentDayWeather(data: Day): FormatCurrentDayWeather{
 }
 
 export { formatCurrentWeather, formatHourWeather, formatDayWeather }
-export type { FormatCurrentWeather, FormatCurrentHourWeather, FormatCurrentDayWeather }
