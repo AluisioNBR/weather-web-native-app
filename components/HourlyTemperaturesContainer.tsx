@@ -1,4 +1,4 @@
-import { HourlyTemperature } from './temperature/HourlyTemperature'
+import { HourlyTemperature } from './temperature/HourTemperature'
 
 import type { HourWeather } from '../types/submitCity/weatherStateReducer.types'
 import type { HourlyTemperaturesProps } from '../types/HourlyTemperatures.types'

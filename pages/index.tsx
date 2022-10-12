@@ -12,7 +12,12 @@ import { HourlyTemperaturesContainer } from "../components/HourlyTemperaturesCon
 import { weatherInitialValue, weatherReducer } from '../components/submitCity/weatherStateReducer'
 import type { APIProps, CurrentWeather, HourWeather, DayWeather } from  '../types/submitCity/weatherStateReducer.types'
 
+import { Box, Stack, useMediaQuery } from "@chakra-ui/react";
+import { AppColors } from "../styles/AppColors";
+
 function Home(props: APIProps) {
+  const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
+
   const [weatherState, weatherDispatch] = useReducer(
     weatherReducer,
     weatherInitialValue
@@ -54,7 +59,7 @@ function Home(props: APIProps) {
 
   else
     return (
-      <div className={styles.container}>
+      <Box h='100vh' bg={AppColors.MainBlack}>
         <Head>
           <title>Weather Web App</title>
           <meta
@@ -64,7 +69,7 @@ function Home(props: APIProps) {
           <link rel="icon" href='/favicon.ico' />
         </Head>
 
-        <main className={styles.main}>
+        <Stack as='main' align='center' gap='0.8rem' p='1rem 0'>
           <CitySelection
             myApiSecret={props.myApiSecret}
             setMsgValue={setMsgValue}
@@ -76,11 +81,7 @@ function Home(props: APIProps) {
             setDailyWeather={setDailyWeather}
           />
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
-          }}>
+          <Stack direction={isLowerThan720 ? 'column': 'row'} align='center' justify='space-evenly'>
             <CurrentTemperature
               msg={msgValue} visibility={temperatureVisibility}
               loadingWeather={loadingWeather}
@@ -93,9 +94,9 @@ function Home(props: APIProps) {
             <HourlyTemperaturesContainer>
               {weatherState.hourlyWeather}
             </HourlyTemperaturesContainer>
-          </div>
-        </main>
-      </div>
+          </Stack>
+        </Stack>
+      </Box>
     );
 }
 
