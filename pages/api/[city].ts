@@ -4,7 +4,7 @@ import {
   formatDayWeather
 } from '../../components/api/dataFormatation'
 import { returnGeocodingLocalization, returnWeatherData } from '../../components/api/dataReqs'
-import type { Local, CityFound, DataToUse, DataFailed } from '../../components/api/dataReqs'
+import type { Local, CityFound, DataToUse, DataFailed } from '../../types/api/dataReqs.types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { FoundDataOfRequest, NotFoundDataOfRequest } from '../../types/submitCity/data.types'
 
