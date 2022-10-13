@@ -91,7 +91,7 @@ function Home(props: APIProps) {
               {weatherState.currentWeather}
             </CurrentTemperature>
 
-            <HourlyTemperaturesContainer>
+            <HourlyTemperaturesContainer visibility={temperatureVisibility}>
               {weatherState.hourlyWeather}
             </HourlyTemperaturesContainer>
           </Stack>

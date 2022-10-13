@@ -22,7 +22,13 @@ export async function submitCity(params: submitCityParams) {
 		myApiSecret: params.citySelectionProps.myApiSecret
 	})
 
-	verifyResponse({ information, citySelectionProps: params.citySelectionProps })
+	verifyResponse({
+		information,
+		citySelectionProps: params.citySelectionProps,
+		setAlertStatus: params.setAlertStatus,
+		setAlertTitle: params.setAlertTitle,
+		setAlertIsOpen: params.setAlertIsOpen
+	})
 	params.setCityValue("")
 }
 
@@ -50,16 +56,23 @@ Promise<FetchWeatherInformationReturn> {
 }
 
 function verifyResponse(params: VerifyResponseParams){
-	if (params.information.cod === 200)
+	if (params.information.cod === 200){
+		params.setAlertStatus('success')
+		params.setAlertTitle('Cidade encontrada!')
 	  renderInformations(
 			params.information as FoundDataOfRequest,
 			params.citySelectionProps
 		)
-	else{
+	}
+	else {
+		params.setAlertStatus('error')
+		params.setAlertTitle('Cidade não encontrada!')
 		const informationFailed = params.information as NotFoundDataOfRequest
 	  renderErr(
 			informationFailed.msg,
 			params.citySelectionProps
 		)
 	}
+
+	setTimeout(() => params.setAlertIsOpen(false), 5000)
 }

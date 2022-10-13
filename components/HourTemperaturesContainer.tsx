@@ -4,7 +4,7 @@ import type { HourWeather } from '../types/submitCity/weatherStateReducer.types'
 import type { HourlyTemperaturesProps } from '../types/HourlyTemperatures.types'
 import { Stack, useMediaQuery } from '@chakra-ui/react'
 
-function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
+function HourlyTemperaturesContainer({ visibility, children }: HourlyTemperaturesProps){
   const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
 
   let numberKey = 0
@@ -15,12 +15,12 @@ function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
     )
   })
 
-  if(children.length == 0)
+  if((!visibility) || children.length == 0)
     return null
   
   else
     return (
-      <Stack direction='row' align='center' overflow='scroll' w={isLowerThan720 ? '28rem': '36rem'}>
+      <Stack direction='row' align='center' overflow='scroll' w={isLowerThan720 ? '24rem': '36rem'}>
         {temperatures}
       </Stack>
     )
