@@ -7,7 +7,7 @@ import styles from "../styles/Home.module.css";
 import { AnimatedLoading } from "../components/AnimatedLoading";
 import { CitySelection } from "../components/CitySelection";
 import { CurrentTemperature } from "../components/CurrentTemperature";
-import { HourlyTemperaturesContainer } from "../components/HourlyTemperaturesContainer"
+import { HourlyTemperaturesContainer } from "../components/HourTemperaturesContainer"
 
 import { weatherInitialValue, weatherReducer } from '../components/submitCity/weatherStateReducer'
 import type { APIProps, CurrentWeather, HourWeather, DayWeather } from  '../types/submitCity/weatherStateReducer.types'

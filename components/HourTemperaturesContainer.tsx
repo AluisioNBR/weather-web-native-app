@@ -2,9 +2,11 @@ import { HourlyTemperature } from './temperature/HourTemperature'
 
 import type { HourWeather } from '../types/submitCity/weatherStateReducer.types'
 import type { HourlyTemperaturesProps } from '../types/HourlyTemperatures.types'
-import { Stack } from '@chakra-ui/react'
+import { Stack, useMediaQuery } from '@chakra-ui/react'
 
 function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
+  const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
+
   let numberKey = 0
   const temperatures = children.map((hour: HourWeather) => {
     numberKey += 1
@@ -18,7 +20,7 @@ function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
   
   else
     return (
-      <Stack direction='row' align='center' overflow='scroll' w='36rem'>
+      <Stack direction='row' align='center' overflow='scroll' w={isLowerThan720 ? '28rem': '36rem'}>
         {temperatures}
       </Stack>
     )
