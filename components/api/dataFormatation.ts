@@ -1,5 +1,5 @@
 import { formatMoonPhase, formatTemperature, ifRainy, ifSnowed } from './formatGenericalData'
-import type { Current, Hour, Hourly, Day, Daily } from './formatGenericalData'
+import type { Current, Hour, Hourly, Day, Daily } from '../../types/api/formatGenericalData.types'
 import type { CurrentWeather, HourWeather, DayWeather } from '../../types/submitCity/weatherStateReducer.types'
 
 function formatCurrentWeather(data: Current): CurrentWeather{
