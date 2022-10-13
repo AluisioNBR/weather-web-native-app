@@ -18,7 +18,7 @@ export function CitySelection(props: CitySelectionProps) {
   const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
   const [cityValue, setCityValue] = useState("")
   
-  const submitCallback = async (event: FormEvent<HTMLDivElement>) => {
+  const submitCallback = async (event: FormEvent<HTMLDivElement> | MouseEventHandler<HTMLButtonElement>) => {
     event.preventDefault()
     submitCity({ cityValue, setCityValue, citySelectionProps: props })
   }
