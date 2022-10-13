@@ -18,7 +18,7 @@ function HourlyTemperaturesContainer({ children }: HourlyTemperaturesProps){
   
   else
     return (
-      <Stack direction='row' align='center' overflow='scroll' w='600px'>
+      <Stack direction='row' align='center' overflow='scroll' w='36rem'>
         {temperatures}
       </Stack>
     )

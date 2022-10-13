@@ -59,7 +59,7 @@ function Home(props: APIProps) {
 
   else
     return (
-      <Box h='100vh' bg={AppColors.MainBlack}>
+      <Box h='100vh' bg={AppColors.MainBlack} overflow='auto'>
         <Head>
           <title>Weather Web App</title>
           <meta

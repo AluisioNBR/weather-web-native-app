@@ -42,13 +42,14 @@ export function CitySelection(props: CitySelectionProps) {
           defaultValue={cityValue} onChange={onCityValueChange}
 
           fontFamily='Poppins' fontSize='1.1rem' p='0.5'
-          bgColor={AppColors.MainWhite} w={isLowerThan720 ? '15rem': '30rem'}
+          bgColor={AppColors.MainWhite} w={isLowerThan720 ? '20rem': '30rem'}
         />
 
         <Button
-          as='button' variant='solid' p='0.5' bgColor={AppColors.Black2}
+          onClick={submitCallback}
+          as='button' variant='solid' p='0.5' bgColor={AppColors.Black1}
           fontFamily='Poppins' fontSize='1.1rem' color={AppColors.MainWhite}
-          className='submitButton' _hover={{ backgroundColor: AppColors.Black3 }}
+          _hover={{ backgroundColor: AppColors.Black2 }} _active={{ backgroundColor: AppColors.Black3 }}
         >
           Selecionar
         </Button>
@@ -57,15 +58,3 @@ export function CitySelection(props: CitySelectionProps) {
     
   );
 }
-
-/*
-<form onSubmit={submitCallback} id={styles.formCity}>
-      <label htmlFor="nameInput">Informe sua cidade:</label><br/>
-
-      <input name="nameInput" required defaultValue={cityValue}
-        onChange={onCityValueChange}
-      />
-
-      <button>Selecionar</button>
-    </form>
-*/

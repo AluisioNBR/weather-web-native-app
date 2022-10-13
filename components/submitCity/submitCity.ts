@@ -30,7 +30,7 @@ async function fetchWeatherInformation(params: FetchWeatherInformationParams):
 Promise<FetchWeatherInformationReturn> {
 	let fetchResponse: FetchWeatherInformationReturn
 	
-	const	endpoint = /*`https://weather-webapp-tau.vercel.app/api/${params.cityValue}`*/ `http://localhost:3000/api/${params.cityValue}`
+	const	endpoint = `/api/${params.cityValue}`
 	const	requestParams = { myApiSecret: params.myApiSecret }
 	const config: AxiosRequestConfig<any> = { params: requestParams }
 

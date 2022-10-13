@@ -56,7 +56,10 @@ function Localization(props: LocalizationProps) {
         alt='Pin de Localização'
       />
       
-      <Heading as='h2' fontSize='1.8rem' color={AppColors.MainWhite} textAlign='center'>
+      <Heading
+      	as='h2' fontSize='1.8rem' color={AppColors.MainWhite}
+      	textAlign='center' maxWidth='16rem'
+      >
         {city}, {state}
       </Heading>
     </Stack>

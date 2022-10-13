@@ -47,8 +47,8 @@ function Details(props: TemperatureDetailsTypes.DetailsProps) {
   return (
     <Stack
       direction='column' align='center' justify='center'
-      p='1rem' borderRadius='25%' bg={AppColors.Black1}
-      color={AppColors.MainWhite} w='25vw' h='4rem'
+      p='1rem' borderRadius='2rem' bg={AppColors.Black1}
+      color={AppColors.MainWhite} w='20rem' h='4rem'
     >
       <Stack direction='row' align='center' justify='space-between' w='100%'>
         <AdditionalInformations value={`${props.humidity}%`}>

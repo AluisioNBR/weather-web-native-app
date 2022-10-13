@@ -27,7 +27,7 @@ export function HourModal(props:  HourModalProps ) {
     <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay/>
 
-      <ModalContent>
+      <ModalContent bg={AppColors.MainBlack} borderRadius='2rem'>
       <ModalHeader>
         <Heading as='h3' color={AppColors.MainWhite} textAlign='center'>
           {props.children.hour}
@@ -53,7 +53,7 @@ export function HourModal(props:  HourModalProps ) {
       </ModalBody>
 
       <ModalFooter>
-        <ModalCloseButton>
+        <ModalCloseButton color={AppColors.MainWhite}>
           Fechar
         </ModalCloseButton>
       </ModalFooter>
