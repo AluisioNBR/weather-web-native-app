@@ -18,14 +18,17 @@ export function CitySelection(props: CitySelectionProps) {
   const [isLowerThan720] = useMediaQuery('(max-width: 720px)')
   const [cityValue, setCityValue] = useState("")
   
-  const submitCallback = async (event: FormEvent<HTMLDivElement> | MouseEventHandler<HTMLButtonElement>) => {
+  const submitByEnterCallback = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault()
+    submitCity({ cityValue, setCityValue, citySelectionProps: props })
+  }
+  const submitByButtonCallback = async () => {
     submitCity({ cityValue, setCityValue, citySelectionProps: props })
   }
   const onCityValueChange = useCallback( (event: ChangeEvent<HTMLInputElement>) => setCityValue(event.target.value), [])
 
   return (
-    <FormControl as='form' onSubmit={submitCallback}>
+    <FormControl as='form' onSubmit={submitByEnterCallback}>
       <FormLabel
         htmlFor='city-input' color={AppColors.MainWhite}
         textAlign='center' fontFamily='Poppins' fontSize='1.5rem'
@@ -46,7 +49,7 @@ export function CitySelection(props: CitySelectionProps) {
         />
 
         <Button
-          onClick={submitCallback}
+          onClick={submitByButtonCallback}
           as='button' variant='solid' p='0.5' bgColor={AppColors.Black1}
           fontFamily='Poppins' fontSize='1.1rem' color={AppColors.MainWhite}
           _hover={{ backgroundColor: AppColors.Black2 }} _active={{ backgroundColor: AppColors.Black3 }}
