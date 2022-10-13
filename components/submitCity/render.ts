@@ -1,5 +1,5 @@
-import type { FoundDataOfRequest } from '../../types/components/submitCity/data.types'
-import type { CitySelectionProps } from '../../types/components/CitySelection.types';
+import type { FoundDataOfRequest } from '../../types/submitCity/data.types'
+import type { CitySelectionProps } from '../../types/CitySelection.types';
 
 function renderErr(msg: string, citySelectionProps: CitySelectionProps){
   citySelectionProps.setMsgValue(msg);
