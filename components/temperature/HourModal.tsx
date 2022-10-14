@@ -14,13 +14,7 @@ import { MainTemperature } from './MainTemperature';
 import { TemperatureDetails } from './TemperatureDetails';
 import { AppColors } from '../../styles/AppColors';
 
-import { HourWeather } from '../../types/submitCity/weatherStateReducer.types'
-
-interface HourModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: HourWeather
-}
+import type { HourModalProps } from '../../types/temperature/HourTemperature.types';
 
 export function HourModal(props:  HourModalProps ) {
   return (

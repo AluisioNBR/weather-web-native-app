@@ -1,5 +1,15 @@
 import type { NoRain, Rain, NoSnow, Snow } from '../submitCity/weatherStateReducer.types'
 
+interface CompostTemperatureDetailsProps {
+  children: {
+    humidity: number;
+    uvi: number;
+    pop: number;
+    rain: NoRain | Rain;
+    snow: NoSnow | Snow
+  }
+}
+
 interface TemperatureDetailsProps{
   uvi: number;
   humidity: number;
@@ -25,4 +35,10 @@ interface DetailsProps {
   children?: JSX.Element
 }
 
-export type { TemperatureDetailsProps, DetailsOnPreciptationProps, DetailsOnClearWeatherProps, DetailsProps }
+export type {
+  CompostTemperatureDetailsProps,
+  TemperatureDetailsProps,
+  DetailsOnPreciptationProps,
+  DetailsOnClearWeatherProps,
+  DetailsProps
+}

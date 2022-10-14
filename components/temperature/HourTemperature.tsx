@@ -1,7 +1,6 @@
-import { useCallback } from 'react'
 import { AppColors } from '../../styles/AppColors'
 import { HourModal } from './HourModal'
-import type { HourlyTemperatureProps } from '../../types/temperature/HourlyTemperature.types'
+import type { HourlyTemperatureProps } from '../../types/temperature/HourTemperature.types'
 
 import { Stack, Button, Image, Heading, Text, useDisclosure } from '@chakra-ui/react'
 
@@ -10,29 +9,27 @@ export function HourlyTemperature({ children }: HourlyTemperatureProps){
 
 	return (
 		<Button
-			onClick={onOpen}
-			bg={AppColors.Black1}
+			onClick={onOpen} bg={AppColors.Black1}
 			_hover={{ 'background-color': AppColors.Black2 }}
 			_active={{ 'background-color': AppColors.Black3 }}
-			w='6rem' h='6rem'
-			p={20} m={2} borderRadius='2.5rem'
+			w='8rem' h='8rem' p='4rem' m='0 2px' borderRadius='2.5rem'
 		>
 			<HourModal isOpen={isOpen} onClose={onClose}>
 				{children}
 			</HourModal>
 
 			<Stack w='100%' h='100%' align='center' justify='center'>
-				<Heading as='h3' color={AppColors.MainWhite} fontSize='20px'>
+				<Heading as='h3' color={AppColors.MainWhite} fontSize='18px'>
 					{children.hour}
 				</Heading>
 
 				<Stack direction='row' align='center' justify='space-evenly'>
 					<Image
 						src={children.icon} alt={children.description}
-						w='32px' h='32px'
+						w='24px' h='24px'
 					/>
 
-					<Text color={AppColors.MainWhite} fontSize='32px' fontFamily='Poppins'>
+					<Text color={AppColors.MainWhite} fontSize='24px' fontFamily='Poppins'>
 						{children.temp}°C
 					</Text>
 				</Stack>

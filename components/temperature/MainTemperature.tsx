@@ -1,25 +1,19 @@
 import { AppColors } from "../../styles/AppColors";
-import type { MainTemperatureProps } from "../../types/temperature/MainTemperature.types";
+import type { MainTemperatureProps, MainDescriptionProps } from "../../types/temperature/MainTemperature.types";
 
 import { Stack, Text } from "@chakra-ui/react";
 import { Image } from '@chakra-ui/react'
 
-export function MainTemperature(props: MainTemperatureProps) {
+function MainTemperature(props: MainTemperatureProps) {
   return (
     <Stack align='center' justify='center'>
       <Stack
         direction='column' align='center' justify='center'
         p='1.5rem' borderRadius='10%'
       >
-        <Stack direction='row' align='center' justify='center'>
-          <Image
-            src={props.icon} alt='Clima Atual'
-            boxSize='48px' objectFit='cover'
-          />
-          <Text color={AppColors.MainWhite} textAlign='center' fontSize='1.5rem'>
-            {props.description}
-          </Text>
-        </Stack>
+        <MainDescription icon={props.icon}>
+          {props.description}
+        </MainDescription>
 
         <Text color={AppColors.MainWhite} textAlign='center' fontSize='4rem'>
           {props.temperature}°C
@@ -32,3 +26,25 @@ export function MainTemperature(props: MainTemperatureProps) {
     </Stack>
   );
 }
+
+function MainDescription(props: MainDescriptionProps) {
+  const imgSize = props.size == undefined || props.size == 1 ? 34: 36
+  const fontSize = props.size == undefined || props.size == 1 ? 22: 24
+
+  return (
+    <Stack direction='row' align='center' justify='center'>
+      <Image
+        src={props.icon} alt='Clima Atual'
+        boxSize={imgSize} objectFit='cover'
+      />
+      <Text
+        color={AppColors.MainWhite}
+        textAlign='center'fontSize={fontSize}
+      >
+        {props.children}
+      </Text>
+    </Stack>
+  )
+}
+
+export { MainTemperature, MainDescription }

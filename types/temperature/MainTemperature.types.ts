@@ -5,4 +5,10 @@ interface MainTemperatureProps {
   description: string
 }
 
-export type { MainTemperatureProps }
+interface MainDescriptionProps {
+  children: string,
+  icon: string,
+  size?: undefined | number
+}
+
+export type { MainTemperatureProps, MainDescriptionProps }

@@ -1,9 +1,7 @@
-import { AdditionalInformations } from './AdditionalInformations'
-
 import type { Rain, Snow } from '../../types/submitCity/weatherStateReducer.types'
 import type * as TemperatureDetailsTypes from '../../types/temperature/TemperatureDetails.types'
 
-import { Stack } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import { AppColors } from "../../styles/AppColors";
 
 export function TemperatureDetails(props: TemperatureDetailsTypes.TemperatureDetailsProps) {
@@ -37,7 +35,12 @@ function DetailsOnPreciptation(props:  TemperatureDetailsTypes.DetailsOnPrecipta
   return (
     <Details humidity={props.humidity} uvi={props.uvi}>
         <Stack align='center'>
-          <AdditionalInformations value={`${props.pop}mm`}>{props.children}</AdditionalInformations>
+          <Text
+            color={AppColors.MainWhite} textAlign='center'
+            fontWeight='400' m='0'
+          >
+            {props.children}: {`${props.pop}mm`}
+          </Text>
         </Stack>
     </Details>
     )
@@ -51,12 +54,18 @@ function Details(props: TemperatureDetailsTypes.DetailsProps) {
       color={AppColors.MainWhite} w='20rem' h='4rem'
     >
       <Stack direction='row' align='center' justify='space-between' w='100%'>
-        <AdditionalInformations value={`${props.humidity}%`}>
-          Umidade
-        </AdditionalInformations>
-        <AdditionalInformations value={`${props.uvi}%`}>
-          Índice UV
-        </AdditionalInformations>
+        <Text
+          color={AppColors.MainWhite} textAlign='center'
+          fontWeight='400' m='0'
+        >
+          Umidade: {`${props.humidity}%`}
+        </Text>
+        <Text
+          color={AppColors.MainWhite} textAlign='center'
+          fontWeight='400' m='0'
+        >
+          Índice UV: {`${props.uvi}%`}
+        </Text>
       </Stack>
 
       {props.children == undefined ? null: props.children}
