@@ -10,7 +10,8 @@
 </div>
 
 <p align="center">
-  App de clima simples para qualquer cidade <b>brasileira</b>, construído utilizando a API do <a href="https://openweathermap.org/"><b>Open Weather Map</b></a>
+  App de clima simples para qualquer cidade <b>brasileira</b>, construído utilizando a API do <a href="https://openweathermap.org/"><b>Open Weather Map</b></a><br/>
+  Planeje seu dia com confiança e esteja sempre preparado para qualquer condição climática!
 </p>
 
 <div align="center" style="display: flex; gap: 4px; flex-wrap: wrap">
@@ -38,6 +39,8 @@
 <h2 id="about">📖 Sobre</h2>
 
 O Weather App nasceu para ajudar a evitar imprevistos, como possíveis chuvas e frente frias, e doenças, como o câncer de pele, que possam surgir a depender do clima. O aplicativo possui 2 versões, uma sendo um aplicativo web, e outra sendo um aplicativo nativo para android.
+
+Obtenha informações meteorológicas precisas em tempo real! Descubra a previsão para cada hora nas próximas 48 horas e para cada dia nos próximos 8 dias em qualquer cidade brasileira. Baixe agora e leve a previsão do tempo com você onde quer que vá!
 
 __[Clique aqui para acessar a página web!](https://weather-webapp-tau.vercel.app/)__
 
