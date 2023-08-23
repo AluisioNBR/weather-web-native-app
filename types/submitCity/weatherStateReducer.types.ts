@@ -1,13 +1,13 @@
-interface APIProps{
+interface APIProps {
   myApiSecret: string;
 }
 
 interface WeatherReducerAction {
   type: string;
-  value: string | CurrentWeather | HourWeather[] | DayWeather[]
+  value: string | CurrentWeather | HourWeather[] | DayWeather[];
 }
 
-interface WeatherState{
+interface WeatherState {
   city: string;
   state: string;
   currentWeather: CurrentWeather;
@@ -15,31 +15,33 @@ interface WeatherState{
   dailyWeather: DayWeather[] | [];
 }
 
-interface CurrentWeather{
+interface CurrentWeather {
   temp: number;
   feels_like: number;
   uvi: number;
   humidity: number;
   description: string;
+  main: string;
   icon: string;
   rain: NoRain | Rain;
-  snow: NoSnow | Snow
+  snow: NoSnow | Snow;
 }
 
-interface HourWeather{
+interface HourWeather {
   hour: string;
   temp: number;
   feels_like: number;
   uvi: number;
   humidity: number;
   description: string;
+  main: string;
   icon: string;
   pop: number;
   rain: NoRain | Rain;
-  snow: NoSnow | Snow
+  snow: NoSnow | Snow;
 }
 
-interface DayWeather{
+interface DayWeather {
   moon_phase: string;
   temp: {
     morn: number;
@@ -58,28 +60,29 @@ interface DayWeather{
   uvi: number;
   humidity: number;
   description: string;
+  main: string;
   icon: string;
   pop: number;
   rain: NoRain | Rain;
   snow: NoSnow | Snow;
 }
 
-interface NoRain{
-  rainy: 'no-rain' 
+interface NoRain {
+  rainy: "no-rain";
 }
 
-interface Rain{
-  rainy: 'rain',
-  rain: number
+interface Rain {
+  rainy: "rain";
+  rain: number;
 }
 
-interface NoSnow{
-  snowed: 'no-snow'
+interface NoSnow {
+  snowed: "no-snow";
 }
 
-interface Snow{
-  snowed: 'snow',
-  snow: number
+interface Snow {
+  snowed: "snow";
+  snow: number;
 }
 
 export type {
@@ -92,5 +95,5 @@ export type {
   Rain,
   NoSnow,
   Snow,
-  WeatherReducerAction
-}
+  WeatherReducerAction,
+};

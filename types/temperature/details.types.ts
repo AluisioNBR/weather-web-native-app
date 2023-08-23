@@ -1,42 +1,35 @@
 import {
-  AmountOfRain,
-  AmountOfSnow,
+  Rain,
+  Snow,
   NoRain,
-  NoSnow
+  NoSnow,
 } from "../submitCity/weatherStateReducer.types";
 
-interface CompostTemperatureDetailsProps {
+export interface CompostTemperatureDetailsProps {
   children: {
     humidity: number;
     uvi: number;
     pop: number;
-    rain: NoRain | AmountOfRain;
-    snow: NoSnow | AmountOfSnow
-  }
+    rain: NoRain | Rain;
+    snow: NoSnow | Snow;
+  };
 }
 
-interface TemperatureDetailsProps{
+export interface TemperatureDetailsProps {
   humidity: number;
   uvi: number;
-  rain: NoRain | AmountOfRain;
-  snow: NoSnow | AmountOfSnow
+  rain: NoRain | Rain;
+  snow: NoSnow | Snow;
 }
 
-interface TemperatureDetailsOnPreciptationProps {
-  humidity: string,
-  uvi: string,
-  children: string,
-  preciptation: string
+export interface TemperatureDetailsOnPreciptationProps {
+  humidity: string;
+  uvi: string;
+  children: string;
+  preciptation: string;
 }
 
-interface TemperatureDetailsOnClearWeatherProps {
-  humidity: string,
-  uvi: string,
-}
-
-export {
-  CompostTemperatureDetailsProps,
-  TemperatureDetailsProps,
-  TemperatureDetailsOnPreciptationProps,
-  TemperatureDetailsOnClearWeatherProps
+export interface TemperatureDetailsOnClearWeatherProps {
+  humidity: string;
+  uvi: string;
 }
