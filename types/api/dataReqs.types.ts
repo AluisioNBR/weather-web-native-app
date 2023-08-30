@@ -1,21 +1,23 @@
-import type {  Current, Hourly, Daily } from './formatGenericalData.types'
+import type { Current, Hourly, Daily } from "./formatGenericalData.types";
 
-interface CityFound{
-  found: string,
-  local: Local
+interface CityFound {
+  found: string;
+  local: Local;
 }
 
-interface Local{
-  name: string,
-  lat: number,
-  lon: number,
-  country: string,
-  state: string
+interface Local {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+  state: string;
 }
 
-interface CityNotFound{ found: string }
+interface CityNotFound {
+  found: string;
+}
 
-interface DataToUse{
+interface DataToUse {
   cod: number;
   weather: {
     current: Current;
@@ -25,9 +27,11 @@ interface DataToUse{
   localization: {
     city: string;
     state: string;
-  }
+  };
 }
 
-interface DataFailed{ cod: number }
+interface DataFailed {
+  cod: number;
+}
 
-export type { Local, CityFound, CityNotFound, DataToUse, DataFailed }
+export type { Local, CityFound, CityNotFound, DataToUse, DataFailed };

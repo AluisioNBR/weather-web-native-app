@@ -32,6 +32,24 @@ async function returnGeocodingLocalization(
   }
 }
 
+export async function returnLocationInfo(
+  lat: number,
+  lon: number
+): Promise<CityFound | CityNotFound> {
+  try {
+    const localization = await axios.get(
+      "http://api.openweathermap.org/geo/1.0/reverse",
+      { params: { lat: lat, lon: lon, limit: 1, appid: process.env.API_KEY } }
+    );
+    return {
+      found: "found",
+      local: await localization.data[0],
+    };
+  } catch (err) {
+    return { found: "notFound" };
+  }
+}
+
 async function returnWeatherData(
   local: Local
 ): Promise<DataToUse | DataFailed> {
