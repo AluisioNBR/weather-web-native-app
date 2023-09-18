@@ -1,5 +1,5 @@
 import axios from "axios";
-import { splitWeatherDataType } from "./formatGenericalData";
+import { splitWeatherDataType } from "./formatGenericData";
 import type { Data } from "../../types/api/formatGenericalData.types";
 import type {
   CityFound,

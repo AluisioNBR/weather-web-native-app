@@ -1,7 +1,7 @@
-import { AppColors } from '../../styles/AppColors';
-import type { DayWeather } from '../submitCity/weatherStateReducer.types'
+import { AppColors } from "../../styles/colors";
+import type { DayWeather } from "../submitCity/weatherStateReducer.types";
 
-type TypeDayName = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat"
+type TypeDayName = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat";
 
 enum DayNames {
   Sun = "Domingo",
@@ -10,58 +10,57 @@ enum DayNames {
   Wed = "Quarta",
   Thu = "Quinta",
   Fri = "Sexta",
-  Sat = "Sábado"
+  Sat = "Sábado",
 }
 
 interface ReturnDateFunctionParams {
-  baseYear: number,
-  baseMonth: number,
-  day: number
+  baseYear: number;
+  baseMonth: number;
+  day: number;
 }
 
 interface DayTemperaturesContainerProps {
-  children: any[] | DayWeather[]
+  children: any[] | DayWeather[];
 }
 
-
-interface DayTemperatureProps{
+interface DayTemperatureProps {
   children: DayWeather;
-  date: string
+  date: string;
 }
 
 interface DayModalProps {
   isOpen: boolean;
   onClose: () => void;
-	date: string;
-  children: DayWeather
+  date: string;
+  children: DayWeather;
 }
 
-interface DayModalInformationsProps{
-	children: DayWeather;
-	date: string
+interface DayModalInformationsProps {
+  children: DayWeather;
+  date: string;
 }
 
-type instantsType = 'morn' | 'day' | 'eve' | 'night'
+type instantsType = "morn" | "day" | "eve" | "night";
 
 enum InstantsEnum {
-	morn = 'Manhã',
-	day = 'Dia',
-	eve = 'Tarde',
-	night = 'Noite'
+  morn = "Manhã",
+  day = "Dia",
+  eve = "Tarde",
+  night = "Noite",
 }
 
 interface InformationByDayInstantsProps {
-	children: instantsType,
-	dayWeather: DayWeather
+  children: instantsType;
+  dayWeather: DayWeather;
 }
 
 interface DayButtonProps {
-	children: DayWeather,
-	background: AppColors,
-  date: string
+  children: DayWeather;
+  background: AppColors;
+  date: string;
 }
 
-interface  ModalTemperaturesContainerProps {
+interface ModalTemperaturesContainerProps {
   children: DayWeather;
 }
 
@@ -75,21 +74,19 @@ interface MinMaxTextProps {
   children: string;
 }
 
-export { DayNames, InstantsEnum }
+export { DayNames, InstantsEnum };
 
 export type {
   TypeDayName,
   ReturnDateFunctionParams,
-
   DayTemperaturesContainerProps,
   DayTemperatureProps,
   DayButtonProps,
-
   DayModalProps,
   DayModalInformationsProps,
   ModalTemperaturesContainerProps,
   MinMaxContainerProps,
   MinMaxTextProps,
   instantsType,
-  InformationByDayInstantsProps
-}
+  InformationByDayInstantsProps,
+};
