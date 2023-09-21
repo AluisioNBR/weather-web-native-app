@@ -22,6 +22,7 @@ import { Box, Stack, useMediaQuery } from "@chakra-ui/react";
 import { colors } from "../styles/colors";
 
 export const MyApiSecretContext = createContext("");
+export const CityContext = createContext({ city: "", state: "" });
 
 export default function Home(props: APIProps) {
   const [isLowerThan720] = useMediaQuery("(max-width: 720px)");
@@ -50,61 +51,61 @@ export default function Home(props: APIProps) {
 
   const [temperatureVisibility, setTemperatureVisibility] = useState(false);
   const [loadingWeather, setLoadingWeather] = useState(false);
-  const [msgValue, setMsgValue] = useState(
-    "Informe sua cidade para começarmos!"
-  );
+  const [msgValue, setMsgValue] = useState("");
 
   return (
-    <Box h="100vh" bg={colors.black.main} overflow="auto">
-      <Head>
-        <title>Weather Web App</title>
-        <meta
-          name="description"
-          content="App web simples para consumir os dados da API do Open Weather Map"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Stack as="main" align="center" gap="0.8rem" p="1rem 0">
-        <MyApiSecretContext.Provider value={props.myApiSecret}>
-          <CitySelection
-            setMsgValue={setMsgValue}
-            setTemperatureVisibility={setTemperatureVisibility}
-            setLoadingWeather={setLoadingWeather}
-            setLocalization={setLocalization}
-            setCurrentWeather={setCurrentWeather}
-            setHourlyWeather={setHourlyWeather}
-            setDailyWeather={setDailyWeather}
+    <CityContext.Provider
+      value={{ city: weatherState.city, state: weatherState.state }}
+    >
+      <Box h="100vh" bg={colors.black.main} overflow="auto">
+        <Head>
+          <title>Weather Web App</title>
+          <meta
+            name="description"
+            content="App web simples para consumir os dados da API do Open Weather Map"
           />
-        </MyApiSecretContext.Provider>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-        <Stack
-          direction={isLowerThan720 ? "column" : "row"}
-          align="center"
-          justify="space-evenly"
-        >
-          <CurrentTemperature
-            msg={msgValue}
-            visibility={temperatureVisibility}
-            loadingWeather={loadingWeather}
-            city={weatherState.city}
-            state={weatherState.state}
+        <Stack as="main" align="center" gap="0.8rem" p="1rem 0">
+          <MyApiSecretContext.Provider value={props.myApiSecret}>
+            <CitySelection
+              setMsgValue={setMsgValue}
+              setTemperatureVisibility={setTemperatureVisibility}
+              setLoadingWeather={setLoadingWeather}
+              setLocalization={setLocalization}
+              setCurrentWeather={setCurrentWeather}
+              setHourlyWeather={setHourlyWeather}
+              setDailyWeather={setDailyWeather}
+            />
+          </MyApiSecretContext.Provider>
+
+          <Stack
+            direction={isLowerThan720 ? "column" : "row"}
+            align="center"
+            justify="space-evenly"
           >
-            {weatherState.currentWeather}
-          </CurrentTemperature>
+            <CurrentTemperature
+              msg={msgValue}
+              visibility={temperatureVisibility}
+              loadingWeather={loadingWeather}
+            >
+              {weatherState.currentWeather}
+            </CurrentTemperature>
 
-          <Stack align="center" w="48rem" h="32rem" overflowY="scroll">
-            <HourlyTemperaturesContainer isVisible={temperatureVisibility}>
-              {weatherState.hourlyWeather}
-            </HourlyTemperaturesContainer>
+            <Stack align="center" w="48rem" h="32rem" overflowY="scroll">
+              <HourlyTemperaturesContainer isVisible={temperatureVisibility}>
+                {weatherState.hourlyWeather}
+              </HourlyTemperaturesContainer>
 
-            <DayTemperaturesContainer isVisible={temperatureVisibility}>
-              {weatherState.dailyWeather}
-            </DayTemperaturesContainer>
+              <DayTemperaturesContainer isVisible={temperatureVisibility}>
+                {weatherState.dailyWeather}
+              </DayTemperaturesContainer>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
-    </Box>
+      </Box>
+    </CityContext.Provider>
   );
 }
 

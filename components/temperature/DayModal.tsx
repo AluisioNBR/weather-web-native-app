@@ -12,10 +12,10 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { MainDescription } from "./MainTemperature";
-import { CompostTemperatureDetails } from "./CompostTemperatureDetails";
 import { InstantsEnum } from "../../types/temperature/DayTemperatures.types";
 import { colors } from "../../styles/colors";
 import type * as DayTemperatureTypes from "../../types/temperature/DayTemperatures.types";
+import { TemperatureDetails } from "./TemperatureDetails";
 
 export function DayModal(props: DayTemperatureTypes.DayModalProps) {
   return (
@@ -36,9 +36,13 @@ export function DayModal(props: DayTemperatureTypes.DayModalProps) {
 
             <TemperaturesContainer>{props.children}</TemperaturesContainer>
 
-            <CompostTemperatureDetails>
-              {props.children}
-            </CompostTemperatureDetails>
+            <TemperatureDetails
+              humidity={props.children.humidity}
+              uvi={props.children.uvi}
+              rain={props.children.rain}
+              snow={props.children.snow}
+              pop={props.children.pop}
+            />
           </Stack>
         </ModalBody>
 

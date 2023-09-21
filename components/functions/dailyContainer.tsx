@@ -1,8 +1,5 @@
-import { DayNames } from "../../types/DayNames.enum";
-import {
-  ReturnDateFunctionParams,
-  TypeDayName,
-} from "../../types/temperature/DayTemperatures.types";
+import { DayId, DayNames } from "../../types/DayNames.enum";
+import { ReturnDateFunctionParams } from "../../types/temperature/DayTemperatures.types";
 
 export function getCurrentDate() {
   const currentDate: string[] = [];
@@ -28,7 +25,7 @@ export function returnDate(params: ReturnDateFunctionParams) {
 
   dateArray.forEach((item) => checkDate(item, currentDate));
 
-  const dayName = `Day${date.getDay()}` as TypeDayName;
+  const dayName = `Day${date.getDay()}` as DayId;
   const dayNumber = getDayOrMonth(currentDate[0]);
   const monthNumber = getDayOrMonth(date.getMonth() + 1);
 

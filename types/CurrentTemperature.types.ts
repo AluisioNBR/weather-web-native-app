@@ -1,21 +1,15 @@
-import type { CurrentWeather } from './submitCity/weatherStateReducer.types'
+import type { CurrentWeather } from "./submitCity/weatherStateReducer.types";
 
-interface CurrentTemperatureProps{
-  msg: string,
-  visibility: boolean,
-  loadingWeather: boolean,
-
-  city: string,
-  state: string,
-  children: CurrentWeather,
+interface CurrentTemperatureProps {
+  msg: string;
+  visibility: boolean;
+  loadingWeather: boolean;
+  children: CurrentWeather;
 }
 
-interface LocalizationProps{
-  city: string,
-  state: string
+interface LocalizationProps {
+  city: string;
+  state: string;
 }
 
-export type {
-  CurrentTemperatureProps,
-  LocalizationProps
-}
+export type { CurrentTemperatureProps, LocalizationProps };

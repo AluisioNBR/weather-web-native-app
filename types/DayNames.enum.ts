@@ -7,3 +7,12 @@ export enum DayNames {
   Day5 = "Sexta",
   Day6 = "Sábado",
 }
+
+export type DayId =
+  | "Day0"
+  | "Day1"
+  | "Day2"
+  | "Day3"
+  | "Day4"
+  | "Day5"
+  | "Day6";

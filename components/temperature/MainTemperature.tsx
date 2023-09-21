@@ -4,7 +4,7 @@ import type {
   MainDescriptionProps,
 } from "../../types/temperature/MainTemperature.types";
 
-import { Stack, Text } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 
 function MainTemperature(props: MainTemperatureProps) {
@@ -19,31 +19,42 @@ function MainTemperature(props: MainTemperatureProps) {
       >
         <MainDescription icon={props.icon}>{props.description}</MainDescription>
 
-        <Text color={colors.white.main} textAlign="center" fontSize="4rem">
-          {props.temperature}°C
-        </Text>
-
-        <Text color={colors.gray["2"]} textAlign="center" fontSize="1.2rem">
-          Sensação Térmica: {props.feels_like}°C
-        </Text>
+        <Stack direction="row" alignItems="flex-start">
+          <Text
+            display="flex"
+            color={colors.white.main}
+            textAlign="center"
+            fontSize="4rem"
+          >
+            {props.temperature}
+            <Text position="relative" insetY={5} fontSize="1.2rem">
+              °C
+            </Text>
+          </Text>
+        </Stack>
       </Stack>
     </Stack>
   );
 }
 
 function MainDescription(props: MainDescriptionProps) {
-  const imgSize = props.size == undefined || props.size == 1 ? 34 : 36;
-  const fontSize = props.size == undefined || props.size == 1 ? 22 : 24;
+  const imgSize = props.imgSize ? props.imgSize : 34;
+  const descriptionSize = props.descriptionSize ? props.imgSize : 22;
 
   return (
-    <Stack direction="row" align="center" justify="center">
+    <Stack align="center" justify="center">
       <Image
         src={props.icon}
         alt="Clima Atual"
         boxSize={imgSize}
         objectFit="cover"
       />
-      <Text color={colors.white.main} textAlign="center" fontSize={fontSize}>
+      <Text
+        fontFamily={"Poppins"}
+        color={colors.white.main}
+        textAlign="center"
+        fontSize={descriptionSize}
+      >
         {props.children}
       </Text>
     </Stack>

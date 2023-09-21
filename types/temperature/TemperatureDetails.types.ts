@@ -1,44 +1,45 @@
-import type { NoRain, Rain, NoSnow, Snow } from '../submitCity/weatherStateReducer.types'
+import type {
+  NoRain,
+  Rain,
+  NoSnow,
+  Snow,
+} from "../submitCity/weatherStateReducer.types";
 
-interface CompostTemperatureDetailsProps {
-  children: {
-    humidity: number;
-    uvi: number;
-    pop: number;
-    rain: NoRain | Rain;
-    snow: NoSnow | Snow
-  }
-}
-
-interface TemperatureDetailsProps{
+interface TemperatureDetailsProps {
+  feels_like?: number;
+  pop?: number;
   uvi: number;
   humidity: number;
   rain: NoRain | Rain;
-  snow: NoSnow | Snow
+  snow: NoSnow | Snow;
 }
 
-interface DetailsOnPreciptationProps{
+interface DetailsOnPreciptationProps {
+  feels_like?: number;
   uvi: number;
   humidity: number;
   pop: number;
   children: string;
 }
 
-interface DetailsOnClearWeatherProps{
+interface DetailsOnClearWeatherProps {
+  feels_like?: number;
+  pop?: number;
   uvi: number;
   humidity: number;
 }
 
 interface DetailsProps {
+  feels_like?: number;
+  pop?: number;
   uvi: number;
   humidity: number;
-  children?: JSX.Element
+  children?: JSX.Element;
 }
 
 export type {
-  CompostTemperatureDetailsProps,
   TemperatureDetailsProps,
   DetailsOnPreciptationProps,
   DetailsOnClearWeatherProps,
-  DetailsProps
-}
+  DetailsProps,
+};

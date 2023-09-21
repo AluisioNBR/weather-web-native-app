@@ -18,10 +18,11 @@ import type {
   StatusState,
   TitleState,
 } from "../types/StatusAlert.types";
-import { MyApiSecretContext } from "../pages";
+import { MyApiSecretContext, CityContext } from "../pages";
 
 export function CitySelection(props: CitySelectionProps) {
   const myApiSecret = useContext(MyApiSecretContext);
+  const { city, state } = useContext(CityContext);
   const [isLowerThan720] = useMediaQuery("(max-width: 720px)");
   const [cityValue, setCityValue] = useState("");
 
@@ -45,6 +46,8 @@ export function CitySelection(props: CitySelectionProps) {
       setAlertTitle,
       setAlertIsOpen,
     });
+    setCityValue("");
+    console.log(cityValue);
   };
 
   const onCityValueChange = useCallback(
@@ -77,6 +80,10 @@ export function CitySelection(props: CitySelectionProps) {
             required={true}
             defaultValue={cityValue}
             onChange={onCityValueChange}
+            placeholder={
+              city == "" ? "Informe sua cidade" : `${city}, ${state}`
+            }
+            _placeholder={{ textColor: colors.white.main }}
             textAlign={"center"}
             fontFamily="Poppins"
             fontSize="1.1rem"

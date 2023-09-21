@@ -1,8 +1,8 @@
-import { Stack, useMediaQuery } from "@chakra-ui/react";
+import { HStack, useMediaQuery } from "@chakra-ui/react";
 import { DayWeather } from "../types/submitCity/weatherStateReducer.types";
 import { TemperaturesContainerProps } from "../types/TemperaturesContainer.types";
-import { DayTemperature } from "./temperature/DayTemperature";
 import { getCurrentDate, returnDate } from "./functions/dailyContainer";
+import { TemperatureButton } from "./temperature/TemperatureButton";
 
 export function DayTemperaturesContainer({
   isVisible,
@@ -22,23 +22,25 @@ export function DayTemperaturesContainer({
       day: baseNumberDay,
     });
     baseNumberDay += 1;
+    console.log(dateToReturn);
 
     return (
-      <DayTemperature key={dateToReturn} date={dateToReturn}>
+      <TemperatureButton type="day" title={dateToReturn} key={dateToReturn}>
         {day}
-      </DayTemperature>
+      </TemperatureButton>
     );
   }
 
   if (!isVisible || temperatures.length == 0) return null;
   else
     return (
-      <Stack
+      <HStack
         align="center"
-        overflow="scroll"
+        overflow="auto"
+        paddingY={4}
         w={isLowerThan720 ? "24rem" : "36rem"}
       >
         {temperatures}
-      </Stack>
+      </HStack>
     );
 }

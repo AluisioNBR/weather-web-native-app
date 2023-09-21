@@ -14,7 +14,7 @@ import { MainTemperature } from "./MainTemperature";
 import { TemperatureDetails } from "./TemperatureDetails";
 import { colors } from "../../styles/colors";
 
-import type { HourModalProps } from "../../types/temperature/HourTemperature.types";
+import type { HourModalProps } from "../../types/temperature/HourModalProps.types";
 
 export function HourModal(props: HourModalProps) {
   return (
@@ -33,11 +33,11 @@ export function HourModal(props: HourModalProps) {
             <MainTemperature
               icon={props.children.icon}
               temperature={props.children.temp}
-              feels_like={props.children.feels_like}
               description={props.children.description}
             />
 
             <TemperatureDetails
+              feels_like={props.children.feels_like}
               humidity={props.children.humidity}
               uvi={props.children.uvi}
               rain={props.children.rain}

@@ -14,6 +14,7 @@ export function TemperatureDetails(
     const rain = props.rain as Rain;
     return (
       <DetailsOnPreciptation
+        feels_like={props.feels_like}
         humidity={props.humidity}
         uvi={props.uvi}
         pop={rain.rain}
@@ -25,6 +26,7 @@ export function TemperatureDetails(
     const snow = props.snow as Snow;
     return (
       <DetailsOnPreciptation
+        feels_like={props.feels_like}
         humidity={props.humidity}
         uvi={props.uvi}
         pop={snow.snow}
@@ -32,23 +34,36 @@ export function TemperatureDetails(
         Neve
       </DetailsOnPreciptation>
     );
-  } else return <Details humidity={props.humidity} uvi={props.uvi} />;
+  } else
+    return (
+      <Details
+        feels_like={props.feels_like}
+        pop={props.pop}
+        humidity={props.humidity}
+        uvi={props.uvi}
+      />
+    );
 }
 
 function DetailsOnPreciptation(
   props: TemperatureDetailsTypes.DetailsOnPreciptationProps
 ) {
   return (
-    <Details humidity={props.humidity} uvi={props.uvi}>
-      <Stack align="center">
+    <Details
+      feels_like={props.feels_like}
+      humidity={props.humidity}
+      uvi={props.uvi}
+    >
+      <Stack direction="row" width="100%" justifyContent="space-between">
         <Text
           color={colors.white.main}
           textAlign="center"
           fontWeight="400"
           m="0"
         >
-          {props.children}: {`${props.pop}mm`}
+          {props.children}:
         </Text>
+        <Text>{`${props.pop}mm`}</Text>
       </Stack>
     </Details>
   );
@@ -61,29 +76,67 @@ function Details(props: TemperatureDetailsTypes.DetailsProps) {
       align="center"
       justify="center"
       p="1rem"
-      borderRadius="2rem"
-      bg={colors.black["1"]}
+      borderRadius="1rem"
+      bg={colors.black.opacity}
       color={colors.white.main}
-      w="20rem"
-      h="4rem"
+      w="22rem"
+      h="8rem"
     >
-      <Stack direction="row" align="center" justify="space-between" w="100%">
+      <Stack align="center" justify="space-between" w="100%">
+        {props.feels_like ? (
+          <Text
+            color={colors.white.main}
+            display="flex"
+            justifyContent="space-between"
+            width="100%"
+            textAlign="center"
+            fontWeight="400"
+            m="0"
+          >
+            Sensação Térmica:{" "}
+            <Text display="flex">
+              {props.feels_like}
+              <Text position="relative" insetY={1} fontSize=".5rem">
+                °C
+              </Text>
+            </Text>
+          </Text>
+        ) : null}
         <Text
           color={colors.white.main}
+          display="flex"
+          justifyContent="space-between"
+          width="100%"
           textAlign="center"
           fontWeight="400"
           m="0"
         >
-          Umidade: {`${props.humidity}%`}
+          Umidade: <Text>{`${props.humidity}%`}</Text>
         </Text>
         <Text
           color={colors.white.main}
+          display="flex"
+          justifyContent="space-between"
+          width="100%"
           textAlign="center"
           fontWeight="400"
           m="0"
         >
-          Índice UV: {`${props.uvi}%`}
+          Índice UV: <Text>{`${props.uvi}%`}</Text>
         </Text>
+        {props.pop ? (
+          <Text
+            color={colors.white.main}
+            display="flex"
+            justifyContent="space-between"
+            width="100%"
+            textAlign="center"
+            fontWeight="400"
+            m="0"
+          >
+            Precipitação: <Text>{`${props.pop}%`}</Text>
+          </Text>
+        ) : null}
       </Stack>
 
       {props.children == undefined ? null : props.children}

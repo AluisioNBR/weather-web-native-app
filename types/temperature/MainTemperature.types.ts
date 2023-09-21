@@ -1,14 +1,14 @@
 interface MainTemperatureProps {
   icon: string;
   temperature: number;
-  feels_like: number;
-  description: string
+  description: string;
 }
 
 interface MainDescriptionProps {
-  children: string,
-  icon: string,
-  size?: undefined | number
+  children: string;
+  icon: string;
+  imgSize?: number;
+  descriptionSize?: number;
 }
 
-export type { MainTemperatureProps, MainDescriptionProps }
+export type { MainTemperatureProps, MainDescriptionProps };
